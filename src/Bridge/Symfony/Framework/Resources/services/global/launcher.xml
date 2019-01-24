@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false"/>
+
+        <service id="yokai_batch.job_launcher.simple"
+                 class="Yokai\Batch\Launcher\SimpleJobLauncher">
+            <argument type="service" id="yokai_batch.job_registry"/>
+            <argument type="service" id="yokai_batch.job_execution_factory"/>
+            <argument type="service" id="Yokai\Batch\Storage\JobExecutionStorageInterface"/>
+        </service>
+    </services>
+</container>

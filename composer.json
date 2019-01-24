@@ -1,0 +1,45 @@
+{
+  "name": "yokai/batch",
+  "description": "Batch architecture library inspired by Akeneo Batch",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Yann Eugoné",
+      "email": "eugone.yann@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.2"
+  },
+  "require-dev": {
+    "ext-json": "*",
+    "ext-zip": "*",
+    "box/spout": "^2.7",
+    "doctrine/orm": "^2.6",
+    "phpunit/phpunit": "^7.5",
+    "symfony/console": "^4.2",
+    "symfony/filesystem": "^4.2",
+    "symfony/framework-bundle": "^4.2",
+    "symfony/process": "^4.2",
+    "symfony/serializer": "^4.2",
+    "symfony/validator": "^4.2"
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Yokai\\Batch\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Yokai\\Batch\\Tests\\Integration\\": "tests/integration/",
+      "Yokai\\Batch\\Tests\\Unit\\": "tests/unit/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.x-dev"
+    }
+  }
+}

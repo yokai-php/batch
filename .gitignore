@@ -1,0 +1,4 @@
+/build/
+/tests/.artifacts/
+/vendor/
+/*.lock

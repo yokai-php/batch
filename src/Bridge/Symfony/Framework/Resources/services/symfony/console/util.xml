@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false"/>
+
+        <service id="yokai_batch.util.command_runner"
+                 class="Yokai\Batch\Bridge\Symfony\Console\CommandRunner">
+            <argument>%kernel.project_dir%/bin</argument>
+            <argument>%kernel.logs_dir%</argument>
+        </service>
+    </services>
+</container>
