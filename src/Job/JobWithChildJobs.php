@@ -5,9 +5,15 @@ namespace Yokai\Batch\Job;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Registry\JobRegistry;
+use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 final class JobWithChildJobs extends AbstractJob
 {
+    /**
+     * @var JobExecutionStorageInterface
+     */
+    private $executionStorage;
+
     /**
      * @var JobRegistry
      */
@@ -19,11 +25,16 @@ final class JobWithChildJobs extends AbstractJob
     private $childJobs;
 
     /**
-     * @param JobRegistry       $jobRegistry
-     * @param iterable|string[] $childJobs
+     * @param JobExecutionStorageInterface $executionStorage
+     * @param JobRegistry                  $jobRegistry
+     * @param iterable|string[]            $childJobs
      */
-    public function __construct(JobRegistry $jobRegistry, iterable $childJobs)
-    {
+    public function __construct(
+        JobExecutionStorageInterface $executionStorage,
+        JobRegistry $jobRegistry,
+        iterable $childJobs
+    ) {
+        $this->executionStorage = $executionStorage;
         $this->jobRegistry = $jobRegistry;
         $this->childJobs = $childJobs;
     }
@@ -50,6 +61,10 @@ final class JobWithChildJobs extends AbstractJob
             if ($childExecution->getStatus()->isUnsuccessful()) {
                 $jobExecution->setStatus($childExecution->getStatus()->getValue());
             }
+
+            $this->executionStorage->store($jobExecution->getRootExecution());
         }
+
+        $this->executionStorage->store($jobExecution->getRootExecution());
     }
 }

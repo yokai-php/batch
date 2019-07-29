@@ -18,7 +18,7 @@ abstract class AbstractJob implements JobInterface
             return;
         }
 
-        $jobExecution->setStartTime(new \DateTime());
+        $jobExecution->setStartTime(new \DateTimeImmutable());
         $jobExecution->setStatus(BatchStatus::RUNNING);
 
         $status = BatchStatus::COMPLETED;
@@ -30,7 +30,7 @@ abstract class AbstractJob implements JobInterface
             $jobExecution->addFailureException($exception);
         }
 
-        $jobExecution->setEndTime(new \DateTime());
+        $jobExecution->setEndTime(new \DateTimeImmutable());
         $jobExecution->setStatus($status);
     }
 

@@ -4,6 +4,7 @@ namespace Yokai\Batch\Job\Item;
 
 use Yokai\Batch\Job\AbstractJob;
 use Yokai\Batch\JobExecution;
+use Yokai\Batch\Storage\JobExecutionStorageInterface;
 use Yokai\Batch\Warning;
 
 class ItemJob extends AbstractJob
@@ -36,22 +37,30 @@ class ItemJob extends AbstractJob
     private $elements;
 
     /**
-     * @param int                    $batchSize
-     * @param ItemReaderInterface    $reader
-     * @param ItemProcessorInterface $processor
-     * @param ItemWriterInterface    $writer
+     * @var JobExecutionStorageInterface
+     */
+    private $executionStorage;
+
+    /**
+     * @param int                          $batchSize
+     * @param ItemReaderInterface          $reader
+     * @param ItemProcessorInterface       $processor
+     * @param ItemWriterInterface          $writer
+     * @param JobExecutionStorageInterface $executionStorage
      */
     public function __construct(
         int $batchSize,
         ItemReaderInterface $reader,
         ItemProcessorInterface $processor,
-        ItemWriterInterface $writer
+        ItemWriterInterface $writer,
+        JobExecutionStorageInterface $executionStorage
     ) {
         $this->batchSize = $batchSize;
         $this->reader = $reader;
         $this->processor = $processor;
         $this->writer = $writer;
         $this->elements = [$reader, $processor, $writer];
+        $this->executionStorage = $executionStorage;
     }
 
     /**
@@ -59,6 +68,7 @@ class ItemJob extends AbstractJob
      */
     protected function doExecute(JobExecution $jobExecution): void
     {
+        $rootExecution = $jobExecution->getRootExecution();
         $summary = $jobExecution->getSummary();
 
         $this->initializeElements($jobExecution);
@@ -90,12 +100,17 @@ class ItemJob extends AbstractJob
                 $this->writer->write($itemsToWrite);
                 $summary->increment('write', count($itemsToWrite));
                 $itemsToWrite = [];
+                $writeCount = 0;
+
+                $this->executionStorage->store($rootExecution);
             }
         }
 
         if ($writeCount > 0) {
             $this->writer->write($itemsToWrite);
             $summary->increment('write', count($itemsToWrite));
+
+            $this->executionStorage->store($rootExecution);
         }
 
         $this->flushElements();
