@@ -16,10 +16,9 @@ class JobWithDummyItemChildrenTest extends JobTestCase
 {
     private const OUTPUT_FILE = self::OUTPUT_DIR.'/job-with-dummy-item-children.txt';
 
-    protected function createJob(): JobInterface
+    protected function createJob(JobExecutionStorageInterface $executionStorage): JobInterface
     {
         $output = self::OUTPUT_FILE;
-        mkdir(dirname($output), 0777, true);
 
         $fileLineWriter = new class($output) implements ItemWriterInterface
         {
@@ -42,25 +41,29 @@ class JobWithDummyItemChildrenTest extends JobTestCase
         };
 
         return new JobWithChildJobs(
+            $executionStorage,
             self::createJobRegistry(
                 [
                     'one-two-three' => new ItemJob(
                         1,
                         new StaticIterableReader([1, 2, 3]),
                         new NullProcessor(),
-                        $fileLineWriter
+                        $fileLineWriter,
+                        $executionStorage
                     ),
                     'four-five-six' => new ItemJob(
                         2,
                         new StaticIterableReader([4, 5, 6]),
                         new NullProcessor(),
-                        $fileLineWriter
+                        $fileLineWriter,
+                        $executionStorage
                     ),
                     'seven-height-nine' => new ItemJob(
                         3,
                         new StaticIterableReader([7, 8, 9]),
                         new NullProcessor(),
-                        $fileLineWriter
+                        $fileLineWriter,
+                        $executionStorage
                     ),
                 ]
             ),

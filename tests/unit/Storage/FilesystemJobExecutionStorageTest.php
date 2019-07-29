@@ -74,6 +74,30 @@ class FilesystemJobExecutionStorageTest extends TestCase
         self::assertSame($jobExecution, $this->createStorage()->retrieve('export', '123456789'));
     }
 
+    public function testList(): void
+    {
+        $list = [];
+        $expected = [];
+        foreach (['import', 'export'] as $jobName) {
+            @mkdir(self::STORAGE_DIR."/$jobName", 0755, true);
+            foreach (['123', '456'] as $executionId) {
+                $list[] = $execution = JobExecution::createRoot($executionId, $jobName);
+                if ($jobName === 'export') {
+                    $expected[] = $execution;
+                }
+                file_put_contents(self::STORAGE_DIR."/$jobName/$executionId.txt", "$jobName/$executionId");
+                $this->serializer->unserialize("$jobName/$executionId")
+                    ->shouldBeCalledTimes($jobName === 'export' ? 1 : 0)
+                    ->willReturn($execution);
+            }
+        }
+
+        /** @var \Iterator $exports */
+        $exports = $this->createStorage()->list('export');
+        self::assertInstanceOf(\Iterator::class, $exports);
+        self::assertSame($expected, iterator_to_array($exports));
+    }
+
     /**
      * @expectedException \Yokai\Batch\Exception\JobExecutionNotFoundException
      */

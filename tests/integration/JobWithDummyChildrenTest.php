@@ -11,9 +11,10 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 class JobWithDummyChildrenTest extends JobTestCase
 {
-    protected function createJob(): JobInterface
+    protected function createJob(JobExecutionStorageInterface $executionStorage): JobInterface
     {
         return new JobWithChildJobs(
+            $executionStorage,
             self::createJobRegistry(
                 [
                     'prepare' => new class extends AbstractJob

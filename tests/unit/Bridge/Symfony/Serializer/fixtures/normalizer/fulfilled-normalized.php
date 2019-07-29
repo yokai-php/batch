@@ -14,6 +14,7 @@ $warnings = [
     [
         'message' => 'Please pay attention',
         'parameters' => $hash,
+        'context' => [],
     ],
 ];
 

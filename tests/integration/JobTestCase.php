@@ -37,6 +37,8 @@ abstract class JobTestCase extends TestCase
 
             if (is_dir(self::ARTIFACTS_DIR)) {
                 @rmdir(self::ARTIFACTS_DIR);
+                @mkdir(self::STORAGE_DIR, 0755, true);
+                @mkdir(self::OUTPUT_DIR, 0755, true);
             }
         }
     }
@@ -46,7 +48,7 @@ abstract class JobTestCase extends TestCase
      */
     public function testLaunchJob(JobExecutionStorageInterface $jobExecutionStorage): void
     {
-        $job = $this->createJob();
+        $job = $this->createJob($jobExecutionStorage);
         $jobName = $this->getJobName();
 
         $launcher = new SimpleJobLauncher(
@@ -88,7 +90,7 @@ abstract class JobTestCase extends TestCase
         return new JobRegistry($container);
     }
 
-    abstract protected function createJob(): JobInterface;
+    abstract protected function createJob(JobExecutionStorageInterface $executionStorage): JobInterface;
 
     abstract protected function getJobName(): string;
 

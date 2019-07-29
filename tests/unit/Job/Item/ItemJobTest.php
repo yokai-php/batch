@@ -17,6 +17,7 @@ use Yokai\Batch\Job\JobParametersAwareInterface;
 use Yokai\Batch\Job\SummaryAwareInterface;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobParameters;
+use Yokai\Batch\Storage\NullJobExecutionStorage;
 use Yokai\Batch\Summary;
 use Yokai\Batch\Tests\Unit\Util;
 
@@ -60,7 +61,13 @@ class ItemJobTest extends TestCase
         $writer->write([90])
             ->shouldBeCalledTimes(1);
 
-        $job = new ItemJob(4, $reader->reveal(), $processor->reveal(), $writer->reveal());
+        $job = new ItemJob(
+            4,
+            $reader->reveal(),
+            $processor->reveal(),
+            $writer->reveal(),
+            new NullJobExecutionStorage()
+        );
 
         $job->execute($jobExecution);
 

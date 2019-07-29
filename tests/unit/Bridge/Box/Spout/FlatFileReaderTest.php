@@ -21,7 +21,7 @@ class FlatFileReaderTest extends TestCase
             null,
             new JobParameters([FlatFileReader::SOURCE_FILE_PARAMETER => __DIR__ . '/fixtures/sample.' . $type])
         );
-        $reader = new FlatFileReader($type, $headersMode, $headers);
+        $reader = new FlatFileReader($type, [], $headersMode, $headers);
         $reader->setJobExecution($jobExecution);
 
         /** @var \Iterator $got */
@@ -36,7 +36,7 @@ class FlatFileReaderTest extends TestCase
      */
     public function testInvalidConstruction(string $type)
     {
-        new FlatFileReader($type, FlatFileReader::HEADERS_MODE_COMBINE, ['nom', 'prenom']);
+        new FlatFileReader($type, [], FlatFileReader::HEADERS_MODE_COMBINE, ['nom', 'prenom']);
     }
 
     /**

@@ -10,7 +10,7 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 class DummyJobTest extends JobTestCase
 {
-    protected function createJob(): JobInterface
+    protected function createJob(JobExecutionStorageInterface $executionStorage): JobInterface
     {
         return new class extends AbstractJob {
             protected function doExecute(JobExecution $jobExecution): void
