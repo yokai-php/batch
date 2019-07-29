@@ -65,14 +65,18 @@ class ItemJob extends AbstractJob
 
         $writeCount = 0;
         $itemsToWrite = [];
+        $lineNumber = 1;
         foreach ($this->reader->read() as $readItem) {
+            $lineNumber++;
             $summary->increment('read');
 
             try {
                 $processedItem = $this->processor->process($readItem);
             } catch (InvalidItemException $exception) {
                 $summary->increment('invalid');
-                $jobExecution->addWarning(new Warning($exception->getMessage(), $exception->getParameters()));
+                $jobExecution->addWarning(
+                    new Warning($exception->getMessage(), $exception->getParameters(), ['line_number' => $lineNumber])
+                );
 
                 continue;
             }

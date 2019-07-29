@@ -15,13 +15,15 @@ final class Warning
     private $parameters;
 
     /**
-     * @param string $message
-     * @param array  $parameters
+     * @var array
      */
-    public function __construct(string $message, array $parameters = [])
+    private $context;
+
+    public function __construct(string $message, array $parameters = [], array $context = [])
     {
         $this->message = $message;
         $this->parameters = $parameters;
+        $this->context = $context;
     }
 
     /**
@@ -46,5 +48,12 @@ final class Warning
     public function getParameters(): array
     {
         return $this->parameters;
+    }
+    /**
+     * @return array
+     */
+    public function getContext(): array
+    {
+        return $this->context;
     }
 }

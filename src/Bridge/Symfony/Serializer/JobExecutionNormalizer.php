@@ -148,11 +148,12 @@ final class JobExecutionNormalizer implements
         return [
             'message' => $warning->getMessage(),
             'parameters' => $warning->getParameters(),
+            'context' => $warning->getContext(),
         ];
     }
 
     private function warningFromArray(array $array): Warning
     {
-        return new Warning($array['message'], $array['parameters']);
+        return new Warning($array['message'], $array['parameters'], $array['context']);
     }
 }
