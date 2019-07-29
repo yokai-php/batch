@@ -14,7 +14,7 @@
   "require-dev": {
     "ext-json": "*",
     "ext-zip": "*",
-    "box/spout": "^2.7",
+    "box/spout": "^3.0",
     "doctrine/orm": "^2.6",
     "phpunit/phpunit": "^7.5",
     "symfony/console": "^4.2",

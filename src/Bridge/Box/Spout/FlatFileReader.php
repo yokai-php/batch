@@ -97,10 +97,13 @@ final class FlatFileReader implements
         /** @var SheetInterface $sheet */
         foreach ($reader->getSheetIterator() as $sheet) {
             foreach ($sheet->getRowIterator() as $rowIndex => $row) {
-                /** @var Row $row */
+                if ($row instanceof Row) {
+                    $row = $row->toArray();
+                }
+
                 if ($rowIndex === 1) {
                     if ($this->headersMode === self::HEADERS_MODE_COMBINE) {
-                        $headers = $row->toArray();
+                        $headers = $row;
                     }
                     if (in_array($this->headersMode, [self::HEADERS_MODE_COMBINE, self::HEADERS_MODE_SKIP])) {
                         continue;
@@ -108,7 +111,7 @@ final class FlatFileReader implements
                 }
 
                 if (is_array($headers)) {
-                    $row = array_combine($headers, $row->toArray());
+                    $row = array_combine($headers, $row);
                 }
 
                 yield $row;
