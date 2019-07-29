@@ -2,6 +2,7 @@
 
 namespace Yokai\Batch\Bridge\Symfony\Framework\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -14,19 +15,76 @@ final class Configuration implements ConfigurationInterface
     {
         $root = ($treeBuilder = new TreeBuilder('yokai_batch'))->getRootNode();
 
-        //todo append config to $root
         $root
             ->children()
-                ->arrayNode('storage')
+                ->append($this->storage())
+            ->end()
+        ;
+
+        return $treeBuilder;
+    }
+
+    private function storage(): ArrayNodeDefinition
+    {
+        $node = ($treeBuilder = new TreeBuilder('storage'))->getRootNode();
+
+        $node
+            ->children()
+                ->arrayNode('filesystem')
+                    ->children()
+                        ->scalarNode('dir')
+                            ->defaultValue('%kernel.project_dir%/var/batch')
+                        ->end()
+                        ->append($this->serializer())
+                    ->end()
+                ->end()
+                ->arrayNode('dbal')
+                    ->children()
+                        ->scalarNode('connection')
+                            ->defaultValue('default')
+                        ->end()
+                        ->arrayNode('options')
+                            ->useAttributeAsKey('name')
+                            ->scalarPrototype()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $node;
+    }
+
+    private function serializer(): ArrayNodeDefinition
+    {
+        $node = ($treeBuilder = new TreeBuilder('serializer'))->getRootNode();
+
+        $node
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->scalarNode('format')
+                    ->defaultValue('json')
+                ->end()
+                ->scalarNode('service')
+                    ->defaultNull()
+                ->end()
+                ->arrayNode('symfony')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('filesystem')
+                        ->arrayNode('context')
                             ->addDefaultsIfNotSet()
                             ->children()
-                                ->scalarNode('dir')
-                                    ->isRequired()
-                                    ->cannotBeEmpty()
-                                    ->defaultValue('%kernel.project_dir%/var/batch/')
+                                ->arrayNode('common')
+                                    ->useAttributeAsKey('name')
+                                    ->variablePrototype()->end()
+                                ->end()
+                                ->arrayNode('serialize')
+                                    ->useAttributeAsKey('name')
+                                    ->variablePrototype()->end()
+                                ->end()
+                                ->arrayNode('deserialize')
+                                    ->useAttributeAsKey('name')
+                                    ->variablePrototype()->end()
                                 ->end()
                             ->end()
                         ->end()
@@ -35,6 +93,6 @@ final class Configuration implements ConfigurationInterface
             ->end()
         ;
 
-        return $treeBuilder;
+        return $node;
     }
 }

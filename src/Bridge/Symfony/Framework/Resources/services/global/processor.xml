@@ -7,9 +7,9 @@
     <services>
         <defaults public="false"/>
 
-        <service id="yokai_batch.job_execution_serializer.symfony_serializer.job_execution_normalizer"
-                 class="Yokai\Batch\Bridge\Symfony\Serializer\JobExecutionNormalizer">
-            <tag name="serializer.normalizer"/>
+        <service id="yokai_batch.processor.null"
+                 class="Yokai\Batch\Job\Item\Processor\NullProcessor">
+            <argument/>
         </service>
     </services>
 </container>

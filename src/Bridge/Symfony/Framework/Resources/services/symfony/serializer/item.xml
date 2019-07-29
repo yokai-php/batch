@@ -7,9 +7,9 @@
     <services>
         <defaults public="false"/>
 
-        <service id="yokai_batch.job_execution_serializer.symfony_serializer.job_execution_normalizer"
-                 class="Yokai\Batch\Bridge\Symfony\Serializer\JobExecutionNormalizer">
-            <tag name="serializer.normalizer"/>
+        <service id="yokai_batch.item_processor.normalize_item_processor"
+                 class="Yokai\Batch\Bridge\Symfony\Serializer\NormalizeItemProcessor">
+            <argument type="service" id="serializer"/>
         </service>
     </services>
 </container>
