@@ -8,7 +8,7 @@ use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Serializer\JobExecutionSerializerInterface;
 
-final class FilesystemJobExecutionStorage implements JobExecutionStorageInterface
+final class FilesystemJobExecutionStorage implements ListableJobExecutionStorageInterface
 {
     /**
      * @var JobExecutionSerializerInterface
@@ -42,77 +42,80 @@ final class FilesystemJobExecutionStorage implements JobExecutionStorageInterfac
      */
     public function store(JobExecution $execution): void
     {
-        $path = $this->buildFilePath($execution->getJobName(), $execution->getId());
-        if (file_exists($path)) {
-            throw new CannotStoreJobExecutionException(
-                $execution->getJobName(),
-                $execution->getId(),
-                new \RuntimeException(sprintf('File "%s" exists already.', $path))
-            );
-        }
-
-        $dir = dirname($path);
-        if (!is_dir($dir) && false === @mkdir($dir, 0777, true)) {
-            throw new CannotStoreJobExecutionException(
-                $execution->getJobName(),
-                $execution->getId(),
-                new \RuntimeException(sprintf('Cannot create dir "%s".', $path))
-            );
-        }
-
         try {
-            $content = $this->serializer->serialize($execution);
+            $this->executionToFile($execution);
         } catch (Throwable $exception) {
             throw new CannotStoreJobExecutionException($execution->getJobName(), $execution->getId(), $exception);
-        }
-
-        if (false === file_put_contents($path, $content)) {
-            throw new CannotStoreJobExecutionException(
-                $execution->getJobName(),
-                $execution->getId(),
-                new \RuntimeException(sprintf('Cannot write content to file "%s".', $path))
-            );
         }
     }
 
     /**
      * @inheritDoc
      */
-    public function retrieve(string $jobInstanceName, string $id): JobExecution
+    public function retrieve(string $jobName, string $executionId): JobExecution
     {
-        $path = $this->buildFilePath($jobInstanceName, $id);
-        if (!file_exists($path)) {
-            throw new JobExecutionNotFoundException(
-                $jobInstanceName,
-                $id,
-                new \RuntimeException(sprintf('File "%s" does not exists.', $path))
-            );
-        }
-
-        $content = @file_get_contents($path);
-        if ($content === false) {
-            throw new JobExecutionNotFoundException(
-                $jobInstanceName,
-                $id,
-                new \RuntimeException(sprintf('Cannot read "%s" file content.', $path))
-            );
-        }
-
         try {
-            return $this->serializer->unserialize($content);
+            $path = $this->buildFilePath($jobName, $executionId);
+
+            return $this->fileToExecution($path);
         } catch (Throwable $exception) {
-            throw new JobExecutionNotFoundException($jobInstanceName, $id, $exception);
+            throw new JobExecutionNotFoundException($jobName, $executionId, $exception);
         }
     }
 
     /**
-     * @param string $jobInstanceName
-     * @param string $id
+     * @inheritDoc
+     */
+    public function list(string $jobName): iterable
+    {
+        $glob = new \GlobIterator($this->buildFilePath($jobName, '*'));
+        /** @var \SplFileInfo $file */
+        foreach ($glob as $file) {
+            try {
+                yield $this->fileToExecution($file->getRealPath());
+            } catch (Throwable $exception) {
+                // todo should we do something
+            }
+        }
+    }
+
+    /**
+     * @param string $jobName
+     * @param string $executionId
      *
      * @return string
      */
-    public function buildFilePath(string $jobInstanceName, string $id): string
+    public function buildFilePath(string $jobName, string $executionId): string
     {
-        return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobInstanceName, $id]).'.'.$this->extension;
+        return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]).'.'.$this->extension;
+    }
+
+    private function executionToFile(JobExecution $execution): void
+    {
+        $path = $this->buildFilePath($execution->getJobName(), $execution->getId());
+        $dir = dirname($path);
+        if (!is_dir($dir) && false === @mkdir($dir, 0777, true)) {
+            throw new \RuntimeException(sprintf('Cannot create dir "%s".', $path));
+        }
+
+        $content = $this->serializer->serialize($execution);
+
+        if (false === file_put_contents($path, $content)) {
+            throw new \RuntimeException(sprintf('Cannot write content to file "%s".', $path));
+        }
+    }
+
+    private function fileToExecution(string $file): JobExecution
+    {
+        if (!file_exists($file)) {
+            throw new \RuntimeException(sprintf('File "%s" does not exists.', $file));
+        }
+
+        $content = @file_get_contents($file);
+        if ($content === false) {
+            throw new \RuntimeException(sprintf('Cannot read "%s" file content.', $file));
+        }
+
+        return $this->serializer->unserialize($content);
     }
 }

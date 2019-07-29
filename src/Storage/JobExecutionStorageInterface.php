@@ -16,11 +16,11 @@ interface JobExecutionStorageInterface
     public function store(JobExecution $execution): void;
 
     /**
-     * @param string $jobInstanceName
-     * @param string $id
+     * @param string $jobName
+     * @param string $executionId
      *
      * @return JobExecution
      * @throws JobExecutionNotFoundException
      */
-    public function retrieve(string $jobInstanceName, string $id): JobExecution;
+    public function retrieve(string $jobName, string $executionId): JobExecution;
 }
