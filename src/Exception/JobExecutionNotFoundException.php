@@ -8,14 +8,14 @@ use Throwable;
 class JobExecutionNotFoundException extends DomainException
 {
     /**
-     * @param string         $jobInstanceName
-     * @param string         $id
+     * @param string         $jobName
+     * @param string         $executionId
      * @param Throwable|null $previous
      */
-    public function __construct(string $jobInstanceName, string $id, Throwable $previous = null)
+    public function __construct(string $jobName, string $executionId, Throwable $previous = null)
     {
         parent::__construct(
-            sprintf('Job execution "%s" of job "%s" cannot be found', $id, $jobInstanceName),
+            sprintf('Job execution "%s" of job "%s" cannot be found', $executionId, $jobName),
             0,
             $previous
         );
