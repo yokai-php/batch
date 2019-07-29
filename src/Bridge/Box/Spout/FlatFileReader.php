@@ -2,7 +2,9 @@
 
 namespace Yokai\Batch\Bridge\Box\Spout;
 
-use Box\Spout\Reader\ReaderFactory;
+use Box\Spout\Common\Entity\Row;
+use Box\Spout\Reader\Common\Creator\ReaderFactory;
+use Box\Spout\Reader\CSV\Reader as CsvReader;
 use Box\Spout\Reader\SheetInterface;
 use Yokai\Batch\Job\Item\ItemReaderInterface;
 use Yokai\Batch\Job\JobExecutionAwareInterface;
@@ -31,6 +33,11 @@ final class FlatFileReader implements
     private $type;
 
     /**
+     * @var array
+     */
+    private $options;
+
+    /**
      * @var string
      */
     private $headersMode;
@@ -47,6 +54,7 @@ final class FlatFileReader implements
 
     public function __construct(
         string $type,
+        array $options = [],
         string $headersMode = self::HEADERS_MODE_NONE,
         array $headers = null,
         string $filePath = null
@@ -67,6 +75,7 @@ final class FlatFileReader implements
         }
 
         $this->type = $type;
+        $this->options = $options;
         $this->headersMode = $headersMode;
         $this->headers = $headers;
         $this->filePath = $filePath;
@@ -77,7 +86,10 @@ final class FlatFileReader implements
      */
     public function read(): iterable
     {
-        $reader = ReaderFactory::create($this->type);
+        $reader = ReaderFactory::createFromType($this->type);
+        if ($reader instanceof CsvReader && isset($this->options['delimiter'])) {
+            $reader->setFieldDelimiter($this->options['delimiter']);
+        }
         $reader->open($this->getFilePath());
 
         $headers = $this->headers;
@@ -85,9 +97,10 @@ final class FlatFileReader implements
         /** @var SheetInterface $sheet */
         foreach ($reader->getSheetIterator() as $sheet) {
             foreach ($sheet->getRowIterator() as $rowIndex => $row) {
+                /** @var Row $row */
                 if ($rowIndex === 1) {
                     if ($this->headersMode === self::HEADERS_MODE_COMBINE) {
-                        $headers = $row;
+                        $headers = $row->toArray();
                     }
                     if (in_array($this->headersMode, [self::HEADERS_MODE_COMBINE, self::HEADERS_MODE_SKIP])) {
                         continue;
@@ -95,7 +108,7 @@ final class FlatFileReader implements
                 }
 
                 if (is_array($headers)) {
-                    $row = array_combine($headers, $row);
+                    $row = array_combine($headers, $row->toArray());
                 }
 
                 yield $row;

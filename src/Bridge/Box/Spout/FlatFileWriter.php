@@ -2,7 +2,8 @@
 
 namespace Yokai\Batch\Bridge\Box\Spout;
 
-use Box\Spout\Writer\WriterFactory;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\Common\Creator\WriterFactory;
 use Box\Spout\Writer\WriterInterface;
 use Yokai\Batch\Job\Item\FlushableInterface;
 use Yokai\Batch\Job\Item\InitializableInterface;
@@ -57,8 +58,14 @@ final class FlatFileWriter implements
      */
     public function initialize(): void
     {
-        $this->writer = WriterFactory::create($this->type);
-        $this->writer->openToFile($this->getFilePath());
+        $path = $this->getFilePath();
+        $dir = dirname($path);
+        if (!@is_dir($dir) && !@mkdir($dir, 0777, true)) {
+            throw new \RuntimeException();//todo
+        }
+
+        $this->writer = WriterFactory::createFromType($this->type);
+        $this->writer->openToFile($path);
     }
 
     /**
@@ -69,7 +76,7 @@ final class FlatFileWriter implements
         if (!$this->headersAdded) {
             $this->headersAdded = true;
             if ($this->headers !== null) {
-                $this->writer->addRow($this->headers);
+                $this->writer->addRow(WriterEntityFactory::createRowFromArray($this->headers));
             }
         }
 
@@ -77,7 +84,7 @@ final class FlatFileWriter implements
             if (!is_array($row)) {
                 throw new \RuntimeException();//todo
             }
-            $this->writer->addRow($row);
+            $this->writer->addRow(WriterEntityFactory::createRowFromArray($row));
         }
     }
 
