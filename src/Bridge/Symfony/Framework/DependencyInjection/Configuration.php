@@ -17,6 +17,21 @@ final class Configuration implements ConfigurationInterface
         //todo append config to $root
         $root
             ->children()
+                ->arrayNode('storage')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('filesystem')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('dir')
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                    ->defaultValue('%kernel.project_dir%/var/batch/')
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

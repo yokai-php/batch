@@ -48,10 +48,7 @@ final class YokaiBatchExtension extends Extension
     {
         //todo $parameters should be constructed with $config
         $parameters = [
-            'storage.filesystem.dir' => implode(
-                DIRECTORY_SEPARATOR,
-                [$container->getParameter('kernel.project_dir'), 'var', 'batch']
-            ),
+            'storage.filesystem.dir' => $config['storage']['filesystem']['dir'],
             'job_execution.serialize_format' => 'json',
             'console.output_log_filename' => 'batch_execute.log',
             'job_execution_serializer.symfony_serializer.common_context' => [],
