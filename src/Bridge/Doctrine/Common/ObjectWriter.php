@@ -55,19 +55,18 @@ final class ObjectWriter implements ItemWriterInterface
         }
 
         $class = get_class($item);
+
         $manager = $this->managerForClass[$class] ?? null;
-        if ($manager instanceof ObjectManager) {
-            $this->encounteredManagers[spl_object_id($manager)] = $manager;
-
-            return $this->managerForClass[$class];
-        }
-
-        $manager = $this->doctrine->getManagerForClass($class);
         if ($manager === null) {
-            throw $this->createInvalidItemException($item);
+            $manager = $this->doctrine->getManagerForClass($class);
+            if ($manager === null) {
+                throw $this->createInvalidItemException($item);
+            }
+
+            $this->managerForClass[$class] = $manager;
         }
 
-        $this->managerForClass[$class] = $manager;
+        $this->encounteredManagers[spl_object_id($manager)] = $manager;
 
         return $manager;
     }

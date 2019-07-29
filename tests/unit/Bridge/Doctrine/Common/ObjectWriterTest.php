@@ -22,14 +22,8 @@ class ObjectWriterTest extends TestCase
 
         /** @var ObjectProphecy|ObjectManager $userManager */
         $userManager = $this->prophesize(ObjectManager::class);
-        $userManager->contains($user1)
-            ->shouldBeCalledTimes(1)
-            ->willReturn(true);
         $userManager->persist($user1)
-            ->shouldNotBeCalled();
-        $userManager->contains($user2)
-            ->shouldBeCalledTimes(1)
-            ->willReturn(false);
+            ->shouldBeCalledTimes(1);
         $userManager->persist($user2)
             ->shouldBeCalledTimes(1);
         $userManager->flush()
@@ -41,9 +35,6 @@ class ObjectWriterTest extends TestCase
 
         /** @var ObjectProphecy|ObjectManager $groupManager */
         $groupManager = $this->prophesize(ObjectManager::class);
-        $groupManager->contains($group1)
-            ->shouldBeCalledTimes(1)
-            ->willReturn(false);
         $groupManager->persist($group1)
             ->shouldBeCalledTimes(1);
         $groupManager->flush()
@@ -63,10 +54,10 @@ class ObjectWriterTest extends TestCase
         /** @var ObjectProphecy|ManagerRegistry $doctrine */
         $doctrine = $this->prophesize(ManagerRegistry::class);
         $doctrine->getManagerForClass(User::class)
-            ->shouldBeCalledTimes(4)
+            ->shouldBeCalledTimes(1)
             ->willReturn($userManager->reveal());
         $doctrine->getManagerForClass(Group::class)
-            ->shouldBeCalledTimes(2)
+            ->shouldBeCalledTimes(1)
             ->willReturn($groupManager->reveal());
         $doctrine->getManagerForClass(Product::class)
             ->shouldNotBeCalled()
