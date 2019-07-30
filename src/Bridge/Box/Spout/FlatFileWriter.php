@@ -4,6 +4,7 @@ namespace Yokai\Batch\Bridge\Box\Spout;
 
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\Common\Creator\WriterFactory;
+use Box\Spout\Writer\CSV\Writer as CsvWriter;
 use Box\Spout\Writer\WriterInterface;
 use Yokai\Batch\Job\Item\FlushableInterface;
 use Yokai\Batch\Job\Item\InitializableInterface;
@@ -46,11 +47,17 @@ final class FlatFileWriter implements
      */
     private $filePath;
 
-    public function __construct(string $type, array $headers = null, string $filePath = null)
+    /**
+     * @var array
+     */
+    private $options;
+
+    public function __construct(string $type, array $headers = null, string $filePath = null, array $options = [])
     {
         $this->type = $type;
         $this->headers = $headers;
         $this->filePath = $filePath;
+        $this->options = $options;
     }
 
     /**
@@ -65,6 +72,10 @@ final class FlatFileWriter implements
         }
 
         $this->writer = WriterFactory::createFromType($this->type);
+        if ($this->writer instanceof CsvWriter) {
+            $this->writer->setFieldDelimiter($this->options['delimiter'] ?? ',');
+            $this->writer->setFieldEnclosure($this->options['enclosure'] ?? '"');
+        }
         $this->writer->openToFile($path);
     }
 
