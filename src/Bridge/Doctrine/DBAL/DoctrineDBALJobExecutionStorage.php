@@ -205,10 +205,22 @@ SQL;
 
         try {
             if ($stored) {
-                $this->connection->update($this->table, $data, ['id' => $data['id']], $this->types);
+                $this->connection->update($this->table, $data, $this->identity($execution), $this->types);
             } else {
                 $this->connection->insert($this->table, $data, $this->types);
             }
+        } catch (DBALException $exception) {
+            throw new CannotStoreJobExecutionException($execution->getJobName(), $execution->getId(), $exception);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove(JobExecution $execution): void
+    {
+        try {
+            $this->connection->delete($this->table, $this->identity($execution));
         } catch (DBALException $exception) {
             throw new CannotStoreJobExecutionException($execution->getJobName(), $execution->getId(), $exception);
         }
@@ -326,11 +338,19 @@ SQL;
         );
     }
 
-    private function fetchRow(string $jobInstanceName, string $id): array
+    private function identity(JobExecution $execution): array
+    {
+        return [
+            $this->jobNameCol => $execution->getJobName(),
+            $this->idCol => $execution->getId(),
+        ];
+    }
+
+    private function fetchRow(string $jobName, string $id): array
     {
         $statement = $this->connection->executeQuery(
             "SELECT * FROM {$this->table} WHERE {$this->jobNameCol} = :jobName AND {$this->idCol} = :id",
-            ['jobName' => $jobInstanceName, 'id' => $id],
+            ['jobName' => $jobName, 'id' => $id],
             ['jobName' => Type::STRING, 'id' => Type::STRING]
         );
         $rows = $statement->fetchAll();

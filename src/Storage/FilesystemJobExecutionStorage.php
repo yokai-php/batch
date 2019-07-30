@@ -3,6 +3,7 @@
 namespace Yokai\Batch\Storage;
 
 use Throwable;
+use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
 use Yokai\Batch\Exception\CannotStoreJobExecutionException;
 use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
@@ -44,6 +45,24 @@ final class FilesystemJobExecutionStorage implements ListableJobExecutionStorage
     {
         try {
             $this->executionToFile($execution);
+        } catch (Throwable $exception) {
+            throw new CannotStoreJobExecutionException($execution->getJobName(), $execution->getId(), $exception);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove(JobExecution $execution): void
+    {
+        try {
+            $path = $this->buildFilePath($execution->getJobName(), $execution->getId());
+            if (!file_exists($path)) {
+                throw new \RuntimeException(sprintf('File "%s" does not exists.', $file));
+            }
+            if (!@unlink($path)) {
+                throw new \RuntimeException(sprintf('Unable to remove file "%s".', $file));
+            }
         } catch (Throwable $exception) {
             throw new CannotStoreJobExecutionException($execution->getJobName(), $execution->getId(), $exception);
         }

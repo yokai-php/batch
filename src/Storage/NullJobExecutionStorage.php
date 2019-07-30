@@ -2,6 +2,7 @@
 
 namespace Yokai\Batch\Storage;
 
+use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
 use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 
@@ -11,6 +12,13 @@ final class NullJobExecutionStorage implements JobExecutionStorageInterface
      * @inheritDoc
      */
     public function store(JobExecution $execution): void
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove(JobExecution $execution): void
     {
     }
 
