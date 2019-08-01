@@ -6,6 +6,7 @@ use Box\Spout\Common\Entity\Row;
 use Box\Spout\Reader\Common\Creator\ReaderFactory;
 use Box\Spout\Reader\CSV\Reader as CsvReader;
 use Box\Spout\Reader\SheetInterface;
+use Yokai\Batch\Exception\UndefinedJobParameterException;
 use Yokai\Batch\Job\Item\ItemReaderInterface;
 use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
@@ -123,6 +124,14 @@ final class FlatFileReader implements
 
     protected function getFilePath(): string
     {
-        return $this->filePath ?: (string) $this->jobExecution->getParameter(self::SOURCE_FILE_PARAMETER);
+        if ($this->filePath) {
+            return $this->filePath;
+        }
+
+        try {
+            return (string)$this->jobExecution->getParameter(self::SOURCE_FILE_PARAMETER);
+        } catch (UndefinedJobParameterException $exception) {
+            return (string)$this->jobExecution->getRootExecution()->getParameter(self::SOURCE_FILE_PARAMETER);
+        }
     }
 }
