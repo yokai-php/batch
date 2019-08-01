@@ -12,6 +12,7 @@
             <argument type="service" id="yokai_batch.job_registry"/>
             <argument type="service" id="yokai_batch.job_execution_factory"/>
             <argument type="service" id="Yokai\Batch\Storage\JobExecutionStorageInterface"/>
+            <argument type="service" id="event_dispatcher" on-invalid="null"/>
         </service>
     </services>
 </container>
