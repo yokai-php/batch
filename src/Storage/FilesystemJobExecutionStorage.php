@@ -124,7 +124,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
             }
 
             $statuses = $query->statuses();
-            if (count($statuses) > 0 && !in_array($execution->getStatus(), $statuses)) {
+            if (count($statuses) > 0 && !$execution->getStatus()->isOneOf($statuses)) {
                 continue;
             }
 

@@ -105,10 +105,12 @@ final class QueryBuilder
         return $this;
     }
 
-    public function limit(int $limit, int $offset): void
+    public function limit(int $limit, int $offset): self
     {
         $this->limit = $limit;
         $this->offset = $offset;
+
+        return $this;
     }
 
     public function getQuery(): Query
