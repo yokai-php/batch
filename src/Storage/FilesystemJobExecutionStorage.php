@@ -9,7 +9,7 @@ use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Serializer\JobExecutionSerializerInterface;
 
-final class FilesystemJobExecutionStorage implements ListableJobExecutionStorageInterface
+final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorageInterface
 {
     /**
      * @var JobExecutionSerializerInterface
@@ -96,6 +96,74 @@ final class FilesystemJobExecutionStorage implements ListableJobExecutionStorage
                 // todo should we do something
             }
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function query(Query $query): iterable
+    {
+        $candidates = [];
+        $glob = new \GlobIterator(implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']).'.'.$this->extension);
+        foreach ($glob as $file) {
+            try {
+                $execution = $this->fileToExecution($file->getRealPath());
+            } catch (Throwable $exception) {
+                // todo should we do something
+                continue;
+            }
+
+            $names = $query->jobs();
+            if (count($names) > 0 && !in_array($execution->getJobName(), $names)) {
+                continue;
+            }
+
+            $ids = $query->ids();
+            if (count($ids) > 0 && !in_array($execution->getId(), $ids)) {
+                continue;
+            }
+
+            $statuses = $query->statuses();
+            if (count($statuses) > 0 && !in_array($execution->getStatus(), $statuses)) {
+                continue;
+            }
+
+            $candidates[] = $execution;
+        }
+
+        $order = null;
+        switch ($query->sort()) {
+            case Query::SORT_BY_START_ASC:
+                $order = function (JobExecution $left, JobExecution $right): int {
+                    return $left->getStartTime() <=> $right->getStartTime();
+                };
+                break;
+            case Query::SORT_BY_START_DESC:
+                $order = function (JobExecution $left, JobExecution $right): int {
+                    return $right->getStartTime() <=> $left->getStartTime();
+                };
+                break;
+            case Query::SORT_BY_END_ASC:
+                $order = function (JobExecution $left, JobExecution $right): int {
+                    return $left->getEndTime() <=> $right->getEndTime();
+                };
+                break;
+            case Query::SORT_BY_END_DESC:
+                $order = function (JobExecution $left, JobExecution $right): int {
+                    return $right->getEndTime() <=> $left->getEndTime();
+                };
+                break;
+        }
+
+        if ($order) {
+            uasort($candidates, $order);
+        }
+
+        return array_slice(
+            $candidates,
+            $query->offset(),
+            $query->limit()
+        );
     }
 
     /**
