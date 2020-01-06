@@ -107,6 +107,13 @@ final class QueryBuilder
 
     public function limit(int $limit, int $offset): self
     {
+        if ($limit <= 0) {
+            throw new \InvalidArgumentException();//todo
+        }
+        if ($offset < 0) {
+            throw new \InvalidArgumentException();//todo
+        }
+
         $this->limit = $limit;
         $this->offset = $offset;
 
