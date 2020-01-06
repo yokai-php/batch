@@ -42,7 +42,7 @@ class SimpleJobLauncherTest extends TestCase
         $jobExecutionFactory = new JobExecutionFactory();
         $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
 
-        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal());
+        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
         $jobExecution = $launcher->launch('export');
 
         self::assertNotNull($jobExecution->getStartTime());
@@ -71,7 +71,7 @@ class SimpleJobLauncherTest extends TestCase
         $jobExecutionFactory = new JobExecutionFactory();
         $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
 
-        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal());
+        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
         $launcher->launch('export');
     }
 
@@ -98,7 +98,7 @@ class SimpleJobLauncherTest extends TestCase
         $jobExecutionFactory = new JobExecutionFactory();
         $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
 
-        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal());
+        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
         $launcher->launch('export');
     }
 }

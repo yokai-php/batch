@@ -54,7 +54,8 @@ abstract class JobTestCase extends TestCase
         $launcher = new SimpleJobLauncher(
             self::createJobRegistry([$jobName => $job]),
             new JobExecutionFactory(),
-            $jobExecutionStorage
+            $jobExecutionStorage,
+            null
         );
 
         $jobExecution = $launcher->launch($jobName);
