@@ -83,7 +83,7 @@ final class SplitDeveloperXlsxJob extends AbstractJob
         unset(
             $badges,
             $repositories,
-            $developers,
+            $developers
         );
     }
 
