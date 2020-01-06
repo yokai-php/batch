@@ -59,7 +59,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
     /**
      * @expectedException \Yokai\Batch\Exception\CannotStoreJobExecutionException
      */
-    public function testStoreFileExists(): void
+    public function testStoreFilePathNotFound(): void
     {
         $jobExecution = JobExecution::createRoot('123456789', 'export');
 
@@ -179,8 +179,17 @@ class FilesystemJobExecutionStorageTest extends TestCase
     /**
      * @expectedException \Yokai\Batch\Exception\JobExecutionNotFoundException
      */
-    public function testRetrieveFileNotFound(): void
+    public function testRetrieveFilePathNotFound(): void
     {
         $this->createStorage('/path/not/found')->retrieve('123456789', 'export');
+    }
+
+    /**
+     * @expectedException \Yokai\Batch\Exception\CannotRemoveJobExecutionException
+     */
+    public function testRemoveFilePathNotFound(): void
+    {
+        $jobExecution = JobExecution::createRoot('123456789', 'export');
+        $this->createStorage('/path/not/found')->remove($jobExecution);
     }
 }

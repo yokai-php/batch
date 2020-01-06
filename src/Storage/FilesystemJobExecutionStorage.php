@@ -58,13 +58,13 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         try {
             $path = $this->buildFilePath($execution->getJobName(), $execution->getId());
             if (!file_exists($path)) {
-                throw new \RuntimeException(sprintf('File "%s" does not exists.', $file));
+                throw new \RuntimeException(sprintf('File "%s" does not exists.', $path));
             }
             if (!@unlink($path)) {
-                throw new \RuntimeException(sprintf('Unable to remove file "%s".', $file));
+                throw new \RuntimeException(sprintf('Unable to remove file "%s".', $path));
             }
         } catch (Throwable $exception) {
-            throw new CannotStoreJobExecutionException($execution->getJobName(), $execution->getId(), $exception);
+            throw new CannotRemoveJobExecutionException($execution->getJobName(), $execution->getId(), $exception);
         }
     }
 
