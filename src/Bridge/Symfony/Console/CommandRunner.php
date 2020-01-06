@@ -22,11 +22,14 @@ class CommandRunner
      */
     private $phpLocator;
 
-    public function __construct(string $binDir, string $logDir)
+    public function __construct(string $binDir, string $logDir, PhpExecutableFinder $phpLocator = null)
     {
         $this->consolePath = implode(DIRECTORY_SEPARATOR, [$binDir, 'console']);
         $this->logDir = $logDir;
-        $this->phpLocator = class_exists(PhpExecutableFinder::class) ? new PhpExecutableFinder() : null;
+        if ($phpLocator === null && class_exists(PhpExecutableFinder::class)) {
+            $phpLocator = new PhpExecutableFinder();
+        }
+        $this->phpLocator = $phpLocator;
     }
 
     /**
