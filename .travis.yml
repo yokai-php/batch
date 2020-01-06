@@ -18,12 +18,12 @@ cache:
 
 before_install:
   - rm -rf composer.lock vendor/
-  - composer require "symfony/symfony/console:${SYMFONY_VERSION}" --no-update
-  - composer require "symfony/symfony/filesystem:${SYMFONY_VERSION}" --no-update
-  - composer require "symfony/symfony/framework-bundle:${SYMFONY_VERSION}" --no-update
-  - composer require "symfony/symfony/process:${SYMFONY_VERSION}" --no-update
-  - composer require "symfony/symfony/serializer:${SYMFONY_VERSION}" --no-update
-  - composer require "symfony/symfony/validator:${SYMFONY_VERSION}" --no-update
+  - composer require "symfony/console:${SYMFONY_VERSION}" --no-update
+  - composer require "symfony/filesystem:${SYMFONY_VERSION}" --no-update
+  - composer require "symfony/framework-bundle:${SYMFONY_VERSION}" --no-update
+  - composer require "symfony/process:${SYMFONY_VERSION}" --no-update
+  - composer require "symfony/serializer:${SYMFONY_VERSION}" --no-update
+  - composer require "symfony/validator:${SYMFONY_VERSION}" --no-update
 
 install: COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --prefer-dist --no-interaction
 
