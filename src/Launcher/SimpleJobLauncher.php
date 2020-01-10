@@ -61,15 +61,26 @@ class SimpleJobLauncher implements JobLauncherInterface
     {
         $job = $this->jobRegistry->get($name);
         $jobExecution = $this->getJobExecution($name, $configuration);
+        $logger = $jobExecution->getLogger();
 
         if (!$jobExecution->getStatus()->isExecutable()) {
-            //todo this is not a normal state here, maybe it is a good idea to add a log or something
+            $logger->warning('Job execution not allowed to be executed', ['job' => $name]);
+
             return $jobExecution;
         }
+
+        $logger->debug('Starting job', ['job' => $name]);
 
         $this->dispatch(new PreExecuteEvent($jobExecution));
 
         $this->execute($job, $jobExecution);
+
+        if ($jobExecution->getStatus()->isSuccessful()) {
+            $logger->info('Job executed successfully', ['job' => $name]);
+        } else {
+            $logger->error('Job did not executed successfully', ['job' => $name]);
+        }
+
         $this->store($jobExecution);
 
         $this->dispatch(new PostExecuteEvent($jobExecution));

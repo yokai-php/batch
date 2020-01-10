@@ -44,6 +44,7 @@ final class JobWithChildJobs extends AbstractJob
      */
     protected function doExecute(JobExecution $jobExecution): void
     {
+        $logger = $jobExecution->getLogger();
         foreach ($this->childJobs as $jobName) {
             $jobExecution->addChildExecution(
                 $childExecution = $jobExecution->createChildExecution($jobName)
@@ -52,14 +53,20 @@ final class JobWithChildJobs extends AbstractJob
             // If the job was marked as unsuccessful, the child will not be executed, and marked as abandoned
             if ($jobExecution->getStatus()->isUnsuccessful()) {
                 $childExecution->setStatus(BatchStatus::ABANDONED);
+                $logger->warning('Child job will not be executed', ['job' => $jobName]);
+
                 continue;
             }
 
+            $logger->debug('Starting child job', ['job' => $jobName]);
             $this->jobRegistry->get($jobName)->execute($childExecution);
 
             // Check if the child executed successfully, replicate the status to the job otherwise
             if ($childExecution->getStatus()->isUnsuccessful()) {
                 $jobExecution->setStatus($childExecution->getStatus()->getValue());
+                $logger->error('Child job did not executed successfully', ['job' => $jobName]);
+            } else {
+                $logger->info('Child job executed successfully', ['job' => $jobName]);
             }
 
             $this->executionStorage->store($jobExecution->getRootExecution());

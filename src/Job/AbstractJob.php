@@ -14,7 +14,8 @@ abstract class AbstractJob implements JobInterface
     public function execute(JobExecution $jobExecution): void
     {
         if (!$jobExecution->getStatus()->isExecutable()) {
-            //todo this is not a normal state here, maybe it is a good idea to add a log or something
+            $jobExecution->getLogger()->error('Job is not executable', ['job' => $jobExecution->getJobName()]);
+
             return;
         }
 

@@ -26,6 +26,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
         'failures',
         'warnings',
         'child_executions',
+        'logs',
     ];
 
     /**
@@ -74,6 +75,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
             'errors',
             'warns',
             'children',
+            'logging',
         ];
 
         $options = array_merge(
@@ -90,6 +92,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
                     'failures_col',
                     'warnings_col',
                     'child_executions_col',
+                    'logs_col',
                 ],
                 $cols
             )
@@ -237,6 +240,9 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
         // running import started at 2019-06-30 22:00 and not ended
         $runningImport = JobExecution::createRoot('789', 'import', new BatchStatus(BatchStatus::RUNNING));
         $runningImport->setStartTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2019-06-30T22:00:00+0200'));
+        $runningImport->getLogger()->debug('Importing things');
+        $runningImport->getLogger()->info('Thing imported');
+        $runningImport->getLogger()->warning('Weird thing imported');
         $storage->store($runningImport);
 
         // pending import not started and not ended

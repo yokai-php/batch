@@ -74,6 +74,11 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
     private $childExecutionsCol = 'child_executions';
 
     /**
+     * @var string
+     */
+    private $logsCol = 'logs';
+
+    /**
      * @var array
      */
     private $types;
@@ -98,6 +103,7 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
         $this->failuresCol = $options['failures_col'] ?? $this->failuresCol;
         $this->warningsCol = $options['warnings_col'] ?? $this->warningsCol;
         $this->childExecutionsCol = $options['child_executions_col'] ?? $this->childExecutionsCol;
+        $this->logsCol = $options['logs_col'] ?? $this->logsCol;
 
         $this->types = [
             $this->idCol => Type::STRING,
@@ -110,6 +116,7 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
             $this->failuresCol => Type::JSON,
             $this->warningsCol => Type::JSON,
             $this->childExecutionsCol => Type::JSON,
+            $this->logsCol => Type::TEXT,
         ];
     }
 
@@ -139,7 +146,8 @@ CREATE TABLE {$this->table} (
     {$this->summaryCol} {$json} NOT NULL,
     {$this->failuresCol} {$json} NOT NULL,
     {$this->warningsCol} {$json} NOT NULL,
-    {$this->childExecutionsCol} {$json} NOT NULL
+    {$this->childExecutionsCol} {$json} NOT NULL,
+    {$this->logsCol} TEXT NOT NULL
 )
 SQL;
 
@@ -155,7 +163,8 @@ CREATE TABLE {$this->table} (
     {$this->summaryCol} CLOB NOT NULL,
     {$this->failuresCol} CLOB NOT NULL,
     {$this->warningsCol} CLOB NOT NULL,
-    {$this->childExecutionsCol} CLOB NOT NULL
+    {$this->childExecutionsCol} CLOB NOT NULL,
+    {$this->logsCol} TEXT NOT NULL
 )
 SQL;
         }
@@ -397,6 +406,7 @@ SQL;
                 $this->failuresCol,
                 $this->warningsCol,
                 $this->childExecutionsCol,
+                $this->logsCol,
                 $this->connection->getDatabasePlatform()->getDateTimeFormatString()
             );
         }

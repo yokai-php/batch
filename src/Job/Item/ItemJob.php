@@ -70,6 +70,7 @@ class ItemJob extends AbstractJob
     {
         $rootExecution = $jobExecution->getRootExecution();
         $summary = $jobExecution->getSummary();
+        $logger = $jobExecution->getLogger();
 
         $this->initializeElements($jobExecution);
 
@@ -79,6 +80,7 @@ class ItemJob extends AbstractJob
         foreach ($this->reader->read() as $readItem) {
             $lineNumber++;
             $summary->increment('read');
+            $logger->debug('Reading item');
 
             try {
                 $processedItem = $this->processor->process($readItem);
@@ -87,18 +89,22 @@ class ItemJob extends AbstractJob
                 $jobExecution->addWarning(
                     new Warning($exception->getMessage(), $exception->getParameters(), ['line_number' => $lineNumber])
                 );
+                $logger->debug('Invalid item', ['exception' => $exception->getMessage()]);
 
                 continue;
             }
 
             $summary->increment('processed');
+            $logger->debug('Item processed');
 
             $itemsToWrite[] = $processedItem;
+            $logger->debug('Item added to write list');
             $writeCount++;
 
             if (0 === $writeCount % $this->batchSize) {
+                $logger->debug('Attempting to write items', ['count' => $writeCount]);
                 $this->writer->write($itemsToWrite);
-                $summary->increment('write', count($itemsToWrite));
+                $summary->increment('write', $writeCount);
                 $itemsToWrite = [];
                 $writeCount = 0;
 
@@ -107,8 +113,9 @@ class ItemJob extends AbstractJob
         }
 
         if ($writeCount > 0) {
+            $logger->debug('Attempting to write items', ['count' => $writeCount]);
             $this->writer->write($itemsToWrite);
-            $summary->increment('write', count($itemsToWrite));
+            $summary->increment('write', $writeCount);
 
             $this->executionStorage->store($rootExecution);
         }
