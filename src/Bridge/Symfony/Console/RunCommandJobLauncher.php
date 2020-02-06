@@ -49,6 +49,10 @@ final class RunCommandJobLauncher implements JobLauncherInterface
     {
         $configuration['_id'] = $configuration['_id'] ?? uniqid();
 
+        $jobExecution = $this->jobExecutionFactory->create($name, $configuration);
+        $jobExecution->setStatus(BatchStatus::PENDING);
+        $this->jobExecutionStorage->store($jobExecution);
+
         $this->commandRunner->runAsync(
             'yokai:batch:run',
             $this->logFilename,
@@ -57,10 +61,6 @@ final class RunCommandJobLauncher implements JobLauncherInterface
                 'configuration' => json_encode($configuration),
             ]
         );
-
-        $jobExecution = $this->jobExecutionFactory->create($name, $configuration);
-        $jobExecution->setStatus(BatchStatus::PENDING);
-        $this->jobExecutionStorage->store($jobExecution);
 
         return $jobExecution;
     }
