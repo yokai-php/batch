@@ -10,7 +10,6 @@ use Yokai\Batch\Bridge\Symfony\Console\CommandRunner;
 use Yokai\Batch\Bridge\Symfony\Console\RunCommandJobLauncher;
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\JobExecution;
-use Yokai\Batch\JobParameters;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 class RunCommandJobLauncherTest extends TestCase
