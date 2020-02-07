@@ -3,10 +3,14 @@
 namespace Yokai\Batch\Tests\Unit\Bridge\Symfony\Console;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Bridge\Symfony\Console\CommandRunner;
 use Yokai\Batch\Bridge\Symfony\Console\RunCommandJobLauncher;
 use Yokai\Batch\Factory\JobExecutionFactory;
+use Yokai\Batch\JobExecution;
+use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 class RunCommandJobLauncherTest extends TestCase
 {
@@ -20,7 +24,21 @@ class RunCommandJobLauncherTest extends TestCase
         $commandRunner->runAsync('yokai:batch:run', 'test.log', $arguments)
             ->shouldBeCalledTimes(1);
 
-        $launcher = new RunCommandJobLauncher(new JobExecutionFactory(), $commandRunner->reveal(), 'test.log');
+        /** @var JobExecutionStorageInterface|ObjectProphecy $storage */
+        $storage = $this->prophesize(JobExecutionStorageInterface::class);
+
+        $jobExecutionAssertions = Argument::that(
+            function ($jobExecution): bool {
+                return $jobExecution instanceof JobExecution
+                    && $jobExecution->getJobName() === 'testing'
+                    && $jobExecution->getId() === '123456789'
+                    && $jobExecution->getStatus()->is(BatchStatus::PENDING)
+                    && $jobExecution->getParameters()->get('foo') === ['bar'];
+            }
+        );
+        $storage->store($jobExecutionAssertions)->shouldBeCalledTimes(1);
+
+        $launcher = new RunCommandJobLauncher(new JobExecutionFactory(), $commandRunner->reveal(), $storage->reveal(), 'test.log');
         $launcher->launch('testing', $config);
     }
 }

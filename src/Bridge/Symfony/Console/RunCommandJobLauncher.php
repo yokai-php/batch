@@ -6,6 +6,7 @@ use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Launcher\JobLauncherInterface;
+use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 final class RunCommandJobLauncher implements JobLauncherInterface
 {
@@ -24,14 +25,21 @@ final class RunCommandJobLauncher implements JobLauncherInterface
      */
     private $logFilename;
 
+    /**
+     * @var JobExecutionStorageInterface
+     */
+    private $jobExecutionStorage;
+
     public function __construct(
         JobExecutionFactory $jobExecutionFactory,
         CommandRunner $commandRunner,
+        JobExecutionStorageInterface $jobExecutionStorage,
         string $logFilename = 'batch_execute.log'
     ) {
         $this->jobExecutionFactory = $jobExecutionFactory;
         $this->logFilename = $logFilename;
         $this->commandRunner = $commandRunner;
+        $this->jobExecutionStorage = $jobExecutionStorage;
     }
 
     /**
@@ -41,6 +49,10 @@ final class RunCommandJobLauncher implements JobLauncherInterface
     {
         $configuration['_id'] = $configuration['_id'] ?? uniqid();
 
+        $jobExecution = $this->jobExecutionFactory->create($name, $configuration);
+        $jobExecution->setStatus(BatchStatus::PENDING);
+        $this->jobExecutionStorage->store($jobExecution);
+
         $this->commandRunner->runAsync(
             'yokai:batch:run',
             $this->logFilename,
@@ -49,9 +61,6 @@ final class RunCommandJobLauncher implements JobLauncherInterface
                 'configuration' => json_encode($configuration),
             ]
         );
-
-        $jobExecution = $this->jobExecutionFactory->create($name, $configuration);
-        $jobExecution->setStatus(BatchStatus::PENDING);
 
         return $jobExecution;
     }
