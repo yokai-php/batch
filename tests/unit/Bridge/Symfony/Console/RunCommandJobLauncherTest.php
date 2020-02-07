@@ -27,32 +27,16 @@ class RunCommandJobLauncherTest extends TestCase
         /** @var JobExecutionStorageInterface|ObjectProphecy $storage */
         $storage = $this->prophesize(JobExecutionStorageInterface::class);
 
-        $storage->store(
-            Argument::that(
-                function ($jobExecution) use ($config) {
-                    if (!$jobExecution instanceof JobExecution) {
-                        return false;
-                    }
-                    if ($jobExecution->getJobName() !== 'testing') {
-                        return false;
-                    }
-                    if ($jobExecution->getId() !== $config['_id']) {
-                        return false;
-                    }
-                    if ($jobExecution->getStatus()
-                            ->getValue() !== BatchStatus::PENDING) {
-                        return false;
-                    }
-                    if ($jobExecution->getParameters()
-                            ->get('foo') !== ['bar']) {
-                        return false;
-                    }
-
-                    return true;
-                }
-            )
-        )
-            ->shouldBeCalledTimes(1);
+        $jobExecutionAssertions = Argument::that(
+            function ($jobExecution): bool {
+                return $jobExecution instanceof JobExecution
+                    && $jobExecution->getJobName() === 'testing'
+                    && $jobExecution->getId() === '123456789'
+                    && $jobExecution->getStatus()->is(BatchStatus::PENDING)
+                    && $jobExecution->getParameters()->get('foo') === ['bar'];
+            }
+        );
+        $storage->store($jobExecutionAssertions)->shouldBeCalledTimes(1);
 
         $launcher = new RunCommandJobLauncher(new JobExecutionFactory(), $commandRunner->reveal(), $storage->reveal(), 'test.log');
         $launcher->launch('testing', $config);
