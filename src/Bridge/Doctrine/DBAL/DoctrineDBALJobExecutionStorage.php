@@ -320,8 +320,6 @@ SQL;
         $platform = $this->connection->getDatabasePlatform()->getName();
         switch ($platform) {
             case 'mysql':
-                $limit = "LIMIT {$count}, {$offset}";
-                break;
             case 'sqlite':
                 $limit = "LIMIT {$offset}, {$count}";
                 break;
