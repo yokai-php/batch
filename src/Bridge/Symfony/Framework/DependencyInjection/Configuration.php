@@ -13,6 +13,7 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
+        /** @var ArrayNodeDefinition $root */
         $root = ($treeBuilder = new TreeBuilder('yokai_batch'))->getRootNode();
 
         $root
@@ -26,7 +27,8 @@ final class Configuration implements ConfigurationInterface
 
     private function storage(): ArrayNodeDefinition
     {
-        $node = ($treeBuilder = new TreeBuilder('storage'))->getRootNode();
+        /** @var ArrayNodeDefinition $node */
+        $node = (new TreeBuilder('storage'))->getRootNode();
 
         $node
             ->children()
@@ -49,6 +51,8 @@ final class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('service')
+                ->end()
             ->end()
         ;
 
@@ -57,7 +61,8 @@ final class Configuration implements ConfigurationInterface
 
     private function serializer(): ArrayNodeDefinition
     {
-        $node = ($treeBuilder = new TreeBuilder('serializer'))->getRootNode();
+        /** @var ArrayNodeDefinition $node */
+        $node = (new TreeBuilder('serializer'))->getRootNode();
 
         $node
             ->addDefaultsIfNotSet()

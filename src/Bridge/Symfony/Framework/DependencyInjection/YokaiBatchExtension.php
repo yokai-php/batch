@@ -70,7 +70,9 @@ final class YokaiBatchExtension extends Extension
 
     private function configureStorage(ContainerBuilder $container, array $config): void
     {
-        if (isset($config['dbal'])) {
+        if (isset($config['service'])) {
+            $defaultStorage = $config['service'];
+        } elseif (isset($config['dbal'])) {
             $container
                 ->register('yokai_batch.storage.dbal', DoctrineDBALJobExecutionStorage::class)
                 ->setArguments(
