@@ -3,6 +3,7 @@
 namespace Yokai\Batch\Bridge\Doctrine\DBAL;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Failure;
 use Yokai\Batch\JobExecution;
@@ -108,7 +109,7 @@ final class JobExecutionRowNormalizer
             $this->summaryCol => $jobExecution->getSummary()->all(),
             $this->failuresCol => array_map([$this, 'failureToArray'], $jobExecution->getFailures()),
             $this->warningsCol => array_map([$this, 'warningToArray'], $jobExecution->getWarnings()),
-            $this->childExecutionsCol => array_map([$this, 'toRow'], $jobExecution->getChildExecutions()),
+            $this->childExecutionsCol => array_map([$this, 'toChildRow'], $jobExecution->getChildExecutions()),
         ];
     }
 
@@ -154,6 +155,21 @@ final class JobExecutionRowNormalizer
         }
 
         return $jobExecution;
+    }
+
+    public function toChildRow(JobExecution $jobExecution): array
+    {
+        return [
+            $this->jobNameCol => $jobExecution->getJobName(),
+            $this->statusCol => $jobExecution->getStatus()->getValue(),
+            $this->parametersCol => iterator_to_array($jobExecution->getParameters()),
+            $this->startTimeCol => $this->toDateString($jobExecution->getStartTime()),
+            $this->endTimeCol => $this->toDateString($jobExecution->getEndTime()),
+            $this->summaryCol => $jobExecution->getSummary()->all(),
+            $this->failuresCol => array_map([$this, 'failureToArray'], $jobExecution->getFailures()),
+            $this->warningsCol => array_map([$this, 'warningToArray'], $jobExecution->getWarnings()),
+            $this->childExecutionsCol => array_map([$this, 'toChildRow'], $jobExecution->getChildExecutions()),
+        ];
     }
 
     private function jsonFromString($value): array
@@ -212,5 +228,14 @@ final class JobExecutionRowNormalizer
     private function warningFromArray(array $array): Warning
     {
         return new Warning($array['message'], $array['parameters'], $array['context']);
+    }
+
+    private function toDateString(?DateTimeInterface $date): ?string
+    {
+        if ($date === null) {
+            return null;
+        }
+
+        return $date->format($this->dateFormat);
     }
 }
