@@ -40,7 +40,7 @@ final class SkipInvalidItemProcessor implements ItemProcessorInterface
         /** @var ConstraintViolationInterface $violation */
         foreach ($violations as $violation) {
             $issues[] = sprintf(
-                '%s: %s: %s'.PHP_EOL,
+                '%s: %s: %s',
                 $violation->getPropertyPath(),
                 $violation->getMessage(),
                 $this->normalizeInvalidValue($violation->getInvalidValue())
