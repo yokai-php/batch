@@ -5,6 +5,7 @@ namespace Yokai\Batch;
 use DateInterval;
 use DateTime;
 use DateTimeInterface;
+use Psr\Log\LoggerInterface;
 use Throwable;
 use Yokai\Batch\Exception\ImmutablePropertyException;
 
@@ -66,20 +67,32 @@ final class JobExecution
     private $childExecutions = [];
 
     /**
-     * @param null|JobExecution  $parentExecution
-     * @param string             $id
-     * @param string             $jobName
-     * @param BatchStatus|null   $status
-     * @param JobParameters|null $parameters
-     * @param Summary|null       $summary
+     * @var JobExecutionLogs
+     */
+    private $logs;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @param null|JobExecution     $parentExecution
+     * @param string                $id
+     * @param string                $jobName
+     * @param BatchStatus|null      $status
+     * @param JobParameters|null    $parameters
+     * @param Summary|null          $summary
+     * @param JobExecutionLogs|null $logs
      */
     private function __construct(
         ?JobExecution $parentExecution,
         string $id,
         string $jobName,
-        BatchStatus $status = null,
-        JobParameters $parameters = null,
-        Summary $summary = null
+        ?BatchStatus $status,
+        ?JobParameters $parameters,
+        ?Summary $summary,
+        ?JobExecutionLogs $logs
     ) {
         $this->parentExecution = $parentExecution;
         $this->id = $id;
@@ -87,6 +100,8 @@ final class JobExecution
         $this->status = $status ?: new BatchStatus(BatchStatus::PENDING);
         $this->parameters = $parameters ?: new JobParameters();
         $this->summary = $summary ?: new Summary();
+        $this->logs = $parentExecution ? $parentExecution->getLogs() : ($logs ?: new JobExecutionLogs());
+        $this->logger = $parentExecution ? $parentExecution->getLogger() : new JobExecutionLogger($this->logs);
     }
 
     public static function createRoot(
@@ -94,9 +109,10 @@ final class JobExecution
         string $jobName,
         BatchStatus $status = null,
         JobParameters $parameters = null,
-        Summary $summary = null
+        Summary $summary = null,
+        JobExecutionLogs $logs = null
     ): self {
-        return new self(null, $id, $jobName, $status, $parameters, $summary);
+        return new self(null, $id, $jobName, $status, $parameters, $summary, $logs);
     }
 
     public static function createChild(
@@ -106,7 +122,7 @@ final class JobExecution
         JobParameters $parameters = null,
         Summary $summary = null
     ): self {
-        return new self($parent, $parent->getId(), $jobName, $status, $parameters, $summary);
+        return new self($parent, $parent->getId(), $jobName, $status, $parameters, $summary, null);
     }
 
     /**
@@ -353,5 +369,15 @@ final class JobExecution
         }
 
         return array_merge($self, $children);
+    }
+
+    public function getLogs(): JobExecutionLogs
+    {
+        return $this->logs;
+    }
+
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
     }
 }

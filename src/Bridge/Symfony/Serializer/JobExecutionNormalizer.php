@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Failure;
 use Yokai\Batch\JobExecution;
+use Yokai\Batch\JobExecutionLogs;
 use Yokai\Batch\JobParameters;
 use Yokai\Batch\Summary;
 use Yokai\Batch\Warning;
@@ -62,6 +63,7 @@ final class JobExecutionNormalizer implements
             'failures' => array_map([$this, 'failureToArray'], $jobExecution->getFailures()),
             'warnings' => array_map([$this, 'warningToArray'], $jobExecution->getWarnings()),
             'childExecutions' => array_map([$this, 'toArray'], $jobExecution->getChildExecutions()),
+            'logs' => $jobExecution->getParentExecution() === null ? (string)$jobExecution->getLogs() : '',
         ];
     }
 
@@ -76,7 +78,14 @@ final class JobExecutionNormalizer implements
             $jobExecution = JobExecution::createChild($parentExecution, $name, $status, $parameters, $summary);
             $parentExecution->addChildExecution($jobExecution);
         } else {
-            $jobExecution = JobExecution::createRoot($jobExecutionData['id'], $name, $status, $parameters, $summary);
+            $jobExecution = JobExecution::createRoot(
+                $jobExecutionData['id'],
+                $name,
+                $status,
+                $parameters,
+                $summary,
+                new JobExecutionLogs($jobExecutionData['logs'] ?? '')
+            );
         }
 
         $jobExecution->setStartTime($this->stringToDate($jobExecutionData['startTime']));

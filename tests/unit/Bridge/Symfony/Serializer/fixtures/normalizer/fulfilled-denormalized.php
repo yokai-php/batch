@@ -3,6 +3,7 @@
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Failure;
 use Yokai\Batch\JobExecution;
+use Yokai\Batch\JobExecutionLogs;
 use Yokai\Batch\JobParameters;
 use Yokai\Batch\Summary;
 use Yokai\Batch\Warning;
@@ -18,7 +19,14 @@ $jobExecution = JobExecution::createRoot(
     'export',
     new BatchStatus(BatchStatus::FAILED),
     new JobParameters($hash),
-    new Summary($hash)
+    new Summary($hash),
+    new JobExecutionLogs(
+        <<<LOG
+2020 [DEBUG]: Begin export
+2020 [INFO]: Exported one row
+2020 [WARNING]: Invalid row
+LOG
+    )
 );
 $jobExecution->setStartTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T00:00:01+0200'));
 $jobExecution->setEndTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T01:59:59+0200'));

@@ -80,6 +80,14 @@ final class BatchStatus
     /**
      * @return bool
      */
+    public function isSuccessful(): bool
+    {
+        return $this->isOneOf([self::COMPLETED]);
+    }
+
+    /**
+     * @return bool
+     */
     public function isExecutable(): bool
     {
         return $this->is(self::PENDING);

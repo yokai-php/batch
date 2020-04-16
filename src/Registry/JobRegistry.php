@@ -25,6 +25,7 @@ final class JobRegistry
      * @param string $name
      *
      * @return JobInterface
+     * @throws UndefinedJobException
      */
     public function get(string $name): JobInterface
     {

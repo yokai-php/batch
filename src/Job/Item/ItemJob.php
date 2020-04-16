@@ -98,7 +98,7 @@ class ItemJob extends AbstractJob
 
             if (0 === $writeCount % $this->batchSize) {
                 $this->writer->write($itemsToWrite);
-                $summary->increment('write', count($itemsToWrite));
+                $summary->increment('write', $writeCount);
                 $itemsToWrite = [];
                 $writeCount = 0;
 
@@ -108,7 +108,7 @@ class ItemJob extends AbstractJob
 
         if ($writeCount > 0) {
             $this->writer->write($itemsToWrite);
-            $summary->increment('write', count($itemsToWrite));
+            $summary->increment('write', $writeCount);
 
             $this->executionStorage->store($rootExecution);
         }
