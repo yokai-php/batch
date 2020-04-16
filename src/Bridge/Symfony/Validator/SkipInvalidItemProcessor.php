@@ -57,6 +57,12 @@ final class SkipInvalidItemProcessor implements ItemProcessorInterface
      */
     private function normalizeInvalidValue($invalidValue)
     {
+        if ($invalidValue === '') {
+            return '""';
+        }
+        if ($invalidValue === null) {
+            return 'NULL';
+        }
         if (is_scalar($invalidValue)) {
             return $invalidValue;
         }
