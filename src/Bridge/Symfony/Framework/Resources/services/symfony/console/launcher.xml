@@ -15,6 +15,7 @@
                  class="Yokai\Batch\Bridge\Symfony\Console\RunCommandJobLauncher">
             <argument type="service" id="yokai_batch.job_execution_factory"/>
             <argument type="service" id="yokai_batch.util.command_runner"/>
+            <argument type="service" id="Yokai\Batch\Storage\JobExecutionStorageInterface"/>
             <argument>%yokai_batch.console.output_log_filename%</argument>
         </service>
     </services>
