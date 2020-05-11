@@ -4,6 +4,8 @@ namespace Yokai\Batch\Bridge\Doctrine\DBAL;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Schema\AbstractAsset;
+use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
 use Yokai\Batch\Exception\CannotStoreJobExecutionException;
 use Yokai\Batch\Exception\JobExecutionNotFoundException;
@@ -84,6 +86,11 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
     private $types;
 
     /**
+     * @var Schema
+     */
+    private $schema;
+
+    /**
      * @var JobExecutionRowNormalizer|null
      */
     private $normalizer;
@@ -118,84 +125,81 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
             $this->childExecutionsCol => Type::JSON,
             $this->logsCol => Type::TEXT,
         ];
+
+        $this->schema = new Schema();
+        $executionTable = $this->schema->createTable($this->table);
+        $executionTable->addColumn($this->idCol, Type::STRING)
+            ->setLength(128);
+        $executionTable->addColumn($this->jobNameCol, Type::STRING)
+            ->setLength(255);
+        $executionTable->addColumn($this->statusCol, Type::INTEGER);
+        $executionTable->addColumn($this->parametersCol, Type::JSON);
+        $executionTable->addColumn($this->startTimeCol, Type::DATETIME)
+            ->setNotnull(false);
+        $executionTable->addColumn($this->endTimeCol, Type::DATETIME)
+            ->setNotnull(false);
+        $executionTable->addColumn($this->summaryCol, Type::JSON);
+        $executionTable->addColumn($this->failuresCol, Type::JSON);
+        $executionTable->addColumn($this->warningsCol, Type::JSON);
+        $executionTable->addColumn($this->childExecutionsCol, Type::JSON);
+        $executionTable->addColumn($this->logsCol, Type::TEXT);
+        $executionTable->setPrimaryKey([$this->idCol]);
     }
 
-    public function createTable(): void
+    public function createSchema(): void
     {
-        $this->connection->exec(
-            $this->createTableSQL()
-        );
-    }
-
-    public function createTableSQL(): string
-    {
-        $platform = $this->connection->getDatabasePlatform()->getName();
-
-        switch ($platform) {
-            case 'mysql':
-                $json = $this->connection->getDatabasePlatform()->getJsonTypeDeclarationSQL([]);
-
-                return <<<SQL
-CREATE TABLE {$this->table} (
-    {$this->idCol} VARBINARY(128) NOT NULL PRIMARY KEY,
-    {$this->jobNameCol} VARCHAR (255) NOT NULL,
-    {$this->statusCol} INT NOT NULL,
-    {$this->parametersCol} {$json} NOT NULL,
-    {$this->startTimeCol} DATETIME DEFAULT NULL,
-    {$this->endTimeCol} DATETIME DEFAULT NULL,
-    {$this->summaryCol} {$json} NOT NULL,
-    {$this->failuresCol} {$json} NOT NULL,
-    {$this->warningsCol} {$json} NOT NULL,
-    {$this->childExecutionsCol} {$json} NOT NULL,
-    {$this->logsCol} TEXT NOT NULL
-)
-SQL;
-
-            case 'sqlite':
-                return <<<SQL
-CREATE TABLE {$this->table} (
-    {$this->idCol} VARCHAR(128) NOT NULL PRIMARY KEY,
-    {$this->jobNameCol} VARCHAR (255) NOT NULL,
-    {$this->statusCol} INT NOT NULL,
-    {$this->parametersCol} CLOB NOT NULL,
-    {$this->startTimeCol} DATETIME DEFAULT NULL,
-    {$this->endTimeCol} DATETIME DEFAULT NULL,
-    {$this->summaryCol} CLOB NOT NULL,
-    {$this->failuresCol} CLOB NOT NULL,
-    {$this->warningsCol} CLOB NOT NULL,
-    {$this->childExecutionsCol} CLOB NOT NULL,
-    {$this->logsCol} TEXT NOT NULL
-)
-SQL;
+        foreach ($this->createSchemaSql() as $sql) {
+            $this->connection->exec($sql);
         }
-
-        throw new \DomainException(
-            sprintf('Platform "%s" is not supported.', $platform->getName())
-        );
     }
 
-    public function dropTable(): void
+    public function createSchemaSql(): array
     {
-        $this->connection->exec(
-            $this->dropTableSQL()
-        );
+        $toSchema = $this->schema;
+
+        $config = $this->connection->getConfiguration();
+        $previousFilter = $config->getSchemaAssetsFilter();
+
+        $config->setSchemaAssetsFilter(function ($asset) use ($previousFilter, $toSchema) : bool {
+            $assetName = $asset instanceof AbstractAsset ? $asset->getName() : $asset;
+
+            return $toSchema->hasTable($assetName)
+                || $toSchema->hasSequence($assetName)
+                || ($previousFilter && $previousFilter($asset));
+        });
+
+        $fromSchema = $this->connection->getSchemaManager()->createSchema();
+
+        $config->setSchemaAssetsFilter($previousFilter);
+
+        return $fromSchema->getMigrateToSql($toSchema, $this->connection->getDatabasePlatform());
     }
 
-    public function dropTableSQL(): string
+    public function dropSchema(): void
+    {
+        foreach ($this->dropSchemaSql() as $sql) {
+            $this->connection->exec($sql);
+        }
+    }
+
+    public function dropSchemaSql(): array
     {
         $platform = $this->connection->getDatabasePlatform()->getName();
 
         switch ($platform) {
             case 'mysql':
             case 'sqlite':
-                return <<<SQL
+                $dropTable = <<<SQL
 DROP TABLE {$this->table}
 SQL;
+            break;
+            default:
+                throw new \DomainException(
+                    sprintf('Platform "%s" is not supported.', $platform)
+                );
         }
 
-        throw new \DomainException(
-            sprintf('Platform "%s" is not supported.', $platform)
-        );
+        return [$dropTable];
     }
 
     /**
