@@ -54,7 +54,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
         $schemaManager = $this->connection->getSchemaManager();
 
         self::assertFalse($schemaManager->tablesExist([self::TABLE]));
-        $this->createStorage()->createTable();
+        $this->createStorage()->createSchema();
         self::assertTrue($schemaManager->tablesExist([self::TABLE]));
 
         $columns = $schemaManager->listTableColumns(self::TABLE);
@@ -101,7 +101,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
         $schemaManager = $this->connection->getSchemaManager();
 
         self::assertFalse($schemaManager->tablesExist([$table]));
-        $this->createStorage($options)->createTable();
+        $this->createStorage($options)->createSchema();
         self::assertTrue($schemaManager->tablesExist([$table]));
 
         $columns = $schemaManager->listTableColumns($table);
@@ -111,7 +111,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
     public function testStoreInsert(): void
     {
         $storage = $this->createStorage();
-        $storage->createTable();
+        $storage->createSchema();
         $storage->store($execution = JobExecution::createRoot('123', 'export'));
 
         $retrievedExecution = $storage->retrieve('export', '123');
@@ -123,7 +123,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
     public function testStoreUpdate(): void
     {
         $storage = $this->createStorage();
-        $storage->createTable();
+        $storage->createSchema();
         $storage->store($execution = JobExecution::createRoot('123', 'export'));
         $execution->setStatus(BatchStatus::COMPLETED);
         $storage->store($execution);
@@ -137,7 +137,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
     public function testRetrieve(): void
     {
         $storage = $this->createStorage();
-        $storage->createTable();
+        $storage->createSchema();
         $storage->store(JobExecution::createRoot('123', 'export'));
         $storage->store(JobExecution::createRoot('456', 'import'));
 
@@ -156,7 +156,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
     public function testRetrieveNotFound(): void
     {
         $storage = $this->createStorage();
-        $storage->createTable();
+        $storage->createSchema();
         $storage->store(JobExecution::createRoot('123', 'export'));
 
         $storage->retrieve('export', '456');
@@ -165,7 +165,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
     public function testList(): void
     {
         $storage = $this->createStorage();
-        $storage->createTable();
+        $storage->createSchema();
         $this->loadFixtures($storage);
 
         self::assertExecutionIds(['123'], $storage->list('export'));
@@ -178,7 +178,7 @@ class DoctrineDBALJobExecutionStorageTest extends TestCase
     public function testQuery(QueryBuilder $queryBuilder, array $expected): void
     {
         $storage = $this->createStorage();
-        $storage->createTable();
+        $storage->createSchema();
         $this->loadFixtures($storage);
 
         self::assertExecutionIds($expected, $storage->query($queryBuilder->getQuery()));
