@@ -136,6 +136,8 @@ final class JobExecutionNormalizer implements
             'class' => $failure->getClass(),
             'message' => $failure->getMessage(),
             'code' => $failure->getCode(),
+            'file' => $failure->getFile(),
+            'line' => $failure->getLine(),
             'parameters' => $failure->getParameters(),
             'trace' => $failure->getTrace(),
         ];
@@ -147,6 +149,8 @@ final class JobExecutionNormalizer implements
             $array['class'],
             $array['message'],
             $array['code'],
+            $array['file'],
+            $array['line'],
             $array['parameters'],
             $array['trace']
         );

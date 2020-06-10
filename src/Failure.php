@@ -22,6 +22,16 @@ final class Failure
     private $code;
 
     /**
+     * @var string
+     */
+    private $file;
+
+    /**
+     * @var int
+     */
+    private $line;
+
+    /**
      * @var array
      */
     private $parameters;
@@ -35,6 +45,8 @@ final class Failure
      * @param string      $class
      * @param string      $message
      * @param int         $code
+     * @param string      $file
+     * @param int         $line
      * @param array       $parameters
      * @param string|null $trace
      */
@@ -42,12 +54,16 @@ final class Failure
         string $class,
         string $message,
         int $code,
+        string $file,
+        int $line,
         array $parameters = [],
         string $trace = null
     ) {
         $this->class = $class;
         $this->message = $message;
         $this->code = $code;
+        $this->file = $file;
+        $this->line = $line;
         $this->parameters = $parameters;
         $this->trace = $trace;
     }
@@ -64,6 +80,8 @@ final class Failure
             get_class($exception),
             $exception->getMessage(),
             $exception->getCode(),
+            $exception->getFile(),
+            $exception->getLine(),
             $parameters,
             $exception->getTraceAsString()
         );
@@ -99,6 +117,22 @@ final class Failure
     public function getCode(): int
     {
         return $this->code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFile(): string
+    {
+        return $this->file;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLine(): int
+    {
+        return $this->line;
     }
 
     /**
