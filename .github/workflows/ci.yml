@@ -37,5 +37,8 @@ jobs:
           composer require --no-update "symfony/validator:${SYMFONY_VERSION}"
           composer update --no-interaction --no-progress --no-suggest
 
+      - name: "Run checkstyle with squizlabs/php_codesniffer"
+        run: vendor/bin/phpcs
+
       - name: "Run tests with phpunit/phpunit"
         run: vendor/bin/phpunit
