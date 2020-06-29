@@ -29,12 +29,12 @@ jobs:
 
       - name: "Install dependencies with composer"
         run: |
-          composer require --no-update "symfony/console:${SYMFONY_VERSION}"
-          composer require --no-update "symfony/filesystem:${SYMFONY_VERSION}"
-          composer require --no-update "symfony/framework-bundle:${SYMFONY_VERSION}"
-          composer require --no-update "symfony/process:${SYMFONY_VERSION}"
-          composer require --no-update "symfony/serializer:${SYMFONY_VERSION}"
-          composer require --no-update "symfony/validator:${SYMFONY_VERSION}"
+          composer require --no-update "symfony/console:${{ matrix.symfony-version }}"
+          composer require --no-update "symfony/filesystem:${{ matrix.symfony-version }}"
+          composer require --no-update "symfony/framework-bundle:${{ matrix.symfony-version }}"
+          composer require --no-update "symfony/process:${{ matrix.symfony-version }}"
+          composer require --no-update "symfony/serializer:${{ matrix.symfony-version }}"
+          composer require --no-update "symfony/validator:${{ matrix.symfony-version }}"
           composer update --no-interaction --no-progress --no-suggest
 
       - name: "Run checkstyle with squizlabs/php_codesniffer"
