@@ -1,38 +1,41 @@
 name: Continuous Integration
 
 on:
-  pull_request:
+  pull_request: null
   push:
     branches:
-      - "master"
+      - "0.x"
 
 jobs:
   tests:
-    name: Tests
+    name: "Tests"
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        php-version:
-          - "7.2"
-          - "7.3"
-          - "7.4"
-
-        dependencies:
-          - "lowest"
-          - "highest"
+        include:
+          - php-version: 7.2
+            symfony-version: 4.4.*
+          - php-version: 7.4
+            symfony-version: 4.4.*
+          - php-version: 7.2
+            symfony-version: 5.1.*
+          - php-version: 7.4
+            symfony-version: 5.1.*
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2.0.0
+      - name: "Checkout"
+        uses: actions/checkout@v2.0.0
 
-    - name: Install lowest dependencies with composer
-      if: "matrix.dependencies == 'lowest'"
-      run: composer update --no-interaction --no-progress --no-suggest --prefer-lowest
+      - name: "Install dependencies with composer"
+        run: |
+          composer require --no-update "symfony/console:${SYMFONY_VERSION}"
+          composer require --no-update "symfony/filesystem:${SYMFONY_VERSION}"
+          composer require --no-update "symfony/framework-bundle:${SYMFONY_VERSION}"
+          composer require --no-update "symfony/process:${SYMFONY_VERSION}"
+          composer require --no-update "symfony/serializer:${SYMFONY_VERSION}"
+          composer require --no-update "symfony/validator:${SYMFONY_VERSION}"
+          composer update --no-interaction --no-progress --no-suggest
 
-    - name: Install highest dependencies with composer
-      if: "matrix.dependencies == 'highest'"
-      run: composer update --no-interaction --no-progress --no-suggest
-
-    - name: "Run tests with phpunit/phpunit"
-      run: vendor/bin/phpunit
+      - name: "Run tests with phpunit/phpunit"
+        run: vendor/bin/phpunit
