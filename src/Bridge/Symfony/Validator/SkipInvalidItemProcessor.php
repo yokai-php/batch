@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Bridge\Symfony\Validator;
 
@@ -40,7 +42,7 @@ final class SkipInvalidItemProcessor implements ItemProcessorInterface
         /** @var ConstraintViolationInterface $violation */
         foreach ($violations as $violation) {
             $issues[] = sprintf(
-                '%s: %s: %s'.PHP_EOL,
+                '%s: %s: %s' . PHP_EOL,
                 $violation->getPropertyPath(),
                 $violation->getMessage(),
                 $this->normalizeInvalidValue($violation->getInvalidValue())

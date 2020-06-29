@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Factory;
 
@@ -13,7 +15,7 @@ final class JobExecutionFactory
      *
      * @return JobExecution
      */
-    public function  create(string $name, array $configuration = []): JobExecution
+    public function create(string $name, array $configuration = []): JobExecution
     {
         $configuration['_id'] = $configuration['_id'] ?? uniqid();
 

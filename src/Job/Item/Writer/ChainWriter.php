@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Job\Item\Writer;
 
@@ -9,13 +11,14 @@ use Yokai\Batch\Job\Item\ItemWriterInterface;
 use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
 
-final class ChainWriter implements ItemWriterInterface,
+final class ChainWriter implements
+    ItemWriterInterface,
     InitializableInterface,
     FlushableInterface,
     JobExecutionAwareInterface
 {
-    use ElementConfiguratorTrait,
-        JobExecutionAwareTrait;
+    use ElementConfiguratorTrait;
+    use JobExecutionAwareTrait;
 
     /**
      * @var iterable|ItemWriterInterface[]
