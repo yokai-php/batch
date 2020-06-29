@@ -162,7 +162,7 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
         $config = $this->connection->getConfiguration();
         $previousFilter = $config->getSchemaAssetsFilter();
 
-        $config->setSchemaAssetsFilter(function ($asset) use ($previousFilter, $toSchema) : bool {
+        $config->setSchemaAssetsFilter(function ($asset) use ($previousFilter, $toSchema): bool {
             $assetName = $asset instanceof AbstractAsset ? $asset->getName() : $asset;
 
             return $toSchema->hasTable($assetName)
@@ -194,7 +194,7 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
                 $dropTable = <<<SQL
 DROP TABLE {$this->table}
 SQL;
-            break;
+                break;
             default:
                 throw new \DomainException(
                     sprintf('Platform "%s" is not supported.', $platform)
