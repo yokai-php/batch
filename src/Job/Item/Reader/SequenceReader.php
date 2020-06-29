@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Job\Item\Reader;
 
@@ -15,8 +17,8 @@ final class SequenceReader implements
     FlushableInterface,
     JobExecutionAwareInterface
 {
-    use ElementConfiguratorTrait,
-        JobExecutionAwareTrait;
+    use ElementConfiguratorTrait;
+    use JobExecutionAwareTrait;
 
     /**
      * @var iterable|ItemReaderInterface[]

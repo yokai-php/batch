@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Storage;
 
@@ -28,7 +30,7 @@ final class NullJobExecutionStorage implements JobExecutionStorageInterface
     public function retrieve(string $jobName, string $executionId): JobExecution
     {
         try {
-            throw new \LogicException(__CLASS__.' is not able to retrieve any job execution.');
+            throw new \LogicException(__CLASS__ . ' is not able to retrieve any job execution.');
         } catch (\Throwable $exception) {
             throw new JobExecutionNotFoundException($jobName, $executionId, $exception);
         }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Bridge\Symfony\Framework\DependencyInjection;
 
@@ -57,7 +59,7 @@ final class YokaiBatchExtension extends Extension
 
     private function getLoader(ContainerBuilder $container): ConfigLoader\LoaderInterface
     {
-        $locator = new FileLocator(__DIR__.'/../Resources/services');
+        $locator = new FileLocator(__DIR__ . '/../Resources/services');
         $resolver = new ConfigLoader\LoaderResolver(
             [
                 new DependencyInjectionLoader\XmlFileLoader($container, $locator),

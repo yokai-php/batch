@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Bridge\Doctrine\DBAL;
 
@@ -309,7 +311,7 @@ SQL;
 
         $conditions = '';
         if (count($queryConditions) > 0) {
-            $conditions = 'WHERE '.implode(' AND ', $queryConditions);
+            $conditions = 'WHERE ' . implode(' AND ', $queryConditions);
         }
 
         $order = '';
