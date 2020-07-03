@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Bridge\Doctrine\DBAL;
 
@@ -160,7 +162,7 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
         $config = $this->connection->getConfiguration();
         $previousFilter = $config->getSchemaAssetsFilter();
 
-        $config->setSchemaAssetsFilter(function ($asset) use ($previousFilter, $toSchema) : bool {
+        $config->setSchemaAssetsFilter(function ($asset) use ($previousFilter, $toSchema): bool {
             $assetName = $asset instanceof AbstractAsset ? $asset->getName() : $asset;
 
             return $toSchema->hasTable($assetName)
@@ -192,7 +194,7 @@ final class DoctrineDBALJobExecutionStorage implements QueryableJobExecutionStor
                 $dropTable = <<<SQL
 DROP TABLE {$this->table}
 SQL;
-            break;
+                break;
             default:
                 throw new \DomainException(
                     sprintf('Platform "%s" is not supported.', $platform)
@@ -309,7 +311,7 @@ SQL;
 
         $conditions = '';
         if (count($queryConditions) > 0) {
-            $conditions = 'WHERE '.implode(' AND ', $queryConditions);
+            $conditions = 'WHERE ' . implode(' AND ', $queryConditions);
         }
 
         $order = '';

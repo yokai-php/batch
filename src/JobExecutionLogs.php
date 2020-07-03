@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch;
 
@@ -21,6 +23,6 @@ final class JobExecutionLogs
 
     public function log(string $message): void
     {
-        $this->logs .= $message.PHP_EOL;
+        $this->logs .= $message . PHP_EOL;
     }
 }

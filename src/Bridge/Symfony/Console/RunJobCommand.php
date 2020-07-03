@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Bridge\Symfony\Console;
 
@@ -13,9 +15,9 @@ use Yokai\Batch\Launcher\JobLauncherInterface;
 
 final class RunJobCommand extends Command
 {
-    const EXIT_SUCCESS_CODE = 0;
-    const EXIT_ERROR_CODE = 1;
-    const EXIT_WARNING_CODE = 2;
+    public const EXIT_SUCCESS_CODE = 0;
+    public const EXIT_ERROR_CODE = 1;
+    public const EXIT_WARNING_CODE = 2;
 
     /**
      * @var JobLauncherInterface

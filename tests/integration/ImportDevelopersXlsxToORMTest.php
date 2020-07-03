@@ -3,7 +3,7 @@
 namespace Yokai\Batch\Tests\Integration;
 
 use Box\Spout\Common\Type;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;

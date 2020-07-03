@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yokai\Batch\Storage;
 
@@ -104,7 +106,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
     public function query(Query $query): iterable
     {
         $candidates = [];
-        $glob = new \GlobIterator(implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']).'.'.$this->extension);
+        $glob = new \GlobIterator(implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->extension);
         foreach ($glob as $file) {
             try {
                 $execution = $this->fileToExecution($file->getRealPath());
@@ -174,7 +176,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
      */
     public function buildFilePath(string $jobName, string $executionId): string
     {
-        return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]).'.'.$this->extension;
+        return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) . '.' . $this->extension;
     }
 
     private function executionToFile(JobExecution $execution): void

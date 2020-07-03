@@ -2,7 +2,7 @@
 
 namespace Yokai\Batch\Tests\Unit\Bridge\Doctrine\Orm;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
