@@ -1,8 +1,15 @@
 # Yokai Batch
 
-[![Build Status](https://travis-ci.org/yokai-php/batch.svg?branch=master)](https://travis-ci.org/yokai-php/batch)
+[![Latest Stable Version](https://poser.pugx.org/yokai/batch/v/stable)](https://packagist.org/packages/yokai/batch)
+[![Latest Unstable Version](https://poser.pugx.org/yokai/batch/v/unstable)](https://packagist.org/packages/yokai/batch)
+[![Total Downloads](https://poser.pugx.org/yokai/batch/downloads)](https://packagist.org/packages/yokai/batch)
+[![License](https://poser.pugx.org/yokai/batch/license)](https://packagist.org/packages/yokai/batch)
 
-todo badges
+
+## Development
+
+:warning: **this library is following semver, but in the early stages of development, you should stick to a `0.[minor].*` requirement, because we may decide to  break things in minor versions** :warning:
+
 
 ## Introduction
 
