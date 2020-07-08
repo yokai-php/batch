@@ -23,6 +23,7 @@
     "symfony/console": "^4.4",
     "symfony/filesystem": "^4.4",
     "symfony/framework-bundle": "^4.4",
+    "symfony/messenger": "^4.4",
     "symfony/process": "^4.4",
     "symfony/serializer": "^4.4",
     "symfony/validator": "^4.4"
@@ -33,6 +34,7 @@
     "symfony/console": "Add command to trigger jobs and async job launcher via command (^4.4)",
     "symfony/filesystem": "Store job executions to filesystem (^4.4)",
     "symfony/framework-bundle": "Integrate to Symfony framework via a bundle (^4.4)",
+    "symfony/messenger": "Trigger jobs using message dispatch (^4.4)",
     "symfony/process": "Used to determine PHP bin location when using command job launcher (^4.4)",
     "symfony/serializer": "Process items using (de)normalization, serialize job execution for certain storages (^4.4)",
     "symfony/validator": "Skip invalid items during process (^4.4)"
@@ -43,6 +45,7 @@
     "symfony/console": "<4.4",
     "symfony/filesystem": "<4.4",
     "symfony/framework-bundle": "<4.4",
+    "symfony/messenger": "<4.4",
     "symfony/process": "<4.4",
     "symfony/serializer": "<4.4",
     "symfony/validator": "<4.4"

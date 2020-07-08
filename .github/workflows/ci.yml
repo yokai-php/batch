@@ -32,6 +32,7 @@ jobs:
           composer require --no-update "symfony/console:${{ matrix.symfony-version }}"
           composer require --no-update "symfony/filesystem:${{ matrix.symfony-version }}"
           composer require --no-update "symfony/framework-bundle:${{ matrix.symfony-version }}"
+          composer require --no-update "symfony/messenger:${{ matrix.symfony-version }}"
           composer require --no-update "symfony/process:${{ matrix.symfony-version }}"
           composer require --no-update "symfony/serializer:${{ matrix.symfony-version }}"
           composer require --no-update "symfony/validator:${{ matrix.symfony-version }}"

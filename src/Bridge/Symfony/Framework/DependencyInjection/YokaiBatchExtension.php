@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Loader as DependencyInjectionLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Yokai\Batch\Bridge\Doctrine\DBAL\DoctrineDBALJobExecutionStorage;
@@ -40,6 +41,7 @@ final class YokaiBatchExtension extends Extension
             'doctrine/orm/' => isset($bundles['DoctrineBundle']),
             'doctrine/mongodb/' => isset($bundles['DoctrineMongoDBBundle']),
             'symfony/console/' => class_exists(Application::class),
+            'symfony/messenger/' => class_exists(MessageBusInterface::class),
             'symfony/serializer/' => interface_exists(SerializerInterface::class),
             'symfony/validator/' => interface_exists(ValidatorInterface::class),
         ];
@@ -51,7 +53,9 @@ final class YokaiBatchExtension extends Extension
         $this->configureStorage($container, $config['storage']);
 
         $launcher = 'yokai_batch.job_launcher.simple';
-        if (class_exists(Application::class)) {
+        if (class_exists(MessageBusInterface::class)) {
+            $launcher = 'yokai_batch.job_launcher.dispatch_message';
+        } elseif (class_exists(Application::class)) {
             $launcher = 'yokai_batch.job_launcher.run_command';
         }
         $container->setAlias(JobLauncherInterface::class, $launcher);
