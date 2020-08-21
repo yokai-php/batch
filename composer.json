@@ -1,0 +1,22 @@
+{
+  "name": "yokai/batch",
+  "description": "Batch architecture library inspired by Akeneo Batch",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Yann Eugoné",
+      "email": "eugone.yann@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.2",
+    "ext-json": "*",
+    "psr/container": "^1.0",
+    "psr/event-dispatcher": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Yokai\\Batch\\": "src/"
+    }
+  }
+}
