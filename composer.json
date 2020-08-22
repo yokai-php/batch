@@ -1,6 +1,7 @@
 {
   "name": "yokai/batch",
   "description": "Batch architecture library inspired by Akeneo Batch",
+  "keywords": ["batch", "job", "execution", "reader", "writer", "processor"],
   "license": "MIT",
   "authors": [
     {
@@ -19,5 +20,16 @@
     "psr-4": {
       "Yokai\\Batch\\": "src/"
     }
+  },
+  "suggest": {
+    "yokai/batch-box-spout": "Read/Write from/to CSV/ODS/XLSX",
+    "yokai/batch-doctrine-dbal": "Store jobs executions in a relational database",
+    "yokai/batch-doctrine-orm": "Read from Doctrine ORM entities",
+    "yokai/batch-doctrine-persistence": "Write to Doctrine objects to managers",
+    "yokai/batch-symfony-console": "Add command to trigger jobs and async job launcher via command",
+    "yokai/batch-symfony-framework": "Integrate to Symfony framework via a bundle",
+    "yokai/batch-symfony-messenger": "Trigger jobs using message dispatch",
+    "yokai/batch-symfony-serializer": "Process items using (de)normalization, serialize job execution for certain storages",
+    "yokai/batch-symfony-validator": "Skip invalid items during process"
   }
 }
