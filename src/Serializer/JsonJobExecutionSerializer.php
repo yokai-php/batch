@@ -34,7 +34,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
      */
     public function unserialize(string $serializedJobExecution): JobExecution
     {
-        $data = \json_decode($serializedJobExecution);
+        $data = \json_decode($serializedJobExecution, true);
         if (!\is_array($data)) {
             throw new InvalidArgumentException();//todo
         }
