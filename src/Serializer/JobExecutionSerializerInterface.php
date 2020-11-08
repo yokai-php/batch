@@ -19,4 +19,9 @@ interface JobExecutionSerializerInterface
      * @return JobExecution
      */
     public function unserialize(string $serializedJobExecution): JobExecution;
+
+    /**
+     * @return string
+     */
+    public function extension(): string;
 }

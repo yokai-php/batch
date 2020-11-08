@@ -24,20 +24,13 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
     private $directory;
 
     /**
-     * @var string
-     */
-    private $extension;
-
-    /**
      * @param JobExecutionSerializerInterface $serializer
      * @param string                          $directory
-     * @param string                          $extension
      */
-    public function __construct(JobExecutionSerializerInterface $serializer, string $directory, string $extension)
+    public function __construct(JobExecutionSerializerInterface $serializer, string $directory)
     {
         $this->serializer = $serializer;
         $this->directory = $directory;
-        $this->extension = $extension;
     }
 
     /**
@@ -106,7 +99,9 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
     public function query(Query $query): iterable
     {
         $candidates = [];
-        $glob = new \GlobIterator(implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->extension);
+        $glob = new \GlobIterator(
+            implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->serializer->extension()
+        );
         foreach ($glob as $file) {
             try {
                 $execution = $this->fileToExecution($file->getRealPath());
@@ -176,7 +171,8 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
      */
     public function buildFilePath(string $jobName, string $executionId): string
     {
-        return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) . '.' . $this->extension;
+        return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) .
+            '.' . $this->serializer->extension();
     }
 
     private function executionToFile(JobExecution $execution): void
