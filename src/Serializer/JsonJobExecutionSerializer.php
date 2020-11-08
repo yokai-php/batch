@@ -4,6 +4,8 @@ namespace Yokai\Batch\Serializer;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use InvalidArgumentException;
+use LogicException;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Failure;
 use Yokai\Batch\JobExecution;
@@ -19,7 +21,12 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
      */
     public function serialize(JobExecution $jobExecution): string
     {
-        return \json_encode($this->toArray($jobExecution), \JSON_THROW_ON_ERROR);
+        $json = \json_encode($this->toArray($jobExecution));
+        if (!\is_string($json)) {
+            throw new LogicException();//todo
+        }
+
+        return $json;
     }
 
     /**
@@ -27,7 +34,12 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
      */
     public function unserialize(string $serializedJobExecution): JobExecution
     {
-        return $this->fromArray(\json_decode($serializedJobExecution, \JSON_THROW_ON_ERROR));
+        $data = \json_decode($serializedJobExecution);
+        if (!\is_array($data)) {
+            throw new InvalidArgumentException();//todo
+        }
+
+        return $this->fromArray($data);
     }
 
     /**
