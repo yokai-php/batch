@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Exception;
 
-use DomainException;
 use Throwable;
 
-class JobExecutionNotFoundException extends DomainException
+class JobExecutionNotFoundException extends \InvalidArgumentException implements ExceptionInterface
 {
     /**
      * @param string         $jobName

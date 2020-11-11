@@ -7,6 +7,7 @@ namespace Yokai\Batch\Storage;
 use Throwable;
 use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
 use Yokai\Batch\Exception\CannotStoreJobExecutionException;
+use Yokai\Batch\Exception\FilesystemException;
 use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Serializer\JobExecutionSerializerInterface;
@@ -53,10 +54,10 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         try {
             $path = $this->buildFilePath($execution->getJobName(), $execution->getId());
             if (!file_exists($path)) {
-                throw new \RuntimeException(sprintf('File "%s" does not exists.', $path));
+                throw FilesystemException::fileNotFound($path);
             }
             if (!@unlink($path)) {
-                throw new \RuntimeException(sprintf('Unable to remove file "%s".', $path));
+                throw FilesystemException::cannotRemoveFile($path);
             }
         } catch (Throwable $exception) {
             throw new CannotRemoveJobExecutionException($execution->getJobName(), $execution->getId(), $exception);
@@ -180,25 +181,25 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         $path = $this->buildFilePath($execution->getJobName(), $execution->getId());
         $dir = dirname($path);
         if (!is_dir($dir) && false === @mkdir($dir, 0777, true)) {
-            throw new \RuntimeException(sprintf('Cannot create dir "%s".', $path));
+            throw FilesystemException::cannotCreateDir($path);
         }
 
         $content = $this->serializer->serialize($execution);
 
         if (false === file_put_contents($path, $content)) {
-            throw new \RuntimeException(sprintf('Cannot write content to file "%s".', $path));
+            throw FilesystemException::cannotWriteFile($path);
         }
     }
 
     private function fileToExecution(string $file): JobExecution
     {
         if (!file_exists($file)) {
-            throw new \RuntimeException(sprintf('File "%s" does not exists.', $file));
+            throw FilesystemException::fileNotFound($file);
         }
 
         $content = @file_get_contents($file);
         if ($content === false) {
-            throw new \RuntimeException(sprintf('Cannot read "%s" file content.', $file));
+            throw FilesystemException::cannotReadFile($file);
         }
 
         return $this->serializer->unserialize($content);

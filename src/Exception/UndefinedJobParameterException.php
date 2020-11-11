@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Exception;
 
-use DomainException;
-
-class UndefinedJobParameterException extends DomainException
+class UndefinedJobParameterException extends InvalidArgumentException
 {
     /**
      * @param string $name

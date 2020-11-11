@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Exception;
 
-use DomainException;
 use Throwable;
 
-class CannotRemoveJobExecutionException extends DomainException
+class CannotRemoveJobExecutionException extends RuntimeException
 {
     /**
      * @param string         $jobName
@@ -18,7 +17,6 @@ class CannotRemoveJobExecutionException extends DomainException
     {
         parent::__construct(
             sprintf('Cannot remove job execution "%s" of job "%s"', $executionId, $jobName),
-            0,
             $previous
         );
     }

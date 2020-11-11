@@ -4,9 +4,11 @@ namespace Yokai\Batch\Serializer;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use InvalidArgumentException;
-use LogicException;
+use Exception;
+use Throwable;
 use Yokai\Batch\BatchStatus;
+use Yokai\Batch\Exception\RuntimeException;
+use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Failure;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobExecutionLogs;
@@ -21,9 +23,16 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
      */
     public function serialize(JobExecution $jobExecution): string
     {
-        $json = \json_encode($this->toArray($jobExecution));
-        if (!\is_string($json)) {
-            throw new LogicException();//todo
+        try {
+            $json = \json_encode($this->toArray($jobExecution));
+            if (!\is_string($json) || \json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception(\json_last_error_msg());
+            }
+        } catch (Throwable $exception) {
+            throw RuntimeException::error(
+                $exception,
+                'Cannot serialize job execution to JSON.'
+            );
         }
 
         return $json;
@@ -34,12 +43,22 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
      */
     public function unserialize(string $serializedJobExecution): JobExecution
     {
-        $data = \json_decode($serializedJobExecution, true);
-        if (!\is_array($data)) {
-            throw new InvalidArgumentException();//todo
-        }
+        try {
+            $data = \json_decode($serializedJobExecution, true);
+            if (\json_last_error() !== \JSON_ERROR_NONE) {
+                throw new Exception(null, \json_last_error_msg());
+            }
+            if (!\is_array($data)) {
+                throw UnexpectedValueException::type('array', $data);
+            }
 
-        return $this->fromArray($data);
+            return $this->fromArray($data);
+        } catch (Throwable $exception) {
+            throw RuntimeException::error(
+                $exception,
+                'Cannot unserialize job execution from JSON.'
+            );
+        }
     }
 
     /**
@@ -122,9 +141,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
 
         $dateObject = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, $date);
         if ($dateObject === false) {
-            throw new \RuntimeException(
-                sprintf('Expecting a ISO8601 (%s) date. Got "%s"', DateTimeInterface::ISO8601, $date)
-            );
+            throw UnexpectedValueException::date(DateTimeInterface::ISO8601, $date);
         }
 
         return $dateObject;

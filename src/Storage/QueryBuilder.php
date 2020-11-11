@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yokai\Batch\Storage;
 
 use Yokai\Batch\BatchStatus;
+use Yokai\Batch\Exception\UnexpectedValueException;
 
 final class QueryBuilder
 {
@@ -59,7 +60,7 @@ final class QueryBuilder
         $names = array_unique($names);
         foreach ($names as $name) {
             if (!is_string($name)) {
-                throw new \InvalidArgumentException();//todo
+                throw UnexpectedValueException::type('string', $name);
             }
         }
 
@@ -73,7 +74,7 @@ final class QueryBuilder
         $ids = array_unique($ids);
         foreach ($ids as $id) {
             if (!is_string($id)) {
-                throw new \InvalidArgumentException();//todo
+                throw UnexpectedValueException::type('string', $id);
             }
         }
 
@@ -87,7 +88,7 @@ final class QueryBuilder
         $statuses = array_unique($statuses);
         foreach ($statuses as $status) {
             if (!in_array($status, self::STATUSES_ENUM, true)) {
-                throw new \InvalidArgumentException();//todo
+                throw UnexpectedValueException::enum(self::STATUSES_ENUM, $status);
             }
         }
 
@@ -99,7 +100,7 @@ final class QueryBuilder
     public function sort(string $by): self
     {
         if (!in_array($by, self::SORTS_ENUM, true)) {
-            throw new \InvalidArgumentException();//todo
+            throw UnexpectedValueException::enum(self::SORTS_ENUM, $by);
         }
 
         $this->sortBy = $by;
@@ -110,10 +111,10 @@ final class QueryBuilder
     public function limit(int $limit, int $offset): self
     {
         if ($limit <= 0) {
-            throw new \InvalidArgumentException();//todo
+            throw UnexpectedValueException::range(0, null, $limit);
         }
         if ($offset < 0) {
-            throw new \InvalidArgumentException();//todo
+            throw UnexpectedValueException::range(0, null, $limit);
         }
 
         $this->limit = $limit;

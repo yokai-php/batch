@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Exception;
 
-use DomainException;
 use Throwable;
 
-class CannotStoreJobExecutionException extends DomainException
+class CannotStoreJobExecutionException extends RuntimeException
 {
     /**
      * @param string         $jobName
@@ -18,7 +17,6 @@ class CannotStoreJobExecutionException extends DomainException
     {
         parent::__construct(
             sprintf('Cannot store job execution "%s" of job "%s"', $executionId, $jobName),
-            0,
             $previous
         );
     }
