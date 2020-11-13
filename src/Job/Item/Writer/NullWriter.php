@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yokai\Batch\Job\Item\Writer;
 
 use Yokai\Batch\Job\Item\ItemWriterInterface;
