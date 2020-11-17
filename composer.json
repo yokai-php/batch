@@ -21,6 +21,16 @@
       "Yokai\\Batch\\": "src/"
     }
   },
+  "require-dev": {
+    "phpspec/prophecy-phpunit": "^2.0",
+    "phpunit/phpunit": "^9.4",
+    "symfony/filesystem": "^4.4|^5.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Yokai\\Batch\\Tests\\": "tests/"
+    }
+  },
   "suggest": {
     "yokai/batch-box-spout": "Read/Write from/to CSV/ODS/XLSX",
     "yokai/batch-doctrine-dbal": "Store jobs executions in a relational database",
