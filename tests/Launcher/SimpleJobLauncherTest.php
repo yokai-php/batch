@@ -10,6 +10,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Yokai\Batch\Factory\JobExecutionFactory;
+use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
 use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Launcher\SimpleJobLauncher;
@@ -44,7 +45,7 @@ class SimpleJobLauncherTest extends TestCase
         $container->get('export')->willReturn($job->reveal());
 
         $jobRegistry = new JobRegistry($container->reveal());
-        $jobExecutionFactory = new JobExecutionFactory();
+        $jobExecutionFactory = new JobExecutionFactory(new UniqidJobExecutionIdGenerator());
         $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
 
         $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
@@ -73,7 +74,7 @@ class SimpleJobLauncherTest extends TestCase
         $container->get('export')->willReturn($job->reveal());
 
         $jobRegistry = new JobRegistry($container->reveal());
-        $jobExecutionFactory = new JobExecutionFactory();
+        $jobExecutionFactory = new JobExecutionFactory(new UniqidJobExecutionIdGenerator());
         $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
 
         $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
@@ -100,7 +101,7 @@ class SimpleJobLauncherTest extends TestCase
         $container->get('export')->willReturn($job->reveal());
 
         $jobRegistry = new JobRegistry($container->reveal());
-        $jobExecutionFactory = new JobExecutionFactory();
+        $jobExecutionFactory = new JobExecutionFactory(new UniqidJobExecutionIdGenerator());
         $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
 
         $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
