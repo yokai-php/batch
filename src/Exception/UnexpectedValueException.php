@@ -13,11 +13,18 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
         parent::__construct(($base ? \rtrim($base, '. ') . '. ' : '') . $message, 0, $previous);
     }
 
+    /**
+     * @param string      $expected
+     * @param mixed       $argument
+     * @param string|null $message
+     *
+     * @return self
+     */
     public static function type(string $expected, $argument, string $message = null): self
     {
         $type = \is_object($argument) ? \get_class($argument) : \gettype($argument);
 
-        return new static(
+        return new self(
             $message,
             \sprintf(
                 'Expecting argument to be %s, but got %s.',
@@ -27,9 +34,16 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
         );
     }
 
+    /**
+     * @param array       $expected
+     * @param mixed       $argument
+     * @param string|null $message
+     *
+     * @return self
+     */
     public static function enum(array $expected, $argument, string $message = null): self
     {
-        return new static(
+        return new self(
             $message,
             \sprintf(
                 'Expecting argument to be one of "%s", but got %s.',
@@ -45,7 +59,7 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
      * @param int|float|null $argument [PHP 8] Convert to union type
      * @param string|null    $message
      *
-     * @return static
+     * @return self
      */
     public static function range($min, $max, $argument, string $message = null): self
     {
@@ -72,12 +86,19 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
             throw new \BadMethodCallException('You must provide at least $min or $max');
         }
 
-        return new static($message, $errorMessage);
+        return new self($message, $errorMessage);
     }
 
+    /**
+     * @param string      $expected
+     * @param mixed       $argument
+     * @param string|null $message
+     *
+     * @return self
+     */
     public static function date(string $expected, $argument, string $message = null): self
     {
-        return new static(
+        return new self(
             $message,
             sprintf('Expecting a date with format "%s". Got "%s"', $expected, $argument)
         );

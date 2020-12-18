@@ -48,7 +48,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
         try {
             $data = \json_decode($serializedJobExecution, true);
             if (\json_last_error() !== \JSON_ERROR_NONE) {
-                throw new Exception(null, \json_last_error_msg());
+                throw new Exception(\json_last_error_msg());
             }
             if (!\is_array($data)) {
                 throw UnexpectedValueException::type('array', $data);
