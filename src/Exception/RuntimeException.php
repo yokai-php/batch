@@ -15,7 +15,7 @@ class RuntimeException extends \RuntimeException implements ExceptionInterface
 
     public static function error(Throwable $error, string $message = null): self
     {
-        return new static(
+        return new self(
             \sprintf('%sAn error occurred.', $message ? \rtrim($message, '. ') . '. ' : ''),
             $error
         );

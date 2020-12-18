@@ -87,7 +87,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         /** @var \SplFileInfo $file */
         foreach ($glob as $file) {
             try {
-                yield $this->fileToExecution($file->getRealPath());
+                yield $this->fileToExecution($file->getPathname());
             } catch (Throwable $exception) {
                 // todo should we do something
             }
@@ -103,9 +103,10 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         $glob = new \GlobIterator(
             implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->serializer->extension()
         );
+        /** @var \SplFileInfo $file */
         foreach ($glob as $file) {
             try {
-                $execution = $this->fileToExecution($file->getRealPath());
+                $execution = $this->fileToExecution($file->getPathname());
             } catch (Throwable $exception) {
                 // todo should we do something
                 continue;
