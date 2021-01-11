@@ -12,7 +12,7 @@ final class JobExecutionFactory
     /**
      * @var JobExecutionIdGeneratorInterface
      */
-    private JobExecutionIdGeneratorInterface $idGenerator;
+    private $idGenerator;
 
     /**
      * @param JobExecutionIdGeneratorInterface $idGenerator
