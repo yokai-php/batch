@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item;
 
+use Generator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -39,7 +40,7 @@ class ItemJobTest extends TestCase
         $this->configureItemElement($reader, 'reader', $log);
         $reader->read()
             ->shouldBeCalledTimes(1)
-            ->will(function () {
+            ->will(function (): Generator {
                 yield from [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
             });
 
@@ -48,7 +49,7 @@ class ItemJobTest extends TestCase
         $this->configureItemElement($processor, 'processor', $log);
         $processor->process(Argument::type('int'))
             ->shouldBeCalledTimes(12)
-            ->will(function (array $args) {
+            ->will(function (array $args): int {
                 if ($args[0] > 9) {
                     throw new InvalidItemException('Item is greater than 9 got {value}', ['{value}' => $args[0]]);
                 }

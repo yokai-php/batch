@@ -11,7 +11,7 @@ class InvalidItemException extends \RuntimeException
     /**
      * @var array
      */
-    private $parameters;
+    private array $parameters;
 
     public function __construct(string $message, array $parameters = [], int $code = 0, Throwable $previous = null)
     {

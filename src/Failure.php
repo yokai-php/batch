@@ -11,27 +11,27 @@ final class Failure
     /**
      * @var string
      */
-    private $class;
+    private string $class;
 
     /**
      * @var string
      */
-    private $message;
+    private string $message;
 
     /**
      * @var int
      */
-    private $code;
+    private int $code;
 
     /**
      * @var array
      */
-    private $parameters;
+    private array $parameters;
 
     /**
      * @var string|null
      */
-    private $trace;
+    private ?string $trace;
 
     /**
      * @param string      $class

@@ -28,32 +28,32 @@ final class QueryBuilder
     /**
      * @var string[]
      */
-    private $jobNames = [];
+    private array $jobNames = [];
 
     /**
      * @var string[]
      */
-    private $ids = [];
+    private array $ids = [];
 
     /**
      * @var int[]
      */
-    private $statuses = [];
+    private array $statuses = [];
 
     /**
      * @var string|null
      */
-    private $sortBy = null;
+    private ?string $sortBy = null;
 
     /**
      * @var int
      */
-    private $limit = 10;
+    private int $limit = 10;
 
     /**
      * @var int
      */
-    private $offset = 0;
+    private int $offset = 0;
 
     public function jobs(array $names): self
     {

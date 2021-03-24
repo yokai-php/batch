@@ -11,7 +11,7 @@ class JobEvent
     /**
      * @var JobExecution
      */
-    private $execution;
+    private JobExecution $execution;
 
     public function __construct(JobExecution $execution)
     {

@@ -23,7 +23,7 @@ final class SequenceReader implements
     /**
      * @var iterable|ItemReaderInterface[]
      */
-    private $readers;
+    private iterable $readers;
 
     /**
      * @param iterable|ItemReaderInterface[] $readers

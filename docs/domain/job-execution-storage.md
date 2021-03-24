@@ -9,7 +9,7 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 class InMemoryJobExecutionStorage implements JobExecutionStorageInterface
 {
-    private $memory = [];
+    private array$memory = [];
 
     public function store(JobExecution $execution) : void
     {

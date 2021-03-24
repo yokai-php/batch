@@ -30,7 +30,7 @@ final class JobExecutionFactory
      */
     public function create(string $name, array $configuration = []): JobExecution
     {
-        $configuration['_id'] = $configuration['_id'] ?? $this->idGenerator->generate();
+        $configuration['_id'] ??= $this->idGenerator->generate();
 
         return JobExecution::createRoot($configuration['_id'], $name, null, new JobParameters($configuration));
     }

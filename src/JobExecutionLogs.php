@@ -9,7 +9,7 @@ final class JobExecutionLogs
     /**
      * @var string
      */
-    private $logs;
+    private string $logs;
 
     public function __construct(string $logs = '')
     {

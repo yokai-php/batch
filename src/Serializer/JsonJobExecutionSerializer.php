@@ -129,7 +129,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     private function dateToString(?DateTimeInterface $date): ?string
     {
         if ($date === null) {
-            return $date;
+            return null;
         }
 
         return $date->format(DateTimeInterface::ISO8601);
@@ -138,7 +138,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     private function stringToDate(?string $date): ?DateTimeInterface
     {
         if ($date === null) {
-            return $date;
+            return null;
         }
 
         $dateObject = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, $date);

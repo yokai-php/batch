@@ -21,22 +21,22 @@ class SimpleJobLauncher implements JobLauncherInterface
     /**
      * @var JobRegistry
      */
-    private $jobRegistry;
+    private JobRegistry $jobRegistry;
 
     /**
      * @var JobExecutionFactory
      */
-    private $jobExecutionFactory;
+    private JobExecutionFactory $jobExecutionFactory;
 
     /**
      * @var JobExecutionStorageInterface
      */
-    private $jobExecutionStorage;
+    private JobExecutionStorageInterface $jobExecutionStorage;
 
     /**
      * @var EventDispatcherInterface|null
      */
-    private $eventDispatcher;
+    private ?EventDispatcherInterface $eventDispatcher;
 
     /**
      * @param JobRegistry                   $jobRegistry

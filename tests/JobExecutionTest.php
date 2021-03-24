@@ -134,12 +134,8 @@ class JobExecutionTest extends TestCase
 
     public function testManipulatesFailures()
     {
-        $failureMessage = function (Failure $failure): string {
-            return $failure->getMessage();
-        };
-        $failureToString = function (Failure $failure): string {
-            return (string)$failure;
-        };
+        $failureMessage = fn(Failure $failure): string => $failure->getMessage();
+        $failureToString = fn(Failure $failure): string => (string)$failure;
 
         $jobExecution = JobExecution::createRoot('123456789', 'export');
         self::assertSame([], array_map($failureMessage, $jobExecution->getFailures()));
@@ -166,12 +162,8 @@ class JobExecutionTest extends TestCase
 
     public function testManipulatesWarnings()
     {
-        $warningMessage = function (Warning $warning): string {
-            return $warning->getMessage();
-        };
-        $warningToString = function (Warning $warning): string {
-            return (string)$warning;
-        };
+        $warningMessage = fn(Warning $warning): string => $warning->getMessage();
+        $warningToString = fn(Warning $warning): string => (string)$warning;
 
         $jobExecution = JobExecution::createRoot('123456789', 'export');
         self::assertSame([], array_map($warningMessage, $jobExecution->getWarnings()));

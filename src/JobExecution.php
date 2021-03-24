@@ -16,67 +16,67 @@ final class JobExecution
     /**
      * @var string
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
      */
-    private $jobName;
+    private string $jobName;
 
     /**
      * @var BatchStatus
      */
-    private $status;
+    private BatchStatus $status;
 
     /**
      * @var DateTimeInterface|null
      */
-    private $startTime;
+    private ?DateTimeInterface $startTime = null;
 
     /**
      * @var DateTimeInterface|null
      */
-    private $endTime;
+    private ?DateTimeInterface $endTime = null;
 
     /**
      * @var Failure[]
      */
-    private $failures = [];
+    private array $failures = [];
 
     /**
      * @var Warning[]
      */
-    private $warnings = [];
+    private array $warnings = [];
 
     /**
      * @var Summary
      */
-    private $summary;
+    private Summary $summary;
 
     /**
      * @var JobParameters
      */
-    private $parameters;
+    private JobParameters $parameters;
 
     /**
      * @var null|JobExecution
      */
-    private $parentExecution;
+    private ?JobExecution $parentExecution;
 
     /**
      * @var JobExecution[]
      */
-    private $childExecutions = [];
+    private array $childExecutions = [];
 
     /**
      * @var JobExecutionLogs
      */
-    private $logs;
+    private JobExecutionLogs $logs;
 
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @param null|JobExecution     $parentExecution

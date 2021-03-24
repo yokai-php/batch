@@ -11,7 +11,7 @@ trait SummaryAwareTrait
     /**
      * @var Summary
      */
-    private $summary;
+    private Summary $summary;
 
     /**
      * @param Summary $summary

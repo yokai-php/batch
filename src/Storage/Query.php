@@ -14,32 +14,32 @@ final class Query
     /**
      * @var string[]
      */
-    private $jobNames;
+    private array $jobNames;
 
     /**
      * @var string[]
      */
-    private $ids;
+    private array $ids;
 
     /**
      * @var int[]
      */
-    private $statuses;
+    private array $statuses;
 
     /**
      * @var string|null
      */
-    private $sortBy;
+    private ?string $sortBy;
 
     /**
      * @var int
      */
-    private $limit;
+    private int $limit;
 
     /**
      * @var int
      */
-    private $offset;
+    private int $offset;
 
     /**
      * @internal

@@ -23,7 +23,7 @@ final class ChainProcessor implements
     /**
      * @var iterable|ItemProcessorInterface[]
      */
-    private $processors;
+    private iterable $processors;
 
     /**
      * @param iterable|ItemProcessorInterface[] $processors

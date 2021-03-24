@@ -13,7 +13,7 @@ final class JobRegistry
     /**
      * @var ContainerInterface
      */
-    private $jobs;
+    private ContainerInterface $jobs;
 
     /**
      * @param ContainerInterface $jobs

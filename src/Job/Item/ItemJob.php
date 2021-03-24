@@ -16,32 +16,32 @@ class ItemJob extends AbstractJob
     /**
      * @var int
      */
-    private $batchSize;
+    private int $batchSize;
 
     /**
      * @var ItemReaderInterface
      */
-    private $reader;
+    private ItemReaderInterface $reader;
 
     /**
      * @var ItemProcessorInterface
      */
-    private $processor;
+    private ItemProcessorInterface $processor;
 
     /**
      * @var ItemWriterInterface
      */
-    private $writer;
+    private ItemWriterInterface $writer;
 
     /**
      * @var array
      */
-    private $elements;
+    private array $elements;
 
     /**
      * @var JobExecutionStorageInterface
      */
-    private $executionStorage;
+    private JobExecutionStorageInterface $executionStorage;
 
     /**
      * @param int                          $batchSize

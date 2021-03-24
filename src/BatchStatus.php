@@ -25,7 +25,7 @@ final class BatchStatus
     /**
      * @var int
      */
-    private $value;
+    private int $value;
 
     /**
      * @param int $value

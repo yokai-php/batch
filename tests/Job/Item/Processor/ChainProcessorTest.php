@@ -32,17 +32,13 @@ class ChainProcessorTest extends TestCase
         $subtract1Processor = $this->prophesize(ItemProcessorInterface::class);
         $subtract1Processor->process(Argument::type('int'))
             ->shouldBeCalled()
-            ->will(function (array $args): int {
-                return $args[0] - 1;
-            });
+            ->will(fn(array $args): int => $args[0] - 1);
 
         /** @var ObjectProphecy|ItemProcessorInterface $multiplyBy2Processor */
         $multiplyBy2Processor = $this->prophesize(ItemProcessorInterface::class);
         $multiplyBy2Processor->process(Argument::type('int'))
             ->shouldBeCalled()
-            ->will(function (array $args): int {
-                return $args[0] * 2;
-            });
+            ->will(fn(array $args): int => $args[0] * 2);
 
         /** @var ObjectProphecy|ItemProcessorInterface|JobExecutionAwareInterface|JobParametersAwareInterface|SummaryAwareInterface|InitializableInterface|FlushableInterface $add10Processor */
         $add10Processor = $this->prophesize(ItemProcessorInterface::class);
@@ -68,9 +64,7 @@ class ChainProcessorTest extends TestCase
             ->will(Util::createVarLogger('flush', $log));
         $add10Processor->process(Argument::type('int'))
             ->shouldBeCalled()
-            ->will(function (array $args): int {
-                return $args[0] + 10;
-            });
+            ->will(fn(array $args): int => $args[0] + 10);
 
         $processor = new ChainProcessor(
             [$subtract1Processor->reveal(), $multiplyBy2Processor->reveal(), $add10Processor->reveal()]

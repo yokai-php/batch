@@ -15,7 +15,7 @@ final class Summary implements
     /**
      * @var array
      */
-    private $values = [];
+    private array $values;
 
     /**
      * @param array $values

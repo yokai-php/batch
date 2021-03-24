@@ -11,7 +11,7 @@ trait JobExecutionAwareTrait
     /**
      * @var JobExecution
      */
-    private $jobExecution;
+    private JobExecution $jobExecution;
 
     public function setJobExecution(JobExecution $jobExecution): void
     {

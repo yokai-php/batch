@@ -25,12 +25,12 @@ final class JobExecutionLogger extends AbstractLogger
     /**
      * @var DateTimeZone|null
      */
-    private static $timezone;
+    private static ?DateTimeZone $timezone = null;
 
     /**
      * @var JobExecutionLogs
      */
-    private $logs;
+    private JobExecutionLogs $logs;
 
     public function __construct(JobExecutionLogs $logs)
     {
@@ -55,12 +55,10 @@ final class JobExecutionLogger extends AbstractLogger
 
     private function date(): string
     {
-        if (!static::$timezone) {
-            static::$timezone = new DateTimeZone(date_default_timezone_get() ?: 'UTC');
-        }
+        self::$timezone ??= new DateTimeZone(date_default_timezone_get() ?: 'UTC');
 
-        $date = new DateTime('now', static::$timezone);
-        $date->setTimezone(static::$timezone);
+        $date = new DateTime('now', self::$timezone);
+        $date->setTimezone(self::$timezone);
 
         return $date->format('Y-m-d H:i:s');
     }

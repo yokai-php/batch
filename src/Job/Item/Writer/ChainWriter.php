@@ -23,7 +23,7 @@ final class ChainWriter implements
     /**
      * @var iterable|ItemWriterInterface[]
      */
-    private $writers;
+    private iterable $writers;
 
     /**
      * @param iterable|ItemWriterInterface[] $writers

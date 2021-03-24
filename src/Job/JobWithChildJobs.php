@@ -14,17 +14,17 @@ final class JobWithChildJobs extends AbstractJob
     /**
      * @var JobExecutionStorageInterface
      */
-    private $executionStorage;
+    private JobExecutionStorageInterface $executionStorage;
 
     /**
      * @var JobRegistry
      */
-    private $jobRegistry;
+    private JobRegistry $jobRegistry;
 
     /**
      * @var iterable|string[]
      */
-    private $childJobs;
+    private iterable $childJobs;
 
     /**
      * @param JobExecutionStorageInterface $executionStorage

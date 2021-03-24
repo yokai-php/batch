@@ -11,7 +11,7 @@ trait JobParametersAwareTrait
     /**
      * @var JobParameters
      */
-    private $jobParameters;
+    private JobParameters $jobParameters;
 
     /**
      * @param JobParameters $jobParameters

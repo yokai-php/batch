@@ -9,17 +9,17 @@ final class Warning
     /**
      * @var string
      */
-    private $message;
+    private string $message;
 
     /**
      * @var array
      */
-    private $parameters;
+    private array $parameters;
 
     /**
      * @var array
      */
-    private $context;
+    private array $context;
 
     public function __construct(string $message, array $parameters = [], array $context = [])
     {

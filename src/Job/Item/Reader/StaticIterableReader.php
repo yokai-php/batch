@@ -11,7 +11,7 @@ final class StaticIterableReader implements ItemReaderInterface
     /**
      * @var iterable
      */
-    private $items;
+    private iterable $items;
 
     public function __construct(iterable $items)
     {

@@ -32,7 +32,7 @@ class StaticIterableReaderTest extends TestCase
             /**
              * @var array
              */
-            private $items;
+            private array $items;
 
             public function __construct(array $items)
             {

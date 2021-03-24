@@ -31,7 +31,7 @@ class SimpleJobLauncherTest extends TestCase
         $job = $this->prophesize(JobInterface::class);
         $job->execute($jobExecutionAssertions)
             ->shouldBeCalledTimes(1)
-            ->will(function (array $args) {
+            ->will(function (array $args): void {
                 /** @var JobExecution $execution */
                 $execution = $args[0];
                 $execution->setStartTime(new \DateTime());
@@ -91,7 +91,7 @@ class SimpleJobLauncherTest extends TestCase
         $job = $this->prophesize(JobInterface::class);
         $job->execute($jobExecutionAssertions)
             ->shouldBeCalledTimes(1)
-            ->will(function () {
+            ->will(function (): void {
                 $var = 10 / 0;
             });
 
