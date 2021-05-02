@@ -9,6 +9,7 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
+use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
 use Yokai\Batch\Job\JobInterface;
@@ -58,15 +59,10 @@ class SimpleJobLauncherTest extends TestCase
 
     public function testLaunchJobCatchException(): void
     {
-        $jobExecutionAssertions = Argument::allOf(
-            Argument::type(JobExecution::class),
-            Argument::which('getJobName', 'export')
-        );
         /** @var ObjectProphecy|JobInterface $job */
         $job = $this->prophesize(JobInterface::class);
-        $job->execute($jobExecutionAssertions)
-            ->shouldBeCalledTimes(1)
-            ->willThrow(new \Exception());
+        $job->execute(Argument::any())
+            ->willThrow(new \Exception('Triggered for test purpose'));
 
         /** @var ContainerInterface|ObjectProphecy $container */
         $container = $this->prophesize(ContainerInterface::class);
@@ -78,22 +74,20 @@ class SimpleJobLauncherTest extends TestCase
         $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
 
         $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
-        $launcher->launch('export');
+        $execution = $launcher->launch('export');
+
+        self::assertSame('export', $execution->getJobName());
+        self::assertTrue($execution->getStatus()->is(BatchStatus::FAILED));
+        self::assertSame(\Exception::class, $execution->getFailures()[0]->getClass());
+        self::assertSame('Triggered for test purpose', $execution->getFailures()[0]->getMessage());
     }
 
     public function testLaunchJobCatchFatal(): void
     {
-        $jobExecutionAssertions = Argument::allOf(
-            Argument::type(JobExecution::class),
-            Argument::which('getJobName', 'export')
-        );
         /** @var ObjectProphecy|JobInterface $job */
         $job = $this->prophesize(JobInterface::class);
-        $job->execute($jobExecutionAssertions)
-            ->shouldBeCalledTimes(1)
-            ->will(function (): void {
-                $var = 10 / 0;
-            });
+        $job->execute(Argument::any())
+            ->willThrow(new \DivisionByZeroError('Triggered for test purpose'));
 
         /** @var ContainerInterface|ObjectProphecy $container */
         $container = $this->prophesize(ContainerInterface::class);
@@ -105,6 +99,11 @@ class SimpleJobLauncherTest extends TestCase
         $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
 
         $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
-        $launcher->launch('export');
+        $execution = $launcher->launch('export');
+
+        self::assertSame('export', $execution->getJobName());
+        self::assertTrue($execution->getStatus()->is(BatchStatus::FAILED));
+        self::assertSame(\DivisionByZeroError::class, $execution->getFailures()[0]->getClass());
+        self::assertSame('Triggered for test purpose', $execution->getFailures()[0]->getMessage());
     }
 }
