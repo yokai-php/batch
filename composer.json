@@ -1,45 +1,45 @@
 {
-  "name": "yokai/batch",
-  "description": "Batch architecture library inspired by Akeneo Batch",
-  "keywords": ["batch", "job", "execution", "reader", "writer", "processor"],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Yann Eugoné",
-      "email": "eugone.yann@gmail.com"
+    "name": "yokai/batch",
+    "description": "Batch architecture library inspired by Akeneo Batch",
+    "keywords": ["batch", "job", "execution", "reader", "writer", "processor"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yann Eugoné",
+            "email": "eugone.yann@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*",
+        "psr/container": "^1.0",
+        "psr/log": "^1.0",
+        "psr/event-dispatcher": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yokai\\Batch\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.4",
+        "symfony/filesystem": "^4.4|^5.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yokai\\Batch\\Tests\\": "tests/"
+        }
+    },
+    "suggest": {
+        "yokai/batch-box-spout": "Read/Write from/to CSV/ODS/XLSX",
+        "yokai/batch-doctrine-dbal": "Store jobs executions in a relational database",
+        "yokai/batch-doctrine-orm": "Read from Doctrine ORM entities",
+        "yokai/batch-doctrine-persistence": "Write to Doctrine objects to managers",
+        "yokai/batch-symfony-console": "Add command to trigger jobs and async job launcher via command",
+        "yokai/batch-symfony-framework": "Integrate to Symfony framework via a bundle",
+        "yokai/batch-symfony-messenger": "Trigger jobs using message dispatch",
+        "yokai/batch-symfony-serializer": "Process items using (de)normalization, serialize job execution for certain storages",
+        "yokai/batch-symfony-validator": "Skip invalid items during process"
     }
-  ],
-  "require": {
-    "php": "^7.4",
-    "ext-json": "*",
-    "psr/container": "^1.0",
-    "psr/log": "^1.0",
-    "psr/event-dispatcher": "^1.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Yokai\\Batch\\": "src/"
-    }
-  },
-  "require-dev": {
-    "phpspec/prophecy-phpunit": "^2.0",
-    "phpunit/phpunit": "^9.4",
-    "symfony/filesystem": "^4.4|^5.0"
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Yokai\\Batch\\Tests\\": "tests/"
-    }
-  },
-  "suggest": {
-    "yokai/batch-box-spout": "Read/Write from/to CSV/ODS/XLSX",
-    "yokai/batch-doctrine-dbal": "Store jobs executions in a relational database",
-    "yokai/batch-doctrine-orm": "Read from Doctrine ORM entities",
-    "yokai/batch-doctrine-persistence": "Write to Doctrine objects to managers",
-    "yokai/batch-symfony-console": "Add command to trigger jobs and async job launcher via command",
-    "yokai/batch-symfony-framework": "Integrate to Symfony framework via a bundle",
-    "yokai/batch-symfony-messenger": "Trigger jobs using message dispatch",
-    "yokai/batch-symfony-serializer": "Process items using (de)normalization, serialize job execution for certain storages",
-    "yokai/batch-symfony-validator": "Skip invalid items during process"
-  }
 }
