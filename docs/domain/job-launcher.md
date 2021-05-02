@@ -3,6 +3,10 @@
 todo
 
 ```php
+<?php
+
+declare(strict_types=1);
+
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\Launcher\SimpleJobLauncher;
 use Yokai\Batch\Registry\JobRegistry;

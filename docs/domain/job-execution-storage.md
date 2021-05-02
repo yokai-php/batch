@@ -1,36 +1,52 @@
-# Job Execution Storage
+# Job execution storage
 
-todo
+## What is a job execution storage ?
 
-```php
-use Yokai\Batch\Exception\JobExecutionNotFoundException;
-use Yokai\Batch\JobExecution;
-use Yokai\Batch\Storage\JobExecutionStorageInterface;
+Whenever a job is launched, whether is starts immediately or not, 
+an execution is stored for it.
 
-class InMemoryJobExecutionStorage implements JobExecutionStorageInterface
-{
-    private array$memory = [];
+The execution are stored to allow you to keep an eye on what is happening.
 
-    public function store(JobExecution $execution) : void
-    {
-        $this->memory[$execution->getJobName()][$execution->getId()] = $execution;
-    }
+This persistence is on the responsibility of the job execution storage.
 
-    public function remove(JobExecution $execution) : void
-    {
-        unset(
-            $this->memory[$execution->getJobName()][$execution->getId()]
-        );
-    }
+**Built-in storages:**
+- [NullJobExecutionStorage](../../src/Storage/NullJobExecutionStorage.php):
+  do not persist any job execution.
+- [FilesystemJobExecutionStorage](../../src/Storage/FilesystemJobExecutionStorage.php):
+  store job executions to a file on local filesystem.
 
-    public function retrieve(string $jobName, string $executionId) : JobExecution
-    {
-        $execution = $this->memory[$jobName][$executionId] ?? null;
-        if ($execution === null) {
-            throw new JobExecutionNotFoundException($jobName, $executionId);
-        }
+**Storages from bridges:**
+- [DoctrineDBALJobExecutionStorage (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALJobExecutionStorage.php):
+  store job executions to a relational database.
 
-        return $execution;
-    }
-}
-```
+## How do I store my Job Execution ?
+
+You should never be forced to store JobExecution yourself.
+
+This is Job Launcher job to store it whenever it is required 
+(usually before and after the job execution).
+
+## How can I retrieve a Job Execution afterwards ?
+
+Every storage implements [JobExecutionStorageInterface](../../src/Storage/JobExecutionStorageInterface.php) 
+that has a method called `retrieve`.
+Use this method to retrieve one execution using job name and execution id.
+
+Depending on which storage you decided to use, you may may also be able to:
+- list of all executions for particular job, if your storage implements
+  [ListableJobExecutionStorageInterface](../../src/Storage/ListableJobExecutionStorageInterface.php):
+- filter list of executions matching criteria you provided, if your storage implements
+  [QueryableJobExecutionStorageInterface](../../src/Storage/QueryableJobExecutionStorageInterface.php):
+
+> **Note:** Sometimes the storage may implement the method but,
+> due to the way executions are stored, it might not be recommended heavily rely on these extra methods.
+
+## What types of storages exists ?
+
+- [Not stored](../../src/Storage/NullJobExecutionStorage.php)
+- [Stored in a local file](../../src/Storage/FilesystemJobExecutionStorage.php)
+- [Stored in a relational database](https://github.com/yokai-php/batch-doctrine-dbal)
+
+## On the same subject
+
+- [How do I create my own storage ?](../recipes/custom-job-execution-storage.md)

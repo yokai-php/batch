@@ -30,8 +30,25 @@ composer require yokai/batch
 
 ## Documentation
 
-Before starting, please have a look to [domain](docs/1-domain.md) documentation.
-While reading this section you will learn core concepts and vocabulary.
+Let's [get started](docs/getting-started.md) around core concepts of this library.
+
+Looking for something in particular ?
+
+- [How to use *Aware interfaces ?](docs/recipes/aware-interfaces.md)
+- [Create your own job execution storage](docs/recipes/custom-job-execution-storage.md)
+- [Job with children](docs/recipes/job-with-children.md)
+
+Looking for something more specific ?
+
+- [Read/Write from/to CSV/ODS/XLSX](https://github.com/yokai-php/batch-box-spout)
+- [Store job executions in relational database](https://github.com/yokai-php/batch-doctrine-dbal)
+- [Read from Doctrine ORM entities](https://github.com/yokai-php/batch-doctrine-orm)
+- [Write to Doctrine ORM/ODM... objects](https://github.com/yokai-php/batch-doctrine-persistence)
+- [Trigger async jobs using CLI command](https://github.com/yokai-php/batch-symfony-console): 
+- [Integration with Symfony framework](https://github.com/yokai-php/batch-symfony-framework)
+- [Trigger async jobs using using queue](https://github.com/yokai-php/batch-symfony-messenger): 
+- [Normalize/Denormalize job items with](https://github.com/yokai-php/batch-symfony-serializer)
+- [Validate & Skip invalid items](https://github.com/yokai-php/batch-symfony-validator)
 
 
 ## Contribution
