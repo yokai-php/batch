@@ -38,4 +38,4 @@ that will handle for you :
 ## On the same subject
 
 - [How do I start a job ?](job-launcher.md)
-- [How do I build a batch processing job ?](job-item.md)
+- [How do I build a batch processing job ?](item-job.md)
