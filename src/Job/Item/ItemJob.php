@@ -95,16 +95,18 @@ class ItemJob extends AbstractJob
 
             $summary->increment('processed');
 
-            $itemsToWrite[] = $processedItem;
-            $writeCount++;
+            foreach ($this->getItemsToWrite($processedItem) as $item) {
+                $itemsToWrite[] = $item;
+                $writeCount++;
 
-            if (0 === $writeCount % $this->batchSize) {
-                $this->writer->write($itemsToWrite);
-                $summary->increment('write', $writeCount);
-                $itemsToWrite = [];
-                $writeCount = 0;
+                if (0 === $writeCount % $this->batchSize) {
+                    $this->writer->write($itemsToWrite);
+                    $summary->increment('write', $writeCount);
+                    $itemsToWrite = [];
+                    $writeCount = 0;
 
-                $this->executionStorage->store($rootExecution);
+                    $this->executionStorage->store($rootExecution);
+                }
             }
         }
 
@@ -116,6 +118,22 @@ class ItemJob extends AbstractJob
         }
 
         $this->flushElements();
+    }
+
+    /**
+     * Analyse processed item to determine the items to write.
+     *
+     * @param mixed $processedItem The processed item
+     *
+     * @return iterable A list of items to write
+     */
+    protected function getItemsToWrite($processedItem): iterable
+    {
+        if ($processedItem instanceof ExpandProcessedItem) {
+            return $processedItem;
+        }
+
+        return [$processedItem];
     }
 
     /**
