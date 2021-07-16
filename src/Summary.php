@@ -57,6 +57,16 @@ final class Summary implements
     }
 
     /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function has(string $key): bool
+    {
+        return isset($this->values[$key]);
+    }
+
+    /**
      * @phpstan-return array<string, mixed>
      */
     public function all(): array
