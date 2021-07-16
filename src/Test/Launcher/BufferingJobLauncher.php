@@ -12,6 +12,10 @@ use Yokai\Batch\Launcher\JobLauncherInterface;
 final class BufferingJobLauncher implements JobLauncherInterface
 {
     private JobExecutionIdGeneratorInterface $idGenerator;
+
+    /**
+     * @var JobExecution[]
+     */
     private array $executions = [];
 
     public function __construct(JobExecutionIdGeneratorInterface $idGenerator)
@@ -19,6 +23,9 @@ final class BufferingJobLauncher implements JobLauncherInterface
         $this->idGenerator = $idGenerator;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function launch(string $name, array $configuration = []): JobExecution
     {
         $configuration['_id'] ??= $this->idGenerator->generate();

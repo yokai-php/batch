@@ -62,7 +62,7 @@ final class BatchStatus
     }
 
     /**
-     * @param array $values
+     * @param int[] $values
      *
      * @return bool
      */
@@ -84,7 +84,7 @@ final class BatchStatus
      */
     public function isSuccessful(): bool
     {
-        return $this->isOneOf([self::COMPLETED]);
+        return $this->is(self::COMPLETED);
     }
 
     /**

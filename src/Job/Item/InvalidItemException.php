@@ -9,10 +9,13 @@ use Throwable;
 class InvalidItemException extends \RuntimeException
 {
     /**
-     * @var array
+     * @phpstan-var array<string, mixed>
      */
     private array $parameters;
 
+    /**
+     * @phpstan-param array<string, mixed> $parameters
+     */
     public function __construct(string $message, array $parameters = [], int $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
@@ -20,7 +23,7 @@ class InvalidItemException extends \RuntimeException
     }
 
     /**
-     * @return array
+     * @phpstan-return array<string, mixed>
      */
     public function getParameters(): array
     {

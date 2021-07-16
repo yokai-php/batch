@@ -8,6 +8,7 @@ interface ItemReaderInterface
 {
     /**
      * @return iterable
+     * @phpstan-return iterable<mixed>
      */
     public function read(): iterable;
 }

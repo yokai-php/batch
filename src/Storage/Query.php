@@ -42,6 +42,13 @@ final class Query
     private int $offset;
 
     /**
+     * @param string[]    $jobNames
+     * @param string[]    $ids
+     * @param int[]       $statuses
+     * @param string|null $sortBy
+     * @param int         $limit
+     * @param int         $offset
+     *
      * @internal
      */
     public function __construct(
@@ -60,16 +67,25 @@ final class Query
         $this->offset = $offset;
     }
 
+    /**
+     * @return string[]
+     */
     public function jobs(): array
     {
         return $this->jobNames;
     }
 
+    /**
+     * @return string[]
+     */
     public function ids(): array
     {
         return $this->ids;
     }
 
+    /**
+     * @return int[]
+     */
     public function statuses(): array
     {
         return $this->statuses;

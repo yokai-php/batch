@@ -24,7 +24,7 @@ final class Failure
     private int $code;
 
     /**
-     * @var array
+     * @phpstan-var array<string, string>
      */
     private array $parameters;
 
@@ -34,11 +34,7 @@ final class Failure
     private ?string $trace;
 
     /**
-     * @param string      $class
-     * @param string      $message
-     * @param int         $code
-     * @param array       $parameters
-     * @param string|null $trace
+     * @phpstan-param array<string, string> $parameters
      */
     public function __construct(
         string $class,
@@ -55,10 +51,7 @@ final class Failure
     }
 
     /**
-     * @param Throwable $exception
-     * @param array     $parameters
-     *
-     * @return Failure
+     * @phpstan-param array<string, string> $parameters
      */
     public static function fromException(Throwable $exception, array $parameters = []): self
     {
@@ -104,7 +97,7 @@ final class Failure
     }
 
     /**
-     * @return array
+     * @phpstan-return array<string, string>
      */
     public function getParameters(): array
     {

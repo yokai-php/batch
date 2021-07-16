@@ -321,9 +321,7 @@ final class JobExecution
     }
 
     /**
-     * @param Throwable $exception
-     * @param array     $parameters
-     * @param bool      $log
+     * @phpstan-param array<string, mixed> $parameters
      */
     public function addFailureException(Throwable $exception, array $parameters = [], bool $log = true): void
     {

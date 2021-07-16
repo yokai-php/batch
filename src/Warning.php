@@ -13,14 +13,20 @@ final class Warning
 
     /**
      * @var array
+     * @phpstan-var array<string, string>
      */
     private array $parameters;
 
     /**
      * @var array
+     * @phpstan-var array<string, string>
      */
     private array $context;
 
+    /**
+     * @phpstan-param array<string, string> $parameters
+     * @phpstan-param array<string, mixed> $context
+     */
     public function __construct(string $message, array $parameters = [], array $context = [])
     {
         $this->message = $message;
@@ -46,13 +52,16 @@ final class Warning
 
     /**
      * @return array
+     * @phpstan-return array<string, string>
      */
     public function getParameters(): array
     {
         return $this->parameters;
     }
+
     /**
      * @return array
+     * @phpstan-return array<string, string>
      */
     public function getContext(): array
     {

@@ -55,6 +55,11 @@ final class QueryBuilder
      */
     private int $offset = 0;
 
+    /**
+     * @param string[] $names
+     *
+     * @return $this
+     */
     public function jobs(array $names): self
     {
         $names = array_unique($names);
@@ -69,6 +74,11 @@ final class QueryBuilder
         return $this;
     }
 
+    /**
+     * @param string[] $ids
+     *
+     * @return $this
+     */
     public function ids(array $ids): self
     {
         $ids = array_unique($ids);
@@ -83,6 +93,11 @@ final class QueryBuilder
         return $this;
     }
 
+    /**
+     * @param int[] $statuses
+     *
+     * @return $this
+     */
     public function statuses(array $statuses): self
     {
         $statuses = array_unique($statuses);

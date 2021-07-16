@@ -23,10 +23,7 @@ final class JobExecutionFactory
     }
 
     /**
-     * @param string $name
-     * @param array  $configuration
-     *
-     * @return JobExecution
+     * @phpstan-param array<string, mixed> $configuration
      */
     public function create(string $name, array $configuration = []): JobExecution
     {

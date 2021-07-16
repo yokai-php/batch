@@ -105,6 +105,9 @@ class SimpleJobLauncher implements JobLauncherInterface
         $this->jobExecutionStorage->store($execution);
     }
 
+    /**
+     * @phpstan-param array<string, mixed> $configuration
+     */
     private function getJobExecution(string $name, array $configuration): JobExecution
     {
         $id = $configuration['_id'] ?? null;

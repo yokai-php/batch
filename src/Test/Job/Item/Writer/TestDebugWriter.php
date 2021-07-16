@@ -18,12 +18,18 @@ final class TestDebugWriter extends TestDebugComponent implements ItemWriterInte
         $this->decorated = $decorated;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function initialize(): void
     {
         $this->written = false;
         parent::initialize();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function write(iterable $items): void
     {
         $this->written = true;

@@ -18,12 +18,18 @@ final class TestDebugReader extends TestDebugComponent implements ItemReaderInte
         $this->decorated = $decorated;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function initialize(): void
     {
         $this->read = false;
         parent::initialize();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function read(): iterable
     {
         $this->read = true;

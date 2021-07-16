@@ -6,21 +6,23 @@ namespace Yokai\Batch;
 
 use ArrayIterator;
 use Countable;
-use Iterator;
 use IteratorAggregate;
 use Yokai\Batch\Exception\UndefinedJobParameterException;
 
+/**
+ * @template-implements IteratorAggregate<string, mixed>
+ */
 final class JobParameters implements
     Countable,
     IteratorAggregate
 {
     /**
-     * @var array
+     * @phpstan-var array<string, mixed>
      */
     private array $parameters;
 
     /**
-     * @param array $parameters
+     * @phpstan-param array<string, mixed> $parameters
      */
     public function __construct(array $parameters = [])
     {
@@ -61,8 +63,9 @@ final class JobParameters implements
 
     /**
      * @inheritDoc
+     * @phpstan-return ArrayIterator<string, mixed>
      */
-    public function getIterator(): Iterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->parameters);
     }

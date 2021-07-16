@@ -8,6 +8,7 @@ interface ItemWriterInterface
 {
     /**
      * @param iterable $items
+     * @phpstan-param iterable<mixed> $items
      */
     public function write(iterable $items): void;
 }

@@ -35,7 +35,7 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
     }
 
     /**
-     * @param array       $expected
+     * @param mixed[]     $expected
      * @param mixed       $argument
      * @param string|null $message
      *

@@ -8,17 +8,20 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 
+/**
+ * @template-implements IteratorAggregate<string, mixed>
+ */
 final class Summary implements
     Countable,
     IteratorAggregate
 {
     /**
-     * @var array
+     * @phpstan-var array<string, mixed>
      */
     private array $values;
 
     /**
-     * @param array $values
+     * @phpstan-param array<string, mixed> $values
      */
     public function __construct(array $values = [])
     {
@@ -54,15 +57,13 @@ final class Summary implements
     }
 
     /**
-     * @return array
+     * @phpstan-return array<string, mixed>
      */
     public function all(): array
     {
         return $this->values;
     }
 
-    /**
-     */
     public function clear(): void
     {
         $this->values = [];
@@ -70,8 +71,9 @@ final class Summary implements
 
     /**
      * @inheritdoc
+     * @phpstan-return ArrayIterator<string, mixed>
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->values);
     }
@@ -79,7 +81,7 @@ final class Summary implements
     /**
      * @inheritdoc
      */
-    public function count()
+    public function count(): int
     {
         return count($this->values);
     }

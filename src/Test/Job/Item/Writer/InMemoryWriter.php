@@ -9,13 +9,22 @@ use Yokai\Batch\Job\Item\ItemWriterInterface;
 
 final class InMemoryWriter implements ItemWriterInterface, InitializableInterface
 {
+    /**
+     * @phpstan-var list<mixed>
+     */
     private array $items = [];
 
+    /**
+     * @inheritdoc
+     */
     public function initialize(): void
     {
         $this->items = [];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function write(iterable $items): void
     {
         foreach ($items as $item) {
@@ -23,6 +32,9 @@ final class InMemoryWriter implements ItemWriterInterface, InitializableInterfac
         }
     }
 
+    /**
+     * @phpstan-return list<mixed>
+     */
     public function getItems(): array
     {
         return $this->items;

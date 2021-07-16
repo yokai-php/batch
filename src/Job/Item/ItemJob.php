@@ -34,7 +34,7 @@ class ItemJob extends AbstractJob
     private ItemWriterInterface $writer;
 
     /**
-     * @var array
+     * @phpstan-var list<object>
      */
     private array $elements;
 
@@ -126,6 +126,8 @@ class ItemJob extends AbstractJob
      * @param mixed $processedItem The processed item
      *
      * @return iterable A list of items to write
+     *
+     * @phpstan-return iterable<mixed>
      */
     protected function getItemsToWrite($processedItem): iterable
     {
