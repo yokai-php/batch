@@ -23,6 +23,7 @@ $logs = <<<LOG
 2020 [DEBUG]: Begin export
 2020 [INFO]: Exported one row
 2020 [WARNING]: Invalid row
+
 LOG;
 
 return [

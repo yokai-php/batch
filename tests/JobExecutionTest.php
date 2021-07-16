@@ -158,6 +158,11 @@ class JobExecutionTest extends TestCase
             ['Job Failure', 'Prepare Job Failure', 'Export Job Failure'],
             array_map($failureToString, $jobExecution->getAllFailures())
         );
+
+        $logs = (string)$jobExecution->getLogs();
+        self::assertStringContainsString('ERROR: Job Failure', $logs);
+        self::assertStringContainsString('ERROR: Prepare Job Failure', $logs);
+        self::assertStringContainsString('ERROR: Export Job Failure', $logs);
     }
 
     public function testManipulatesWarnings()
@@ -168,14 +173,14 @@ class JobExecutionTest extends TestCase
         $jobExecution = JobExecution::createRoot('123456789', 'export');
         self::assertSame([], array_map($warningMessage, $jobExecution->getWarnings()));
         self::assertSame([], array_map($warningMessage, $jobExecution->getAllWarnings()));
-        $jobExecution->addWarning(new Warning('Job Warning'));
+        $jobExecution->addWarning(new Warning('Job Warning', [], ['foo' => 'FOO']));
         self::assertSame(['Job Warning'], array_map($warningMessage, $jobExecution->getWarnings()));
         self::assertSame(['Job Warning'], array_map($warningMessage, $jobExecution->getAllWarnings()));
 
         $jobExecution->addChildExecution($prepareChildExecution = $jobExecution->createChildExecution('prepare'));
         $jobExecution->addChildExecution($exportChildExecution = $jobExecution->createChildExecution('export'));
         $prepareChildExecution->addWarning(new Warning('Prepare Job Warning'));
-        $exportChildExecution->addWarning(new Warning('Export Job Warning'));
+        $exportChildExecution->addWarning(new Warning('Export Job Warning', [], ['bar' => 'BAR']));
 
         self::assertSame(['Job Warning'], array_map($warningMessage, $jobExecution->getWarnings()));
         self::assertSame(
@@ -186,6 +191,11 @@ class JobExecutionTest extends TestCase
             ['Job Warning', 'Prepare Job Warning', 'Export Job Warning'],
             array_map($warningToString, $jobExecution->getAllWarnings())
         );
+
+        $logs = (string)$jobExecution->getLogs();
+        self::assertStringContainsString('WARNING: Job Warning {"foo":"FOO"}', $logs);
+        self::assertStringContainsString('WARNING: Prepare Job Warning', $logs);
+        self::assertStringContainsString('WARNING: Export Job Warning {"bar":"BAR"}', $logs);
     }
 
     public function testComputesDuration()

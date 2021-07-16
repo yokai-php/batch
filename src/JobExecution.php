@@ -310,19 +310,24 @@ final class JobExecution
 
     /**
      * @param Failure $failure
+     * @param bool    $log
      */
-    public function addFailure(Failure $failure): void
+    public function addFailure(Failure $failure, bool $log = true): void
     {
         $this->failures[] = $failure;
+        if ($log) {
+            $this->logger->error((string)$failure);
+        }
     }
 
     /**
      * @param Throwable $exception
      * @param array     $parameters
+     * @param bool      $log
      */
-    public function addFailureException(Throwable $exception, array $parameters = []): void
+    public function addFailureException(Throwable $exception, array $parameters = [], bool $log = true): void
     {
-        $this->addFailure(Failure::fromException($exception, $parameters));
+        $this->addFailure(Failure::fromException($exception, $parameters), $log);
     }
 
     /**
@@ -351,10 +356,14 @@ final class JobExecution
 
     /**
      * @param Warning $warning
+     * @param bool    $log
      */
-    public function addWarning(Warning $warning): void
+    public function addWarning(Warning $warning, bool $log = true): void
     {
         $this->warnings[] = $warning;
+        if ($log) {
+            $this->logger->warning((string)$warning, $warning->getContext());
+        }
     }
 
     /**

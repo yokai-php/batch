@@ -113,10 +113,10 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
         $jobExecution->setEndTime($this->stringToDate($jobExecutionData['endTime']));
 
         foreach ($jobExecutionData['failures'] as $failureData) {
-            $jobExecution->addFailure($this->failureFromArray($failureData));
+            $jobExecution->addFailure($this->failureFromArray($failureData), false);
         }
         foreach ($jobExecutionData['warnings'] as $warningData) {
-            $jobExecution->addWarning($this->warningFromArray($warningData));
+            $jobExecution->addWarning($this->warningFromArray($warningData), false);
         }
 
         foreach ($jobExecutionData['childExecutions'] as $childExecutionData) {
