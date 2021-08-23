@@ -1,0 +1,4 @@
+firstName lastName country city
+John      Doe      USA     Washington
+Jane      Doe      USA     Seattle
+Jack      Doe      USA     San Francisco
