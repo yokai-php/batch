@@ -9,7 +9,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
-final class JobWithChildJobs extends AbstractJob
+class JobWithChildJobs extends AbstractJob
 {
     /**
      * @var JobExecutionStorageInterface
@@ -44,7 +44,7 @@ final class JobWithChildJobs extends AbstractJob
     /**
      * @inheritDoc
      */
-    protected function doExecute(JobExecution $jobExecution): void
+    final protected function doExecute(JobExecution $jobExecution): void
     {
         $logger = $jobExecution->getLogger();
         foreach ($this->childJobs as $jobName) {

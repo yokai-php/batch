@@ -13,7 +13,7 @@ abstract class AbstractJob implements JobInterface
     /**
      * @inheritDoc
      */
-    public function execute(JobExecution $jobExecution): void
+    final public function execute(JobExecution $jobExecution): void
     {
         if (!$jobExecution->getStatus()->isExecutable()) {
             $jobExecution->getLogger()->error('Job is not executable', ['job' => $jobExecution->getJobName()]);

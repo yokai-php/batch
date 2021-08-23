@@ -68,7 +68,7 @@ class ItemJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    protected function doExecute(JobExecution $jobExecution): void
+    final protected function doExecute(JobExecution $jobExecution): void
     {
         $rootExecution = $jobExecution->getRootExecution();
         $summary = $jobExecution->getSummary();
