@@ -86,6 +86,14 @@ class ItemJobTest extends TestCase
         self::assertSame(3, $jobExecution->getSummary()->get('invalid'), '3 items were invalid');
         self::assertSame(9, $jobExecution->getSummary()->get('write'), '9 items were write');
 
+        $warnings = $jobExecution->getWarnings();
+        self::assertCount(3, $warnings);
+        foreach ([[0, 9, 10], [1, 10, 11], [2, 11, 12]] as [$warningIdx, $itemIdx, $paramValue]) {
+            self::assertSame('Item is greater than 9 got {value}', $warnings[$warningIdx]->getMessage());
+            self::assertSame(['{value}' => $paramValue], $warnings[$warningIdx]->getParameters());
+            self::assertSame(['itemIndex' => $itemIdx], $warnings[$warningIdx]->getContext());
+        }
+
         $expectedLogs = <<<LOGS
 reader::setJobExecution
 reader::setJobParameters
