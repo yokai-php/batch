@@ -7,8 +7,15 @@ namespace Yokai\Batch;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use Yokai\Batch\Job\SummaryAwareInterface;
 
 /**
+ * The summary contains arbitrary values that a developer
+ * might want to store along with the {@see JobExecution}.
+ * Usually this is about analysis/debug information.
+ *
+ * You can obtain the summary by implementing {@see SummaryAwareInterface}.
+ *
  * @template-implements IteratorAggregate<string, mixed>
  */
 final class Summary implements
@@ -47,23 +54,16 @@ final class Summary implements
     }
 
     /**
-     * @param string $key
-     *
-     * @return mixed|null
+     * @return mixed
      */
     public function get(string $key)
     {
         return $this->values[$key] ?? null;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
     public function has(string $key): bool
     {
-        return isset($this->values[$key]);
+        return array_key_exists($key, $this->values);
     }
 
     /**

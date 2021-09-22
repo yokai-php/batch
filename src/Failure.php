@@ -6,30 +6,35 @@ namespace Yokai\Batch;
 
 use Throwable;
 
+/**
+ * This class represent an exception that occurred during a {@see JobExecution}.
+ * Failure can be added to the execution via {@see JobExecution::addFailureException}.
+ */
 final class Failure
 {
     /**
-     * @var string
+     * The exception class
      */
     private string $class;
 
     /**
-     * @var string
+     * The exception message {@see Throwable::getMessage}
      */
     private string $message;
 
     /**
-     * @var int
+     * The exception code {@see Throwable::getCode}
      */
     private int $code;
 
     /**
+     * Some extra parameters that a developer has provided
      * @phpstan-var array<string, string>
      */
     private array $parameters;
 
     /**
-     * @var string|null
+     * The exception trace {@see Throwable::getTraceAsString}
      */
     private ?string $trace;
 
@@ -64,33 +69,21 @@ final class Failure
         );
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        return strtr($this->message, $this->parameters);
+        return \strtr($this->message, $this->parameters);
     }
 
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return $this->class;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return int
-     */
     public function getCode(): int
     {
         return $this->code;
@@ -104,9 +97,6 @@ final class Failure
         return $this->parameters;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTrace(): ?string
     {
         return $this->trace;

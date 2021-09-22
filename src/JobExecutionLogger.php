@@ -9,6 +9,10 @@ use DateTimeZone;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 
+/**
+ * This logger is designed to log into a {@see JobExecutionLogger} object,
+ * that is attached to the {@see JobExecution::$logs} property.
+ */
 final class JobExecutionLogger extends AbstractLogger
 {
     private const LEVELS = [
@@ -23,12 +27,12 @@ final class JobExecutionLogger extends AbstractLogger
     ];
 
     /**
-     * @var DateTimeZone|null
+     * Current timezone used for date formatting.
      */
     private static ?DateTimeZone $timezone = null;
 
     /**
-     * @var JobExecutionLogs
+     * Logs container : where logs are actually written.
      */
     private JobExecutionLogs $logs;
 

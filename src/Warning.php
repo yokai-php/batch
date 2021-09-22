@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace Yokai\Batch;
 
+/**
+ * This class represent something weird that should be reported but that will not block execution.
+ * It is usually something about sanity/validation.
+ * Warning can be added to the execution via {@see JobExecution::addWarning}.
+ */
 final class Warning
 {
     /**
-     * @var string
+     * The warning message.
      */
     private string $message;
 
     /**
-     * @var array
+     * The warning message parameters.
      * @phpstan-var array<string, string>
      */
     private array $parameters;
 
     /**
-     * @var array
+     * Some extra parameters that a developer has provided.
      * @phpstan-var array<string, string>
      */
     private array $context;
@@ -34,24 +39,17 @@ final class Warning
         $this->context = $context;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return strtr($this->message, $this->parameters);
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
     /**
-     * @return array
      * @phpstan-return array<string, string>
      */
     public function getParameters(): array
@@ -60,7 +58,6 @@ final class Warning
     }
 
     /**
-     * @return array
      * @phpstan-return array<string, string>
      */
     public function getContext(): array

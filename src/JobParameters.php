@@ -8,8 +8,13 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use Yokai\Batch\Exception\UndefinedJobParameterException;
+use Yokai\Batch\Job\JobParametersAwareInterface;
 
 /**
+ * Parameters provided to a {@see JobExecution} at trigger time.
+ *
+ * You can obtain the parameters by implementing {@see JobParametersAwareInterface}.
+ *
  * @template-implements IteratorAggregate<string, mixed>
  */
 final class JobParameters implements
@@ -30,9 +35,7 @@ final class JobParameters implements
     }
 
     /**
-     * @param string $name
-     *
-     * @return bool
+     * Whether a parameter is defined.
      */
     public function has(string $name): bool
     {
@@ -40,9 +43,8 @@ final class JobParameters implements
     }
 
     /**
-     * @param string $name
-     *
      * @return mixed
+     * @throws UndefinedJobParameterException If parameter is not defined
      */
     public function get(string $name)
     {

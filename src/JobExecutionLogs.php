@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Yokai\Batch;
 
+/**
+ * Stores all logs related to a {@see JobExecution}.
+ */
 final class JobExecutionLogs
 {
     /**
-     * @var string
+     * Logs content.
      */
     private string $logs;
 
