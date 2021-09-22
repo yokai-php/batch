@@ -14,25 +14,18 @@ class TestDebugWriterTest extends TestCase
     public function test(): void
     {
         $writer = new TestDebugWriter($innerWriter = new InMemoryWriter());
-        self::assertFalse($writer->wasInitialized());
-        self::assertFalse($writer->wasWritten());
-        self::assertFalse($writer->wasFlushed());
+        $writer->assertWasNotConfigured();
+        $writer->assertWasNotUsed();
 
-        $writer->setJobExecution(JobExecution::createRoot('123456', 'testing'));
+        $writer->configure(JobExecution::createRoot('123456', 'testing'));
         $writer->initialize();
-        self::assertTrue($writer->wasInitialized());
-
         $writer->write([1, 2, 3]);
         $writer->write([4, 5, 6]);
         self::assertSame([1, 2, 3, 4, 5, 6], $innerWriter->getItems());
-        self::assertTrue($writer->wasWritten());
-
+        self::assertSame([[1, 2, 3], [4, 5, 6]], $innerWriter->getBatchItems());
         $writer->flush();
-        self::assertTrue($writer->wasFlushed());
 
-        $writer->initialize();
-        self::assertTrue($writer->wasInitialized());
-        self::assertFalse($writer->wasWritten());
-        self::assertTrue($writer->wasFlushed());
+        $writer->assertWasConfigured();
+        $writer->assertWasUsed();
     }
 }

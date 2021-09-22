@@ -56,18 +56,14 @@ class RoutingWriterTest extends TestCase
         self::assertSame([], $notCalledWriterInner->getItems());
         self::assertSame([$march, $june], $defaultWriterInner->getItems());
 
-        self::assertTrue($datesWriter->wasInitialized());
-        self::assertTrue($datesWriter->wasFlushed());
-        self::assertTrue($datesWriter->wasWritten());
-        self::assertTrue($traversableWriter->wasInitialized());
-        self::assertTrue($traversableWriter->wasFlushed());
-        self::assertTrue($traversableWriter->wasWritten());
-        self::assertFalse($notCalledWriter->wasInitialized());
-        self::assertFalse($notCalledWriter->wasFlushed());
-        self::assertFalse($notCalledWriter->wasWritten());
-        self::assertTrue($defaultWriter->wasInitialized());
-        self::assertTrue($defaultWriter->wasFlushed());
-        self::assertTrue($defaultWriter->wasWritten());
+        $datesWriter->assertWasConfigured();
+        $datesWriter->assertWasUsed();
+        $traversableWriter->assertWasConfigured();
+        $traversableWriter->assertWasUsed();
+        $notCalledWriter->assertWasNotConfigured();
+        $notCalledWriter->assertWasNotUsed();
+        $defaultWriter->assertWasConfigured();
+        $defaultWriter->assertWasUsed();
     }
 
     /**

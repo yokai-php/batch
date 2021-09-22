@@ -15,6 +15,11 @@ final class InMemoryWriter implements ItemWriterInterface, InitializableInterfac
     private array $items = [];
 
     /**
+     * @phpstan-var list<list<mixed>>
+     */
+    private array $batchItems = [];
+
+    /**
      * @inheritdoc
      */
     public function initialize(): void
@@ -27,9 +32,12 @@ final class InMemoryWriter implements ItemWriterInterface, InitializableInterfac
      */
     public function write(iterable $items): void
     {
+        $batch = [];
         foreach ($items as $item) {
             $this->items[] = $item;
+            $batch[] = $item;
         }
+        $this->batchItems[] = $batch;
     }
 
     /**
@@ -38,5 +46,13 @@ final class InMemoryWriter implements ItemWriterInterface, InitializableInterfac
     public function getItems(): array
     {
         return $this->items;
+    }
+
+    /**
+     * @phpstan-return list<list<mixed>>
+     */
+    public function getBatchItems(): array
+    {
+        return $this->batchItems;
     }
 }

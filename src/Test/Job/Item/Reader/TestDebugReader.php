@@ -37,7 +37,7 @@ final class TestDebugReader extends TestDebugComponent implements ItemReaderInte
         return $this->decorated->read();
     }
 
-    public function wasRead(): bool
+    protected function wasUsed(): bool
     {
         return $this->read;
     }

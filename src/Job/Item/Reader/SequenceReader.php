@@ -4,22 +4,11 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Job\Item\Reader;
 
-use Yokai\Batch\Job\Item\ElementConfiguratorTrait;
-use Yokai\Batch\Job\Item\FlushableInterface;
-use Yokai\Batch\Job\Item\InitializableInterface;
+use Yokai\Batch\Job\Item\AbstractElementDecorator;
 use Yokai\Batch\Job\Item\ItemReaderInterface;
-use Yokai\Batch\Job\JobExecutionAwareInterface;
-use Yokai\Batch\Job\JobExecutionAwareTrait;
 
-final class SequenceReader implements
-    ItemReaderInterface,
-    InitializableInterface,
-    FlushableInterface,
-    JobExecutionAwareInterface
+final class SequenceReader extends AbstractElementDecorator implements ItemReaderInterface
 {
-    use ElementConfiguratorTrait;
-    use JobExecutionAwareTrait;
-
     /**
      * @var iterable|ItemReaderInterface[]
      */
@@ -36,17 +25,6 @@ final class SequenceReader implements
     /**
      * @inheritDoc
      */
-    public function initialize(): void
-    {
-        foreach ($this->readers as $reader) {
-            $this->configureElementJobContext($reader, $this->jobExecution);
-            $this->initializeElement($reader);
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function read(): iterable
     {
         foreach ($this->readers as $reader) {
@@ -57,12 +35,10 @@ final class SequenceReader implements
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function flush(): void
+    protected function getDecoratedElements(): iterable
     {
-        foreach ($this->readers as $reader) {
-            $this->flushElement($reader);
-        }
+        return $this->readers;
     }
 }

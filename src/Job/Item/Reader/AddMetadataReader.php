@@ -6,22 +6,11 @@ namespace Yokai\Batch\Job\Item\Reader;
 
 use Generator;
 use Yokai\Batch\Exception\UnexpectedValueException;
-use Yokai\Batch\Job\Item\ElementConfiguratorTrait;
-use Yokai\Batch\Job\Item\FlushableInterface;
-use Yokai\Batch\Job\Item\InitializableInterface;
+use Yokai\Batch\Job\Item\AbstractElementDecorator;
 use Yokai\Batch\Job\Item\ItemReaderInterface;
-use Yokai\Batch\Job\JobExecutionAwareInterface;
-use Yokai\Batch\Job\JobExecutionAwareTrait;
 
-final class AddMetadataReader implements
-    ItemReaderInterface,
-    InitializableInterface,
-    FlushableInterface,
-    JobExecutionAwareInterface
+final class AddMetadataReader extends AbstractElementDecorator implements ItemReaderInterface
 {
-    use ElementConfiguratorTrait;
-    use JobExecutionAwareTrait;
-
     private ItemReaderInterface $reader;
 
     /**
@@ -36,15 +25,6 @@ final class AddMetadataReader implements
     {
         $this->reader = $reader;
         $this->metadata = $metadata;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function initialize(): void
-    {
-        $this->configureElementJobContext($this->reader, $this->jobExecution);
-        $this->initializeElement($this->reader);
     }
 
     /**
@@ -65,8 +45,8 @@ final class AddMetadataReader implements
     /**
      * @inheritDoc
      */
-    public function flush(): void
+    protected function getDecoratedElements(): iterable
     {
-        $this->flushElement($this->reader);
+        yield $this->reader;
     }
 }

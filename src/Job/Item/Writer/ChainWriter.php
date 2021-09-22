@@ -4,22 +4,11 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Job\Item\Writer;
 
-use Yokai\Batch\Job\Item\ElementConfiguratorTrait;
-use Yokai\Batch\Job\Item\FlushableInterface;
-use Yokai\Batch\Job\Item\InitializableInterface;
+use Yokai\Batch\Job\Item\AbstractElementDecorator;
 use Yokai\Batch\Job\Item\ItemWriterInterface;
-use Yokai\Batch\Job\JobExecutionAwareInterface;
-use Yokai\Batch\Job\JobExecutionAwareTrait;
 
-final class ChainWriter implements
-    ItemWriterInterface,
-    InitializableInterface,
-    FlushableInterface,
-    JobExecutionAwareInterface
+final class ChainWriter extends AbstractElementDecorator implements ItemWriterInterface
 {
-    use ElementConfiguratorTrait;
-    use JobExecutionAwareTrait;
-
     /**
      * @var iterable|ItemWriterInterface[]
      */
@@ -36,17 +25,6 @@ final class ChainWriter implements
     /**
      * @inheritDoc
      */
-    public function initialize(): void
-    {
-        foreach ($this->writers as $writer) {
-            $this->configureElementJobContext($writer, $this->jobExecution);
-            $this->initializeElement($writer);
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function write(iterable $items): void
     {
         foreach ($this->writers as $writer) {
@@ -55,12 +33,10 @@ final class ChainWriter implements
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function flush(): void
+    protected function getDecoratedElements(): iterable
     {
-        foreach ($this->writers as $writer) {
-            $this->flushElement($writer);
-        }
+        return $this->writers;
     }
 }

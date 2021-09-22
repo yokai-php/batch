@@ -9,13 +9,16 @@ use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Job\Item\Reader\AddMetadataReader;
 use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
 use Yokai\Batch\JobExecution;
+use Yokai\Batch\Test\Job\Item\Reader\TestDebugReader;
 
 class AddMetadataReaderTest extends TestCase
 {
     public function testRead(): void
     {
         $reader = new AddMetadataReader(
-            new StaticIterableReader([['name' => 'John'], ['name' => 'Jane']]),
+            $decorated = new TestDebugReader(
+                new StaticIterableReader([['name' => 'John'], ['name' => 'Jane']])
+            ),
             ['_type' => 'user']
         );
 
@@ -28,6 +31,9 @@ class AddMetadataReaderTest extends TestCase
             [['_type' => 'user', 'name' => 'John'], ['_type' => 'user', 'name' => 'Jane']],
             $read
         );
+
+        $decorated->assertWasConfigured();
+        $decorated->assertWasUsed();
     }
 
     public function testReadDecoratedNotReturningAnArray(): void

@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Reader\IndexWithReader;
 use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
 use Yokai\Batch\JobExecution;
+use Yokai\Batch\Test\Job\Item\Reader\TestDebugReader;
 
 class IndexWithReaderTest extends TestCase
 {
@@ -19,7 +20,8 @@ class IndexWithReaderTest extends TestCase
     public function test(callable $factory, array $expected): void
     {
         /** @var IndexWithReader $reader */
-        $reader = $factory();
+        /** @var TestDebugReader $decorated */
+        [$reader, $decorated] = $factory();
         $reader->setJobExecution(JobExecution::createRoot('123456', 'testing'));
         $reader->initialize();
 
@@ -31,6 +33,9 @@ class IndexWithReaderTest extends TestCase
         $reader->flush();
 
         self::assertSame($expected, $actual);
+
+        $decorated->assertWasConfigured();
+        $decorated->assertWasUsed();
     }
 
     public function provider(): Generator
@@ -38,38 +43,38 @@ class IndexWithReaderTest extends TestCase
         $john = ['name' => 'John', 'location' => 'Washington'];
         $marie = ['name' => 'Marie', 'location' => 'London'];
         yield 'Index with array key' => [
-            fn() => IndexWithReader::withArrayKey(
-                new StaticIterableReader([$john, $marie]),
+            fn() => [IndexWithReader::withArrayKey(
+                $decorated = new TestDebugReader(new StaticIterableReader([$john, $marie])),
                 'name'
-            ),
+            ), $decorated],
             ['John' => $john, 'Marie' => $marie],
         ];
 
         $john = (object)$john;
         $marie = (object)$marie;
         yield 'Index with object property' => [
-            fn() => IndexWithReader::withProperty(
-                new StaticIterableReader([$john, $marie]),
+            fn() => [IndexWithReader::withProperty(
+                $decorated = new TestDebugReader(new StaticIterableReader([$john, $marie])),
                 'name'
-            ),
+            ), $decorated],
             ['John' => $john, 'Marie' => $marie],
         ];
 
         $three = new ArrayIterator([1, 2, 3]);
         $six = new ArrayIterator([1, 2, 3, 4, 5, 6]);
         yield 'Index with object method' => [
-            fn() => IndexWithReader::withGetter(
-                new StaticIterableReader([$three, $six]),
+            fn() => [IndexWithReader::withGetter(
+                $decorated = new TestDebugReader(new StaticIterableReader([$three, $six])),
                 'count'
-            ),
+            ), $decorated],
             [3 => $three, 6 => $six],
         ];
 
         yield 'Index with arbitrary closure' => [
-            fn() => new IndexWithReader(
-                new StaticIterableReader([1, 2, 3]),
+            fn() => [new IndexWithReader(
+                $decorated = new TestDebugReader(new StaticIterableReader([1, 2, 3])),
                 fn(int $value) => $value * $value
-            ),
+            ), $decorated],
             [1 => 1, 4 => 2, 9 => 3],
         ];
     }

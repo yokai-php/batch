@@ -14,23 +14,15 @@ class TestDebugReaderTest extends TestCase
     public function test(): void
     {
         $reader = new TestDebugReader(new StaticIterableReader([1, 2, 3]));
-        self::assertFalse($reader->wasInitialized());
-        self::assertFalse($reader->wasRead());
-        self::assertFalse($reader->wasFlushed());
+        $reader->assertWasNotConfigured();
+        $reader->assertWasNotUsed();
 
-        $reader->setJobExecution(JobExecution::createRoot('123456', 'testing'));
+        $reader->configure(JobExecution::createRoot('123456', 'testing'));
         $reader->initialize();
-        self::assertTrue($reader->wasInitialized());
-
         self::assertSame([1, 2, 3], $reader->read());
-        self::assertTrue($reader->wasRead());
-
         $reader->flush();
-        self::assertTrue($reader->wasFlushed());
 
-        $reader->initialize();
-        self::assertTrue($reader->wasInitialized());
-        self::assertFalse($reader->wasRead());
-        self::assertTrue($reader->wasFlushed());
+        $reader->assertWasConfigured();
+        $reader->assertWasUsed();
     }
 }

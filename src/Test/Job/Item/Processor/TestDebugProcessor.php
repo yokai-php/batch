@@ -31,7 +31,7 @@ final class TestDebugProcessor extends TestDebugComponent implements ItemProcess
         return $this->decorated->process($item);
     }
 
-    public function wasProcessed(): bool
+    protected function wasUsed(): bool
     {
         return $this->processed;
     }

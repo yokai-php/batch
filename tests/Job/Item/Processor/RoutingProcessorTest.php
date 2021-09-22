@@ -37,18 +37,14 @@ class RoutingProcessorTest extends TestCase
         self::assertSame(1024, $processor->process(10.237));
         $processor->flush();
 
-        self::assertTrue($upperProcessor->wasInitialized());
-        self::assertTrue($upperProcessor->wasFlushed());
-        self::assertTrue($upperProcessor->wasProcessed());
-        self::assertTrue($multiplyProcessor->wasInitialized());
-        self::assertTrue($multiplyProcessor->wasFlushed());
-        self::assertTrue($multiplyProcessor->wasProcessed());
-        self::assertFalse($notCalledProcessor->wasInitialized());
-        self::assertFalse($notCalledProcessor->wasFlushed());
-        self::assertFalse($notCalledProcessor->wasProcessed());
-        self::assertTrue($defaultProcessor->wasInitialized());
-        self::assertTrue($defaultProcessor->wasFlushed());
-        self::assertTrue($defaultProcessor->wasProcessed());
+        $upperProcessor->assertWasConfigured();
+        $upperProcessor->assertWasUsed();
+        $multiplyProcessor->assertWasConfigured();
+        $multiplyProcessor->assertWasUsed();
+        $notCalledProcessor->assertWasNotConfigured();
+        $notCalledProcessor->assertWasNotUsed();
+        $defaultProcessor->assertWasConfigured();
+        $defaultProcessor->assertWasUsed();
     }
 
     /**

@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace Yokai\Batch\Job\Item\Reader;
 
 use Closure;
-use Yokai\Batch\Job\Item\ElementConfiguratorTrait;
-use Yokai\Batch\Job\Item\FlushableInterface;
-use Yokai\Batch\Job\Item\InitializableInterface;
+use Yokai\Batch\Job\Item\AbstractElementDecorator;
 use Yokai\Batch\Job\Item\ItemReaderInterface;
-use Yokai\Batch\Job\JobExecutionAwareInterface;
-use Yokai\Batch\Job\JobExecutionAwareTrait;
 
 /**
  * An {@see ItemReaderInterface} that decorates another {@see ItemReaderInterface}
@@ -19,15 +15,8 @@ use Yokai\Batch\Job\JobExecutionAwareTrait;
  * Provided {@see Closure} must accept a single argument (the read item)
  * and must return a value (preferably unique) that will be item index.
  */
-final class IndexWithReader implements
-    ItemReaderInterface,
-    InitializableInterface,
-    FlushableInterface,
-    JobExecutionAwareInterface
+final class IndexWithReader extends AbstractElementDecorator implements ItemReaderInterface
 {
-    use ElementConfiguratorTrait;
-    use JobExecutionAwareTrait;
-
     private ItemReaderInterface $reader;
     private Closure $extractItemIndex;
 
@@ -73,15 +62,6 @@ final class IndexWithReader implements
     /**
      * @inheritdoc
      */
-    public function initialize(): void
-    {
-        $this->configureElementJobContext($this->reader, $this->jobExecution);
-        $this->initializeElement($this->reader);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function read(): iterable
     {
         foreach ($this->reader->read() as $item) {
@@ -92,8 +72,8 @@ final class IndexWithReader implements
     /**
      * @inheritdoc
      */
-    public function flush(): void
+    protected function getDecoratedElements(): iterable
     {
-        $this->flushElement($this->reader);
+        yield $this->reader;
     }
 }

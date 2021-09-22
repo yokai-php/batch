@@ -36,7 +36,7 @@ final class TestDebugWriter extends TestDebugComponent implements ItemWriterInte
         $this->decorated->write($items);
     }
 
-    public function wasWritten(): bool
+    protected function wasUsed(): bool
     {
         return $this->written;
     }
