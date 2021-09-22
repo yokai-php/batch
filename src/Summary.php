@@ -54,6 +54,16 @@ final class Summary implements
     }
 
     /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function append(string $key, $value): void
+    {
+        $this->values[$key] = $this->values[$key] ?? [];
+        $this->values[$key][] = $value;
+    }
+
+    /**
      * @return mixed
      */
     public function get(string $key)
