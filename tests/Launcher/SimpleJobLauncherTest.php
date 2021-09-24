@@ -9,28 +9,75 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 use Yokai\Batch\BatchStatus;
+use Yokai\Batch\Event\PostExecuteEvent;
+use Yokai\Batch\Event\PreExecuteEvent;
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
 use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Launcher\SimpleJobLauncher;
 use Yokai\Batch\Registry\JobRegistry;
-use Yokai\Batch\Storage\JobExecutionStorageInterface;
+use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
 
 class SimpleJobLauncherTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function testLaunch(): void
+    private const JOB_NAME = 'phpunit';
+    private const VALID_JOB_ID = '123abc';
+    private const NOT_EXECUTABLE_JOB_ID = '456def';
+
+    /**
+     * @var ObjectProphecy&JobInterface
+     */
+    private ObjectProphecy $job;
+
+    /**
+     * @var ObjectProphecy&EventDispatcherInterface
+     */
+    private ObjectProphecy $dispatcher;
+
+    private SimpleJobLauncher $launcher;
+
+    protected function setUp(): void
+    {
+        $this->job = $this->prophesize(JobInterface::class);
+        $this->dispatcher = $this->prophesize(EventDispatcherInterface::class);
+
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has(self::JOB_NAME)->willReturn(true);
+        $container->get(self::JOB_NAME)->willReturn($this->job->reveal());
+
+        $jobExecutionStorage = new InMemoryJobExecutionStorage(
+            JobExecution::createRoot(self::VALID_JOB_ID, self::JOB_NAME),
+            JobExecution::createRoot(
+                self::NOT_EXECUTABLE_JOB_ID,
+                self::JOB_NAME,
+                new BatchStatus(BatchStatus::COMPLETED)
+            )
+        );
+
+        $this->launcher = new SimpleJobLauncher(
+            new JobRegistry($container->reveal()),
+            new JobExecutionFactory(new UniqidJobExecutionIdGenerator()),
+            $jobExecutionStorage,
+            $this->dispatcher->reveal()
+        );
+    }
+
+    /**
+     * @dataProvider launch
+     */
+    public function testLaunch(array $config): void
     {
         $jobExecutionAssertions = Argument::allOf(
             Argument::type(JobExecution::class),
-            Argument::which('getJobName', 'export')
+            Argument::which('getJobName', self::JOB_NAME)
         );
-        /** @var ObjectProphecy|JobInterface $job */
-        $job = $this->prophesize(JobInterface::class);
-        $job->execute($jobExecutionAssertions)
+        $this->job->execute($jobExecutionAssertions)
             ->shouldBeCalledTimes(1)
             ->will(function (array $args): void {
                 /** @var JobExecution $execution */
@@ -40,70 +87,67 @@ class SimpleJobLauncherTest extends TestCase
                 $execution->setEndTime(new \DateTime());
             });
 
-        /** @var ContainerInterface|ObjectProphecy $container */
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('export')->willReturn(true);
-        $container->get('export')->willReturn($job->reveal());
+        $jobExecution = $this->launcher->launch(self::JOB_NAME, $config);
 
-        $jobRegistry = new JobRegistry($container->reveal());
-        $jobExecutionFactory = new JobExecutionFactory(new UniqidJobExecutionIdGenerator());
-        $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
-
-        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
-        $jobExecution = $launcher->launch('export');
+        $this->dispatcher->dispatch(Argument::type(PreExecuteEvent::class))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->dispatcher->dispatch(Argument::type(PostExecuteEvent::class))
+            ->shouldHaveBeenCalledTimes(1);
 
         self::assertNotNull($jobExecution->getStartTime());
         self::assertNotNull($jobExecution->getEndTime());
         self::assertSame('FOO', $jobExecution->getSummary()->get('foo'));
     }
 
-    public function testLaunchJobCatchException(): void
+    /**
+     * @dataProvider errors
+     */
+    public function testLaunchJobCatchErrors(Throwable $error): void
     {
-        /** @var ObjectProphecy|JobInterface $job */
-        $job = $this->prophesize(JobInterface::class);
-        $job->execute(Argument::any())
-            ->willThrow(new \Exception('Triggered for test purpose'));
+        $this->job->execute(Argument::any())
+            ->willThrow($error);
 
-        /** @var ContainerInterface|ObjectProphecy $container */
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('export')->willReturn(true);
-        $container->get('export')->willReturn($job->reveal());
+        $execution = $this->launcher->launch(self::JOB_NAME);
 
-        $jobRegistry = new JobRegistry($container->reveal());
-        $jobExecutionFactory = new JobExecutionFactory(new UniqidJobExecutionIdGenerator());
-        $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
+        $this->dispatcher->dispatch(Argument::type(PreExecuteEvent::class))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->dispatcher->dispatch(Argument::type(PostExecuteEvent::class))
+            ->shouldHaveBeenCalledTimes(1);
 
-        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
-        $execution = $launcher->launch('export');
-
-        self::assertSame('export', $execution->getJobName());
+        self::assertSame(self::JOB_NAME, $execution->getJobName());
         self::assertTrue($execution->getStatus()->is(BatchStatus::FAILED));
-        self::assertSame(\Exception::class, $execution->getFailures()[0]->getClass());
-        self::assertSame('Triggered for test purpose', $execution->getFailures()[0]->getMessage());
+        self::assertSame(\get_class($error), $execution->getFailures()[0]->getClass());
+        self::assertSame($error->getMessage(), $execution->getFailures()[0]->getMessage());
     }
 
-    public function testLaunchJobCatchFatal(): void
+    public function testLaunchJobNotExecutable(): void
     {
-        /** @var ObjectProphecy|JobInterface $job */
-        $job = $this->prophesize(JobInterface::class);
-        $job->execute(Argument::any())
-            ->willThrow(new \DivisionByZeroError('Triggered for test purpose'));
+        $this->job->execute(Argument::any())
+            ->shouldNotBeCalled();
 
-        /** @var ContainerInterface|ObjectProphecy $container */
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('export')->willReturn(true);
-        $container->get('export')->willReturn($job->reveal());
+        $execution = $this->launcher->launch(self::JOB_NAME, ['_id' => self::NOT_EXECUTABLE_JOB_ID]);
 
-        $jobRegistry = new JobRegistry($container->reveal());
-        $jobExecutionFactory = new JobExecutionFactory(new UniqidJobExecutionIdGenerator());
-        $jobExecutionStorage = $this->prophesize(JobExecutionStorageInterface::class);
+        $this->dispatcher->dispatch(Argument::type(PreExecuteEvent::class))
+            ->shouldNotHaveBeenCalled();
+        $this->dispatcher->dispatch(Argument::type(PostExecuteEvent::class))
+            ->shouldNotHaveBeenCalled();
 
-        $launcher = new SimpleJobLauncher($jobRegistry, $jobExecutionFactory, $jobExecutionStorage->reveal(), null);
-        $execution = $launcher->launch('export');
+        self::assertStringContainsString(
+            'WARNING: Job execution not allowed to be executed',
+            (string)$execution->getLogs()
+        );
+    }
 
-        self::assertSame('export', $execution->getJobName());
-        self::assertTrue($execution->getStatus()->is(BatchStatus::FAILED));
-        self::assertSame(\DivisionByZeroError::class, $execution->getFailures()[0]->getClass());
-        self::assertSame('Triggered for test purpose', $execution->getFailures()[0]->getMessage());
+    public function launch(): \Generator
+    {
+        yield 'Launch with no id' => [[]];
+        yield 'Launch with valid id' => [['_id' => self::VALID_JOB_ID]];
+        yield 'Launch with unknown id' => [['_id' => 'unknown id']];
+    }
+
+    public function errors(): \Generator
+    {
+        yield [new \Exception('Triggered for test purpose')];
+        yield [new \DivisionByZeroError('Triggered for test purpose')];
     }
 }

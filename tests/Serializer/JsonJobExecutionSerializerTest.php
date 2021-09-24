@@ -77,5 +77,9 @@ class JsonJobExecutionSerializerTest extends TestCase
     {
         yield ['malformed JSON'];
         yield ['"json string"'];
+
+        $minimal = require __DIR__ . '/fixtures/minimal.array.php';
+        yield [\json_encode(\array_merge($minimal, ['startTime' => 'not a date']))];
+        yield [\json_encode(\array_merge($minimal, ['endTime' => 'not a date']))];
     }
 }

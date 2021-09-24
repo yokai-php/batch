@@ -8,9 +8,6 @@ use Yokai\Batch\JobExecution;
 
 class JobEvent
 {
-    /**
-     * @var JobExecution
-     */
     private JobExecution $execution;
 
     public function __construct(JobExecution $execution)

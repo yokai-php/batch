@@ -40,19 +40,10 @@ final class QueryBuilder
      */
     private array $statuses = [];
 
-    /**
-     * @var string|null
-     */
     private ?string $sortBy = null;
 
-    /**
-     * @var int
-     */
     private int $limit = 10;
 
-    /**
-     * @var int
-     */
     private int $offset = 0;
 
     /**
@@ -112,6 +103,9 @@ final class QueryBuilder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function sort(string $by): self
     {
         if (!in_array($by, self::SORTS_ENUM, true)) {
@@ -123,13 +117,16 @@ final class QueryBuilder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function limit(int $limit, int $offset): self
     {
-        if ($limit <= 0) {
-            throw UnexpectedValueException::range(0, null, $limit);
+        if ($limit < 1) {
+            throw UnexpectedValueException::min(1, $limit);
         }
         if ($offset < 0) {
-            throw UnexpectedValueException::range(0, null, $limit);
+            throw UnexpectedValueException::min(0, $offset);
         }
 
         $this->limit = $limit;

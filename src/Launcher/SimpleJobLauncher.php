@@ -18,32 +18,11 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 class SimpleJobLauncher implements JobLauncherInterface
 {
-    /**
-     * @var JobRegistry
-     */
     private JobRegistry $jobRegistry;
-
-    /**
-     * @var JobExecutionFactory
-     */
     private JobExecutionFactory $jobExecutionFactory;
-
-    /**
-     * @var JobExecutionStorageInterface
-     */
     private JobExecutionStorageInterface $jobExecutionStorage;
-
-    /**
-     * @var EventDispatcherInterface|null
-     */
     private ?EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @param JobRegistry                   $jobRegistry
-     * @param JobExecutionFactory           $jobExecutionFactory
-     * @param JobExecutionStorageInterface  $jobExecutionStorage
-     * @param EventDispatcherInterface|null $eventDispatcher
-     */
     public function __construct(
         JobRegistry $jobRegistry,
         JobExecutionFactory $jobExecutionFactory,
@@ -83,7 +62,7 @@ class SimpleJobLauncher implements JobLauncherInterface
             $logger->error('Job did not executed successfully', ['job' => $name]);
         }
 
-        $this->store($jobExecution);
+        $this->jobExecutionStorage->store($jobExecution);
 
         $this->dispatch(new PostExecuteEvent($jobExecution));
 
@@ -100,11 +79,6 @@ class SimpleJobLauncher implements JobLauncherInterface
         }
     }
 
-    private function store(JobExecution $execution): void
-    {
-        $this->jobExecutionStorage->store($execution);
-    }
-
     /**
      * @phpstan-param array<string, mixed> $configuration
      */
@@ -118,7 +92,10 @@ class SimpleJobLauncher implements JobLauncherInterface
             }
         }
 
-        return $this->jobExecutionFactory->create($name, $configuration);
+        $jobExecution = $this->jobExecutionFactory->create($name, $configuration);
+        $this->jobExecutionStorage->store($jobExecution);
+
+        return $jobExecution;
     }
 
     private function dispatch(object $event): void

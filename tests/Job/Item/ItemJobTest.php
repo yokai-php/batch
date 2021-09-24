@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item;
 
+use ArrayIterator;
+use Closure;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\ExpandProcessedItem;
 use Yokai\Batch\Job\Item\InvalidItemException;
@@ -67,12 +69,15 @@ class ItemJobTest extends TestCase
         $debugWriter->assertWasUsed();
     }
 
-    public function testWithExpandItem(): void
+    /**
+     * @dataProvider expand
+     */
+    public function testWithExpandItem(Closure $callback): void
     {
         $job = new ItemJob(
             4,
             new StaticIterableReader(['eggplant', 'tomato', 'avocado']),
-            new CallbackProcessor(fn($item) => new ExpandProcessedItem(['fruit:' . $item, 'vegetable:' . $item])),
+            new CallbackProcessor($callback),
             $writer = new InMemoryWriter(),
             new NullJobExecutionStorage()
         );
@@ -93,5 +98,25 @@ class ItemJobTest extends TestCase
         self::assertSame(3, $execution->getSummary()->get('read'));
         self::assertSame(3, $execution->getSummary()->get('processed'));
         self::assertSame(6, $execution->getSummary()->get('write'));
+    }
+
+    public function expand(): \Generator
+    {
+        yield [
+            fn($item) => new ExpandProcessedItem(['fruit:' . $item, 'vegetable:' . $item])
+        ];
+        yield [
+            fn($item) => new ExpandProcessedItem(new ArrayIterator(['fruit:' . $item, 'vegetable:' . $item]))
+        ];
+        yield [
+            function ($item) {
+                $generator = function () use ($item) {
+                    yield 'fruit:' . $item;
+                    yield 'vegetable:' . $item;
+                };
+
+                return new ExpandProcessedItem($generator());
+            }
+        ];
     }
 }

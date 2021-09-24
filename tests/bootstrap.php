@@ -14,6 +14,7 @@ if (false === $artifactDir) {
 }
 
 if (is_dir($artifactDir)) {
+    (new Filesystem())->chmod($artifactDir, 0777, 0000, true);
     (new Filesystem())->remove($artifactDir);
 }
 

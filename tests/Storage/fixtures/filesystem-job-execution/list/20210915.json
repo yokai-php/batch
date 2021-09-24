@@ -1,0 +1,15 @@
+{
+  "id": "20210915",
+  "jobName": "list",
+  "status": 4,
+  "parameters": {
+    "_id": "20210915"
+  },
+  "startTime": "2021-09-15T18:35:49+0200",
+  "endTime": "2021-09-15T18:35:49+0200",
+  "summary": {},
+  "failures": [],
+  "warnings": [],
+  "childExecutions": [],
+  "logs": ""
+}

@@ -14,20 +14,9 @@ use Yokai\Batch\Serializer\JobExecutionSerializerInterface;
 
 final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorageInterface
 {
-    /**
-     * @var JobExecutionSerializerInterface
-     */
     private JobExecutionSerializerInterface $serializer;
-
-    /**
-     * @var string
-     */
     private string $directory;
 
-    /**
-     * @param JobExecutionSerializerInterface $serializer
-     * @param string                          $directory
-     */
     public function __construct(JobExecutionSerializerInterface $serializer, string $directory)
     {
         $this->serializer = $serializer;
@@ -138,17 +127,17 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
                 };
                 break;
             case Query::SORT_BY_START_DESC:
-                $order = function (JobExecution $left, JobExecution $right): int {
+                $order = static function (JobExecution $left, JobExecution $right): int {
                     return $right->getStartTime() <=> $left->getStartTime();
                 };
                 break;
             case Query::SORT_BY_END_ASC:
-                $order = function (JobExecution $left, JobExecution $right): int {
+                $order = static function (JobExecution $left, JobExecution $right): int {
                     return $left->getEndTime() <=> $right->getEndTime();
                 };
                 break;
             case Query::SORT_BY_END_DESC:
-                $order = function (JobExecution $left, JobExecution $right): int {
+                $order = static function (JobExecution $left, JobExecution $right): int {
                     return $right->getEndTime() <=> $left->getEndTime();
                 };
                 break;
@@ -187,17 +176,13 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
 
         $content = $this->serializer->serialize($execution);
 
-        if (false === file_put_contents($path, $content)) {
+        if (false === @file_put_contents($path, $content)) {
             throw FilesystemException::cannotWriteFile($path);
         }
     }
 
     private function fileToExecution(string $file): JobExecution
     {
-        if (!file_exists($file)) {
-            throw FilesystemException::fileNotFound($file);
-        }
-
         $content = @file_get_contents($file);
         if ($content === false) {
             throw FilesystemException::cannotReadFile($file);

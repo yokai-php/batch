@@ -55,38 +55,18 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
 
     /**
      * @param int|float|null $min      [PHP 8] Convert to union type
-     * @param int|float|null $max      [PHP 8] Convert to union type
      * @param int|float|null $argument [PHP 8] Convert to union type
      * @param string|null    $message
      *
      * @return self
      */
-    public static function range($min, $max, $argument, string $message = null): self
+    public static function min($min, $argument, string $message = null): self
     {
-        if ($min !== null && $max !== null) {
-            $errorMessage = \sprintf(
-                'Expecting argument to be between %s and %s, got %s.',
-                $min,
-                $max,
-                $argument
-            );
-        } elseif ($min !== null) {
-            $errorMessage = \sprintf(
-                'Expecting argument to be %s or more, got %s.',
-                $min,
-                $argument
-            );
-        } elseif ($max !== null) {
-            $errorMessage = \sprintf(
-                'Expecting argument to be %s or less, got %s.',
-                $max,
-                $argument
-            );
-        } else {
-            throw new \BadMethodCallException('You must provide at least $min or $max');
-        }
-
-        return new self($message, $errorMessage);
+        return new self($message, \sprintf(
+            'Expecting argument to be %s or more, got %s.',
+            $min,
+            $argument
+        ));
     }
 
     /**
