@@ -7,8 +7,8 @@ namespace Yokai\Batch\Tests\Job\Item;
 use ArrayIterator;
 use Closure;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\Job\Item\ExpandProcessedItem;
-use Yokai\Batch\Job\Item\InvalidItemException;
 use Yokai\Batch\Job\Item\ItemJob;
 use Yokai\Batch\Job\Item\Processor\CallbackProcessor;
 use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
@@ -29,7 +29,11 @@ class ItemJobTest extends TestCase
         $processor = new TestDebugProcessor(
             new CallbackProcessor(function ($item) {
                 if ($item > 9) {
-                    throw new InvalidItemException('Item is greater than 9 got {value}', ['{value}' => $item]);
+                    throw SkipItemException::withWarning(
+                        $item,
+                        'Item is greater than 9 got ' . $item,
+                        ['context' => 'phpunit']
+                    );
                 }
 
                 return $item * 10;
@@ -48,15 +52,19 @@ class ItemJobTest extends TestCase
 
         self::assertSame(12, $execution->getSummary()->get('read'), '12 items were read');
         self::assertSame(9, $execution->getSummary()->get('processed'), '9 items were processed');
-        self::assertSame(3, $execution->getSummary()->get('invalid'), '3 items were invalid');
+        self::assertSame(3, $execution->getSummary()->get('skipped'), '3 items were skipped');
         self::assertSame(9, $execution->getSummary()->get('write'), '9 items were write');
+
+        $logs = (string)$execution->getLogs();
+        self::assertStringContainsString('DEBUG: Skipping item 9. {"context":"phpunit","item":10}', $logs);
+        self::assertStringContainsString('DEBUG: Skipping item 10. {"context":"phpunit","item":11}', $logs);
+        self::assertStringContainsString('DEBUG: Skipping item 11. {"context":"phpunit","item":12}', $logs);
 
         $warnings = $execution->getWarnings();
         self::assertCount(3, $warnings);
         foreach ([[0, 9, 10], [1, 10, 11], [2, 11, 12]] as [$warningIdx, $itemIdx, $paramValue]) {
-            self::assertSame('Item is greater than 9 got {value}', $warnings[$warningIdx]->getMessage());
-            self::assertSame(['{value}' => $paramValue], $warnings[$warningIdx]->getParameters());
-            self::assertSame(['itemIndex' => $itemIdx], $warnings[$warningIdx]->getContext());
+            self::assertSame('Item is greater than 9 got ' . $paramValue, $warnings[$warningIdx]->getMessage());
+            self::assertSame(['itemIndex' => $itemIdx, 'item' => $paramValue], $warnings[$warningIdx]->getContext());
         }
 
         $reader->assertWasConfigured();

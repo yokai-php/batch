@@ -5,51 +5,34 @@ declare(strict_types=1);
 namespace Yokai\Batch\Job\Item;
 
 use Yokai\Batch\Job\AbstractJob;
+use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
-use Yokai\Batch\Warning;
 
+/**
+ * This job is at the very center of batch processing.
+ * It is built on an ETL (@link https://en.wikipedia.org/wiki/Extract,_transform,_load)
+ * architecture, with decoupled and reusable components.
+ *
+ * Items are Extracted using an {@see ItemReaderInterface}.
+ * Then Transformed using an {@see ItemProcessorInterface}.
+ * And finally Written using an {@see ItemWriterInterface}.
+ */
 class ItemJob extends AbstractJob
 {
     use ElementConfiguratorTrait;
 
-    /**
-     * @var int
-     */
     private int $batchSize;
-
-    /**
-     * @var ItemReaderInterface
-     */
     private ItemReaderInterface $reader;
-
-    /**
-     * @var ItemProcessorInterface
-     */
     private ItemProcessorInterface $processor;
-
-    /**
-     * @var ItemWriterInterface
-     */
     private ItemWriterInterface $writer;
+    private JobExecutionStorageInterface $executionStorage;
 
     /**
      * @phpstan-var list<object>
      */
     private array $elements;
 
-    /**
-     * @var JobExecutionStorageInterface
-     */
-    private JobExecutionStorageInterface $executionStorage;
-
-    /**
-     * @param int                          $batchSize
-     * @param ItemReaderInterface          $reader
-     * @param ItemProcessorInterface       $processor
-     * @param ItemWriterInterface          $writer
-     * @param JobExecutionStorageInterface $executionStorage
-     */
     public function __construct(
         int $batchSize,
         ItemReaderInterface $reader,
@@ -72,6 +55,7 @@ class ItemJob extends AbstractJob
     {
         $rootExecution = $jobExecution->getRootExecution();
         $summary = $jobExecution->getSummary();
+        $logger = $jobExecution->getLogger();
 
         $this->initializeElements($jobExecution);
 
@@ -82,11 +66,17 @@ class ItemJob extends AbstractJob
 
             try {
                 $processedItem = $this->processor->process($readItem);
-            } catch (InvalidItemException $exception) {
-                $summary->increment('invalid');
-                $jobExecution->addWarning(
-                    new Warning($exception->getMessage(), $exception->getParameters(), ['itemIndex' => $readIndex])
+            } catch (SkipItemException $exception) {
+                $summary->increment('skipped');
+                $logger->debug(
+                    \sprintf('Skipping item %s.', $readIndex),
+                    $exception->getContext() + ['item' => $exception->getItem()]
                 );
+
+                $cause = $exception->getCause();
+                if ($cause) {
+                    $cause->report($jobExecution, $readIndex, $exception->getItem());
+                }
 
                 continue;
             }
