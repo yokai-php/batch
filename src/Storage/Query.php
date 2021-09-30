@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Storage;
 
+use Yokai\Batch\JobExecution;
+
+/**
+ * Query {@see JobExecution} list.
+ * Passed as only argument of {@see QueryableJobExecutionStorageInterface::query} method.
+ */
 final class Query
 {
     public const SORT_BY_START_ASC = 'start_asc';
@@ -49,7 +55,7 @@ final class Query
      * @param int         $limit
      * @param int         $offset
      *
-     * @internal
+     * @internal Do not use directly, use {@see QueryBuilder} instead.
      */
     public function __construct(
         array $jobNames,

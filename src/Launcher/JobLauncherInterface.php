@@ -6,13 +6,18 @@ namespace Yokai\Batch\Launcher;
 
 use Yokai\Batch\JobExecution;
 
+/**
+ * The job launcher is responsible for executing a job, or scheduling it's execution.
+ */
 interface JobLauncherInterface
 {
     /**
-     * @param string $name
-     * @param array  $configuration
+     * Launch a job.
      *
-     * @return JobExecution
+     * @param string $name          Job's name to launch
+     * @param array  $configuration Job's parameters
+     *
+     * @return JobExecution Information about job's execution
      *
      * @phpstan-param array<string, mixed> $configuration
      */

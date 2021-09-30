@@ -6,15 +6,15 @@ namespace Yokai\Batch\Job;
 
 use Yokai\Batch\Summary;
 
+/**
+ * Covers {@see SummaryAwareInterface}.
+ */
 trait SummaryAwareTrait
 {
-    /**
-     * @var Summary
-     */
     private Summary $summary;
 
     /**
-     * @param Summary $summary
+     * @inheritdoc
      */
     public function setSummary(Summary $summary): void
     {

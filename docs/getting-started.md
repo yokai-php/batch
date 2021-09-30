@@ -9,7 +9,6 @@ This is highly recommended that you read this entire page
 before starting to work with this library.
 
 - [Job](domain/job.md): where you are going to work as a developer.
-- [Item job](domain/item-job.md): A special job which is responsible for batch processing logic.
 - [Job Launcher](domain/job-launcher.md): The entry point when you need to execute any job.
 - [Job Execution](domain/job-execution.md): The representation of a certain execution of certain job.
 - [Job Execution Storage](domain/job-execution-storage.md): The persistence layer of jobs executions.

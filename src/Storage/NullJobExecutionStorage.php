@@ -8,6 +8,9 @@ use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
 use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 
+/**
+ * This {@see JobExecutionStorageInterface} do not persist anything.
+ */
 final class NullJobExecutionStorage implements JobExecutionStorageInterface
 {
     /**

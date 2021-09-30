@@ -11,65 +11,9 @@ If you are familiar with the concept of an [ETL](https://en.wikipedia.org/wiki/E
 this is pretty much the same.
 
 The item job allows you to split your logic into 3 different component :
-- a reader: stands for Extract in ETL
-- a processor: stands for Transform in ETL
-- a writer: stands for Load in ETL
-
-### What is an item reader ?
-
-The item reader responsibility is to extract data from a source.
-
-The item reader can be any class that implements [ItemReaderInterface](../../src/Job/Item/ItemReaderInterface.php).
-
-**Built-in item readers:**
-- [StaticIterableReader](../../src/Job/Item/Reader/StaticIterableReader.php):
-  read from an iterable you provide during construction.
-- [SequenceReader](../../src/Job/Item/Reader/SequenceReader.php):
-  read from multiple item reader, one after the other.
-
-**Item readers from bridges:**
-- [FlatFileReader (`box/spout`)](https://github.com/yokai-php/batch-box-spout/blob/0.x/src/FlatFileReader.php):
-  read from any CSV/ODS/XLSX file.
-- [EntityReader (`doctrine/orm`)](https://github.com/yokai-php/batch-doctrine-orm/blob/0.x/src/EntityReader.php):
-  read from any Doctrine ORM entity.
-
-### What is an item processor ?
-
-The item processor responsibility is to transform every read item.
-
-The item processor can be any class that implements [ItemProcessorInterface](../../src/Job/Item/ItemProcessorInterface.php).
-
-**Built-in item processors:**
-- [NullProcessor](../../src/Job/Item/Processor/NullProcessor.php):
-  perform no transformation on items.
-- [ChainProcessor](../../src/Job/Item/Processor/ChainProcessor.php):
-  chain transformation of multiple item processor, one after the other.
-
-**Item processors from bridges:**
-- [SkipInvalidItemProcessor (`symfony/validator`)](https://github.com/yokai-php/batch-symfony-validator/blob/0.x/src/SkipInvalidItemProcessor.php):
-  validate item and throw exception if invalid that will cause item to be skipped.
-- [DenormalizeItemProcessor (`symfony/serializer`)](https://github.com/yokai-php/batch-symfony-serializer/blob/0.x/src/DenormalizeItemProcessor.php):
-  denormalize each item.
-- [NormalizeItemProcessor (`symfony/serializer`)](https://github.com/yokai-php/batch-symfony-validator/blob/0.x/src/NormalizeItemProcessor.php):
-  normalize each item.
-
-### What is an item writer ?
-
-The item processor responsibility is to load every processed item.
-
-The item writer can be any class that implements [ItemWriterInterface](../../src/Job/Item/ItemWriterInterface.php).
-
-**Built-in item writers:**
-- [NullWriter](../../src/Job/Item/Writer/NullWriter.php):
-  do not write items.
-- [NullWriter](../../src/Job/Item/Writer/ChainWriter.php):
-  write items on multiple item writers.
-
-**Item writers from bridges:**
-- [ObjectWriter (`doctrine/persistence`)](https://github.com/yokai-php/batch-doctrine-persistence/blob/0.x/src/ObjectWriter.php):
-  write items to any Doctrine `ObjectManager`.
-- [FlatFileWriter (`box/spout`)](https://github.com/yokai-php/batch-box-spout/blob/0.x/src/FlatFileWriter.php):
-  write items to any CSV/ODS/XLSX file.
+- an item [reader](item-job/item-reader.md): stands for **Extract** in ETL
+- an item [processor](item-job/item-processor.md): stands for **Transform** in ETL
+- an item [writer](item-job/item-writer.md): stands for **Load** in ETL
 
 ## How to create an item job ?
 

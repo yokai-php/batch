@@ -6,15 +6,15 @@ namespace Yokai\Batch\Job;
 
 use Yokai\Batch\JobParameters;
 
+/**
+ * Covers {@see JobParametersAwareInterface}.
+ */
 trait JobParametersAwareTrait
 {
-    /**
-     * @var JobParameters
-     */
     private JobParameters $jobParameters;
 
     /**
-     * @param JobParameters $jobParameters
+     * @inheritdoc
      */
     public function setJobParameters(JobParameters $jobParameters): void
     {

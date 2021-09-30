@@ -16,6 +16,10 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
+/**
+ * This {@see JobLauncherInterface} executes all job directly in the same PHP process.
+ * Eventually, all launcher implementation ends with calling this one.
+ */
 class SimpleJobLauncher implements JobLauncherInterface
 {
     private JobRegistry $jobRegistry;

@@ -35,6 +35,14 @@ that will handle for you :
 - set execution start time
 - set execution end time
 
+## What types of job exists ?
+
+**Built-in storages:**
+- [ItemJob](../../src/Job/Item/ItemJob.php):
+  ETL like, batch processing job ([documentation](item-job.md)).
+- [JobWithChildJobs](../../src/Job/JobWithChildJobs.php):
+  a job that trigger other jobs ([documentation](job-with-children.md)).
+
 ## On the same subject
 
 - [How do I start a job ?](job-launcher.md)

@@ -7,6 +7,29 @@ namespace Yokai\Batch\Storage;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Exception\UnexpectedValueException;
 
+/**
+ * Fluent interface for building {@see Query}.
+ *
+ * Usage:
+ *
+ *     (new QueryBuilder())
+ *         ->jobs(['123', '456'])
+ *         ->ids(['export', 'import'])
+ *         ->statuses([BatchStatus::RUNNING, BatchStatus::COMPLETED])
+ *         ->sort(Query::SORT_BY_END_DESC)
+ *         ->limit(6, 12)
+ *         ->getQuery();
+ *
+ * Not an immutable object, can be used without chaining calls:
+ *
+ *     $builder = new QueryBuilder();
+ *     $builder->jobs(['123', '456']);
+ *     $builder->ids(['export', 'import']);
+ *     $builder->statuses([BatchStatus::RUNNING, BatchStatus::COMPLETED]);
+ *     $builder->sort(Query::SORT_BY_END_DESC);
+ *     $builder->limit(6, 12);
+ *     $builder->getQuery();
+ */
 final class QueryBuilder
 {
     private const SORTS_ENUM = [

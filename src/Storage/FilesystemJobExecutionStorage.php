@@ -12,6 +12,21 @@ use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Serializer\JobExecutionSerializerInterface;
 
+/**
+ * This {@see JobExecutionStorageInterface} do persist {@see JobExecution} on a filesystem.
+ * Every {@see JobExecution} will be stored on an individual file,
+ * in a dir named with the job name : /path/to/dir/{job name}/{execution id}.{extension}.
+ *
+ * Example:
+ *
+ *     /path/to/dir/
+ *     ├── import/
+ *     │   └── 61519f8e0e868.json
+ *     │   └── 61519f8e465a6.json
+ *     ├── export/
+ *     │   └── 61519f8e0f4a7.json
+ *     │   └── 61519f8e46fb3.json
+ */
 final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorageInterface
 {
     private JobExecutionSerializerInterface $serializer;

@@ -6,11 +6,12 @@ namespace Yokai\Batch\Storage;
 
 use Yokai\Batch\JobExecution;
 
+/**
+ * Fetch a list of all {@see JobExecution}, matching a query.
+ */
 interface QueryableJobExecutionStorageInterface extends ListableJobExecutionStorageInterface
 {
     /**
-     * @param Query $query
-     *
      * @return iterable|JobExecution[]
      */
     public function query(Query $query): iterable;

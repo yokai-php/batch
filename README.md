@@ -36,7 +36,6 @@ Looking for something in particular ?
 
 - [How to use *Aware interfaces ?](docs/recipes/aware-interfaces.md)
 - [Create your own job execution storage](docs/recipes/custom-job-execution-storage.md)
-- [Job with children](docs/recipes/job-with-children.md)
 
 Looking for something more specific ?
 

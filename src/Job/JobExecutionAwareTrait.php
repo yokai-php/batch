@@ -6,13 +6,16 @@ namespace Yokai\Batch\Job;
 
 use Yokai\Batch\JobExecution;
 
+/**
+ * Covers {@see JobExecutionAwareInterface}.
+ */
 trait JobExecutionAwareTrait
 {
-    /**
-     * @var JobExecution
-     */
     private JobExecution $jobExecution;
 
+    /**
+     * @inheritdoc
+     */
     public function setJobExecution(JobExecution $jobExecution): void
     {
         $this->jobExecution = $jobExecution;

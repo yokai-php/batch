@@ -16,7 +16,7 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
  *
  * Items are Extracted using an {@see ItemReaderInterface}.
  * Then Transformed using an {@see ItemProcessorInterface}.
- * And finally Written using an {@see ItemWriterInterface}.
+ * And finally Loaded using an {@see ItemWriterInterface}.
  */
 class ItemJob extends AbstractJob
 {
