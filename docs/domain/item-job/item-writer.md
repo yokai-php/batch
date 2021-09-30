@@ -7,12 +7,22 @@ It can be any class implementing [ItemWriterInterface](../../../src/Job/Item/Ite
 ## What types of item writers exists ?
 
 **Built-in item writers:**
-- [NullWriter](../../../src/Job/Item/Writer/NullWriter.php):
-  do not write items.
+- [JsonLinesWriter](../../../src/Job/Item/Writer/Filesystem/JsonLinesWriter.php):
+  write items as a json string each on a line of a file.
 - [ChainWriter](../../../src/Job/Item/Writer/ChainWriter.php):
   write items on multiple item writers.
+- [NullWriter](../../../src/Job/Item/Writer/NullWriter.php):
+  do not write items.
+- [RoutingWriter](../../../src/Job/Item/Writer/RoutingWriter.php):
+  route writing to different writer based on your logic.
+- [SummaryWriter](../../../src/Job/Item/Writer/SummaryWriter.php):
+  write items to a job summary value.
 
 **Item writers from bridges:**
+- [DoctrineDBALInsertWriter (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALInsertWriter.php):
+  write items by inserting in a table via a Doctrine `Connection`.
+- [DoctrineDBALUpsertWriter (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALUpsertWriter.php):
+  write items by inserting/updating in a table via a Doctrine `Connection`.
 - [ObjectWriter (`doctrine/persistence`)](https://github.com/yokai-php/batch-doctrine-persistence/blob/0.x/src/ObjectWriter.php):
   write items to any Doctrine `ObjectManager`.
 - [FlatFileWriter (`box/spout`)](https://github.com/yokai-php/batch-box-spout/blob/0.x/src/FlatFileWriter.php):

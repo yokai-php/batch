@@ -6,6 +6,9 @@ namespace Yokai\Batch\Job\Item\Processor;
 
 use Yokai\Batch\Job\Item\ItemProcessorInterface;
 
+/**
+ * This {@see ItemProcessorInterface} perform no transformation.
+ */
 final class NullProcessor implements ItemProcessorInterface
 {
     /**

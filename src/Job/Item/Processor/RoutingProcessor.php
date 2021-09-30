@@ -13,6 +13,10 @@ use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
 use Yokai\Batch\Finder\FinderInterface;
 
+/**
+ * This {@see ItemProcessorInterface} calls different processor for items,
+ * based on the logic you put in the provided {@see FinderInterface}.
+ */
 final class RoutingProcessor implements
     ItemProcessorInterface,
     InitializableInterface,

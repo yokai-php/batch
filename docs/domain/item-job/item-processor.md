@@ -7,10 +7,16 @@ It can be any class implementing [ItemProcessorInterface](../../../src/Job/Item/
 ## What types of item processors exists ?
 
 **Built-in item processors:**
-- [NullProcessor](../../../src/Job/Item/Processor/NullProcessor.php):
-  perform no transformation on items.
+- [ArrayMapProcessor](../../../src/Job/Item/Processor/ArrayMapProcessor.php):
+  apply a callback to each element of array items.
 - [ChainProcessor](../../../src/Job/Item/Processor/ChainProcessor.php):
   chain transformation of multiple item processor, one after the other.
+- [FilterUniqueProcessor](../../../src/Job/Item/Processor/FilterUniqueProcessor.php):
+  assign an identifier to each item, and skip already encountered items.
+- [NullProcessor](../../../src/Job/Item/Processor/NullProcessor.php):
+  perform no transformation on items.
+- [RoutingProcessor](../../../src/Job/Item/Processor/RoutingProcessor.php):
+  route processing to different processor based on your logic.
 
 **Item processors from bridges:**
 - [SkipInvalidItemProcessor (`symfony/validator`)](https://github.com/yokai-php/batch-symfony-validator/blob/0.x/src/SkipInvalidItemProcessor.php):

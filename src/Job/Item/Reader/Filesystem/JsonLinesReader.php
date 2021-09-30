@@ -11,6 +11,11 @@ use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
 use Yokai\Batch\Job\Parameters\JobParameterAccessorInterface;
 
+/**
+ * This {@see ItemReaderInterface} reads from a file and convert every line to an array.
+ * Every line must be a valid JSON value (accepted by {@see json_decode} function).
+ * @link https://jsonlines.org/
+ */
 final class JsonLinesReader implements
     ItemReaderInterface,
     JobExecutionAwareInterface

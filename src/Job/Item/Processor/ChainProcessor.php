@@ -7,6 +7,11 @@ namespace Yokai\Batch\Job\Item\Processor;
 use Yokai\Batch\Job\Item\AbstractElementDecorator;
 use Yokai\Batch\Job\Item\ItemProcessorInterface;
 
+/**
+ * This {@see ItemProcessorInterface} owns a collection of processors
+ * and call each processor one after the other, providing previous result to the next processor.
+ * If you are familiar with the middleware architecture, it is very much alike.
+ */
 final class ChainProcessor extends AbstractElementDecorator implements ItemProcessorInterface
 {
     /**

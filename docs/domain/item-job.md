@@ -2,8 +2,8 @@
 
 ## What is an item ?
 
-The library allows you to declare and execute jobs, but wait why did you named it batch then ?
-There you are, the Item Job is where batch processing actually starts.
+The library allows you to declare and execute jobs, but wait why do we named it batch then ?
+There you are, the `ItemJob` is where batch processing actually starts.
 
 This is just a job that has been prepared to batch handle items.
 

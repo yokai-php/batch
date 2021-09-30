@@ -9,6 +9,11 @@ use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Job\Item\AbstractElementDecorator;
 use Yokai\Batch\Job\Item\ItemReaderInterface;
 
+/**
+ * This {@see ItemReaderInterface} decorates another reader.
+ * The decorated reader must return array items.
+ * This reader will add the data provided as constructor argument to each item.
+ */
 final class AddMetadataReader extends AbstractElementDecorator implements ItemReaderInterface
 {
     private ItemReaderInterface $reader;

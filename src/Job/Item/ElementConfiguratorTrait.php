@@ -9,6 +9,14 @@ use Yokai\Batch\Job\JobParametersAwareInterface;
 use Yokai\Batch\Job\SummaryAwareInterface;
 use Yokai\Batch\JobExecution;
 
+/**
+ * Use this trait whenever you have objects that might implement :
+ * - {@see JobExecutionAwareInterface}
+ * - {@see JobParametersAwareInterface}
+ * - {@see SummaryAwareInterface}
+ * - {@see InitializableInterface}
+ * - {@see FlushableInterface}
+ */
 trait ElementConfiguratorTrait
 {
     private function configureElementJobContext(object $element, JobExecution $jobExecution): void

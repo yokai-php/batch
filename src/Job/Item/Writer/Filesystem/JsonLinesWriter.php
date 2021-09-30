@@ -12,6 +12,10 @@ use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
 use Yokai\Batch\Job\Parameters\JobParameterAccessorInterface;
 
+/**
+ * This {@see ItemWriterInterface} writes each item as a JSON string to a file.
+ * @link https://jsonlines.org/
+ */
 final class JsonLinesWriter implements
     ItemWriterInterface,
     InitializableInterface,

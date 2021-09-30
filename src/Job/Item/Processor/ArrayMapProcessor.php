@@ -8,6 +8,9 @@ use Closure;
 use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Job\Item\ItemProcessorInterface;
 
+/**
+ * This {@see ItemProcessorInterface} calls {@see array_map} on each item.
+ */
 final class ArrayMapProcessor implements ItemProcessorInterface
 {
     private Closure $callback;

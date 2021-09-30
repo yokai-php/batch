@@ -7,6 +7,9 @@ namespace Yokai\Batch\Job\Item\Reader;
 use Yokai\Batch\Job\Item\AbstractElementDecorator;
 use Yokai\Batch\Job\Item\ItemReaderInterface;
 
+/**
+ * This {@see ItemReaderInterface} reads from multiple readers, one after the other.
+ */
 final class SequenceReader extends AbstractElementDecorator implements ItemReaderInterface
 {
     /**

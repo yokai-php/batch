@@ -7,6 +7,9 @@ namespace Yokai\Batch\Job\Item\Writer;
 use Yokai\Batch\Job\Item\AbstractElementDecorator;
 use Yokai\Batch\Job\Item\ItemWriterInterface;
 
+/**
+ * This {@see ItemWriterInterface} writes to multiple other writers.
+ */
 final class ChainWriter extends AbstractElementDecorator implements ItemWriterInterface
 {
     /**

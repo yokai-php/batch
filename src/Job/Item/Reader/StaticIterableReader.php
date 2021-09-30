@@ -6,6 +6,9 @@ namespace Yokai\Batch\Job\Item\Reader;
 
 use Yokai\Batch\Job\Item\ItemReaderInterface;
 
+/**
+ * This {@see ItemReaderInterface} reads from items provided as constructor argument.
+ */
 final class StaticIterableReader implements ItemReaderInterface
 {
     /**
