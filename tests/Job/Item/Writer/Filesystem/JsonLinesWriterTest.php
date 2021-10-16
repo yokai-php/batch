@@ -13,20 +13,20 @@ use Yokai\Batch\JobExecution;
 class JsonLinesWriterTest extends TestCase
 {
     private const WRITE_DIR = ARTIFACT_DIR . '/json-lines-writer';
+    private const READONLY_WRITE_DIR = ARTIFACT_DIR . '/json-lines-writer-readonly';
 
     public static function setUpBeforeClass(): void
     {
-        if (!\is_dir(self::WRITE_DIR)) {
-            \mkdir(self::WRITE_DIR, 0777, true);
-        }
+        \mkdir(self::READONLY_WRITE_DIR);
+        \chmod(self::READONLY_WRITE_DIR, 0555);
     }
 
     public function testWrite(): void
     {
         $filename = self::WRITE_DIR . '/lines.jsonl';
-        $writer = new JsonLinesWriter(new StaticValueParameterAccessor($filename));
-
         self::assertFileDoesNotExist($filename);
+
+        $writer = new JsonLinesWriter(new StaticValueParameterAccessor($filename));
 
         $writer->setJobExecution(JobExecution::createRoot('123456', 'test'));
         $writer->initialize();
@@ -59,10 +59,24 @@ class JsonLinesWriterTest extends TestCase
     public function testWriteUnknownDir(): void
     {
         $this->expectException(RuntimeException::class);
+
         $filename = '/path/to/unknown/dir/lines.jsonl';
+        self::assertFileDoesNotExist($filename);
+
         $writer = new JsonLinesWriter(new StaticValueParameterAccessor($filename));
 
+        $writer->setJobExecution(JobExecution::createRoot('123456', 'test'));
+        $writer->initialize();
+    }
+
+    public function testWriteToUnauthorizedDir(): void
+    {
+        $this->expectException(RuntimeException::class);
+
+        $filename = self::READONLY_WRITE_DIR . '/lines.jsonl';
         self::assertFileDoesNotExist($filename);
+
+        $writer = new JsonLinesWriter(new StaticValueParameterAccessor($filename));
 
         $writer->setJobExecution(JobExecution::createRoot('123456', 'test'));
         $writer->initialize();

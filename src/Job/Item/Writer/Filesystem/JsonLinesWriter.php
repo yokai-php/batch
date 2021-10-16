@@ -42,6 +42,13 @@ final class JsonLinesWriter implements
     public function initialize(): void
     {
         $path = (string)$this->filePath->get($this->jobExecution);
+        $dir = \dirname($path);
+        if (!@\is_dir($dir) && !@\mkdir($dir, 0777, true)) {
+            throw new RuntimeException(
+                \sprintf('Cannot create dir "%s".', $dir)
+            );
+        }
+
         $file = @\fopen($path, 'w+');
         if ($file === false) {
             throw new RuntimeException(\sprintf('Cannot open %s for writing.', $path));
