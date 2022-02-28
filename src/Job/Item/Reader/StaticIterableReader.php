@@ -11,17 +11,12 @@ use Yokai\Batch\Job\Item\ItemReaderInterface;
  */
 final class StaticIterableReader implements ItemReaderInterface
 {
-    /**
-     * @phpstan-var iterable<mixed>
-     */
-    private iterable $items;
-
-    /**
-     * @phpstan-param iterable<mixed> $items
-     */
-    public function __construct(iterable $items)
-    {
-        $this->items = $items;
+    public function __construct(
+        /**
+         * @phpstan-var iterable<mixed>
+         */
+        private iterable $items,
+    ) {
     }
 
     /**

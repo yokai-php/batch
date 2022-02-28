@@ -19,5 +19,5 @@ interface JobParameterAccessorInterface
      * @return mixed The requested value
      * @throws CannotAccessParameterException if the parameter cannot be accessed
      */
-    public function get(JobExecution $execution);
+    public function get(JobExecution $execution): mixed;
 }

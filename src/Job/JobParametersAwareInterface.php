@@ -16,8 +16,5 @@ use Yokai\Batch\JobParameters;
  */
 interface JobParametersAwareInterface
 {
-    /**
-     * @param JobParameters $parameters
-     */
     public function setJobParameters(JobParameters $parameters): void;
 }

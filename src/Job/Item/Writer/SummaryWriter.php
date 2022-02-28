@@ -18,11 +18,9 @@ final class SummaryWriter implements ItemWriterInterface, JobExecutionAwareInter
 {
     use JobExecutionAwareTrait;
 
-    private JobParameterAccessorInterface $index;
-
-    public function __construct(JobParameterAccessorInterface $index)
-    {
-        $this->index = $index;
+    public function __construct(
+        private JobParameterAccessorInterface $index,
+    ) {
     }
 
     /**

@@ -12,17 +12,15 @@ use Yokai\Batch\JobExecution;
  */
 final class RootJobExecutionAccessor implements JobParameterAccessorInterface
 {
-    private JobParameterAccessorInterface $accessor;
-
-    public function __construct(JobParameterAccessorInterface $accessor)
-    {
-        $this->accessor = $accessor;
+    public function __construct(
+        private JobParameterAccessorInterface $accessor,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function get(JobExecution $execution)
+    public function get(JobExecution $execution): mixed
     {
         return $this->accessor->get($execution->getRootExecution());
     }

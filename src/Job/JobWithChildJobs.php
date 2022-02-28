@@ -11,34 +11,14 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 class JobWithChildJobs extends AbstractJob
 {
-    /**
-     * @var JobExecutionStorageInterface
-     */
-    private JobExecutionStorageInterface $executionStorage;
-
-    /**
-     * @var JobRegistry
-     */
-    private JobRegistry $jobRegistry;
-
-    /**
-     * @var iterable|string[]
-     */
-    private iterable $childJobs;
-
-    /**
-     * @param JobExecutionStorageInterface $executionStorage
-     * @param JobRegistry                  $jobRegistry
-     * @param iterable|string[]            $childJobs
-     */
     public function __construct(
-        JobExecutionStorageInterface $executionStorage,
-        JobRegistry $jobRegistry,
-        iterable $childJobs
+        private JobExecutionStorageInterface $executionStorage,
+        private JobRegistry $jobRegistry,
+        /**
+         * @var iterable<string>
+         */
+        private iterable $childJobs,
     ) {
-        $this->executionStorage = $executionStorage;
-        $this->jobRegistry = $jobRegistry;
-        $this->childJobs = $childJobs;
     }
 
     /**
@@ -48,9 +28,7 @@ class JobWithChildJobs extends AbstractJob
     {
         $logger = $jobExecution->getLogger();
         foreach ($this->childJobs as $jobName) {
-            $jobExecution->addChildExecution(
-                $childExecution = $jobExecution->createChildExecution($jobName)
-            );
+            $jobExecution->addChildExecution($childExecution = $jobExecution->createChildExecution($jobName));
 
             // If the job was marked as unsuccessful, the child will not be executed, and marked as abandoned
             if ($jobExecution->getStatus()->isUnsuccessful()) {

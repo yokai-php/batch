@@ -29,13 +29,10 @@ use Yokai\Batch\Serializer\JobExecutionSerializerInterface;
  */
 final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorageInterface
 {
-    private JobExecutionSerializerInterface $serializer;
-    private string $directory;
-
-    public function __construct(JobExecutionSerializerInterface $serializer, string $directory)
-    {
-        $this->serializer = $serializer;
-        $this->directory = $directory;
+    public function __construct(
+        private JobExecutionSerializerInterface $serializer,
+        private string $directory,
+    ) {
     }
 
     /**
@@ -92,7 +89,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         foreach ($glob as $file) {
             try {
                 yield $this->fileToExecution($file->getPathname());
-            } catch (Throwable $exception) {
+            } catch (Throwable) {
                 // todo should we do something
             }
         }
@@ -111,7 +108,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         foreach ($glob as $file) {
             try {
                 $execution = $this->fileToExecution($file->getPathname());
-            } catch (Throwable $exception) {
+            } catch (Throwable) {
                 // todo should we do something
                 continue;
             }
@@ -134,47 +131,29 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
             $candidates[] = $execution;
         }
 
-        $order = null;
-        switch ($query->sort()) {
-            case Query::SORT_BY_START_ASC:
-                $order = static function (JobExecution $left, JobExecution $right): int {
-                    return $left->getStartTime() <=> $right->getStartTime();
-                };
-                break;
-            case Query::SORT_BY_START_DESC:
-                $order = static function (JobExecution $left, JobExecution $right): int {
-                    return $right->getStartTime() <=> $left->getStartTime();
-                };
-                break;
-            case Query::SORT_BY_END_ASC:
-                $order = static function (JobExecution $left, JobExecution $right): int {
-                    return $left->getEndTime() <=> $right->getEndTime();
-                };
-                break;
-            case Query::SORT_BY_END_DESC:
-                $order = static function (JobExecution $left, JobExecution $right): int {
-                    return $right->getEndTime() <=> $left->getEndTime();
-                };
-                break;
-        }
+        $order = match ($query->sort()) {
+            Query::SORT_BY_START_ASC => static function (JobExecution $left, JobExecution $right): int {
+                return $left->getStartTime() <=> $right->getStartTime();
+            },
+            Query::SORT_BY_START_DESC => static function (JobExecution $left, JobExecution $right): int {
+                return $right->getStartTime() <=> $left->getStartTime();
+            },
+            Query::SORT_BY_END_ASC => static function (JobExecution $left, JobExecution $right): int {
+                return $left->getEndTime() <=> $right->getEndTime();
+            },
+            Query::SORT_BY_END_DESC => static function (JobExecution $left, JobExecution $right): int {
+                return $right->getEndTime() <=> $left->getEndTime();
+            },
+            default => null,
+        };
 
         if ($order) {
             uasort($candidates, $order);
         }
 
-        return array_slice(
-            $candidates,
-            $query->offset(),
-            $query->limit()
-        );
+        return array_slice($candidates, $query->offset(), $query->limit());
     }
 
-    /**
-     * @param string $jobName
-     * @param string $executionId
-     *
-     * @return string
-     */
     public function buildFilePath(string $jobName, string $executionId): string
     {
         return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) .

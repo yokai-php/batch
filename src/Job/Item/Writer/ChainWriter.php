@@ -12,17 +12,12 @@ use Yokai\Batch\Job\Item\ItemWriterInterface;
  */
 final class ChainWriter extends AbstractElementDecorator implements ItemWriterInterface
 {
-    /**
-     * @var iterable|ItemWriterInterface[]
-     */
-    private iterable $writers;
-
-    /**
-     * @param iterable|ItemWriterInterface[] $writers
-     */
-    public function __construct(iterable $writers)
-    {
-        $this->writers = $writers;
+    public function __construct(
+        /**
+         * @var iterable<ItemWriterInterface> $writers
+         */
+        private iterable $writers,
+    ) {
     }
 
     /**
@@ -30,6 +25,7 @@ final class ChainWriter extends AbstractElementDecorator implements ItemWriterIn
      */
     public function write(iterable $items): void
     {
+        /** @var ItemWriterInterface $writer */
         foreach ($this->writers as $writer) {
             $writer->write($items);
         }

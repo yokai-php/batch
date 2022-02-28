@@ -7,16 +7,14 @@ namespace Yokai\Batch;
 /**
  * Stores all logs related to a {@see JobExecution}.
  */
-final class JobExecutionLogs
+final class JobExecutionLogs implements \Stringable
 {
-    /**
-     * Logs content.
-     */
-    private string $logs;
-
-    public function __construct(string $logs = '')
-    {
-        $this->logs = $logs;
+    public function __construct(
+        /**
+         * Logs content.
+         */
+        private string $logs = '',
+    ) {
     }
 
     public function __toString(): string

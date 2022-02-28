@@ -12,8 +12,5 @@ use Yokai\Batch\JobExecution;
  */
 interface JobExecutionAwareInterface
 {
-    /**
-     * @param JobExecution $jobExecution
-     */
     public function setJobExecution(JobExecution $jobExecution): void;
 }

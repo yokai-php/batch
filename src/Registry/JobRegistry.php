@@ -10,23 +10,12 @@ use Yokai\Batch\Job\JobInterface;
 
 final class JobRegistry
 {
-    /**
-     * @var ContainerInterface
-     */
-    private ContainerInterface $jobs;
-
-    /**
-     * @param ContainerInterface $jobs
-     */
-    public function __construct(ContainerInterface $jobs)
-    {
-        $this->jobs = $jobs;
+    public function __construct(
+        private ContainerInterface $jobs,
+    ) {
     }
 
     /**
-     * @param string $name
-     *
-     * @return JobInterface
      * @throws UndefinedJobException
      */
     public function get(string $name): JobInterface

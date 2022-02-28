@@ -13,26 +13,19 @@ use Yokai\Batch\JobExecution;
  */
 class ReplaceWithVariablesParameterAccessor implements JobParameterAccessorInterface
 {
-    private JobParameterAccessorInterface $accessor;
-
-    /**
-     * @phpstan-var array<string, string>
-     */
-    private array $variables;
-
-    /**
-     * @phpstan-param array<string, string> $variables
-     */
-    public function __construct(JobParameterAccessorInterface $accessor, array $variables = [])
-    {
-        $this->accessor = $accessor;
-        $this->variables = $variables;
+    public function __construct(
+        private JobParameterAccessorInterface $accessor,
+        /**
+         * @phpstan-var array<string, string>
+         */
+        private array $variables = []
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function get(JobExecution $execution)
+    public function get(JobExecution $execution): mixed
     {
         $parameter = $this->accessor->get($execution);
         if (!\is_string($parameter)) {

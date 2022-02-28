@@ -8,11 +8,6 @@ use Throwable;
 
 class JobExecutionNotFoundException extends \InvalidArgumentException implements ExceptionInterface
 {
-    /**
-     * @param string         $jobName
-     * @param string         $executionId
-     * @param Throwable|null $previous
-     */
     public function __construct(string $jobName, string $executionId, Throwable $previous = null)
     {
         parent::__construct(

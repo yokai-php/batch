@@ -13,10 +13,12 @@ namespace Yokai\Batch\Finder;
 interface FinderInterface
 {
     /**
-     * @param mixed $subject
+     * Finds the appropriate component for subject.
      *
-     * @return mixed
+     * @param mixed $subject The subject that should help to find component
+     *
+     * @return object The component that matches the subject
      * @phpstan-return T
      */
-    public function find($subject): object;
+    public function find(mixed $subject): object;
 }

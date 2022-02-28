@@ -15,8 +15,5 @@ use Yokai\Batch\Summary;
  */
 interface SummaryAwareInterface
 {
-    /**
-     * @param Summary $summary
-     */
     public function setSummary(Summary $summary): void;
 }

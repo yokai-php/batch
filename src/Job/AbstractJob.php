@@ -37,16 +37,8 @@ abstract class AbstractJob implements JobInterface
         $jobExecution->setStatus($status);
     }
 
-    /**
-     * @param JobExecution $jobExecution
-     */
     abstract protected function doExecute(JobExecution $jobExecution): void;
 
-    /**
-     * @param Throwable $exception
-     *
-     * @return int
-     */
     protected function getStatusForException(Throwable $exception): int
     {
         return BatchStatus::FAILED;

@@ -13,17 +13,15 @@ use Yokai\Batch\Warning;
  */
 final class SkipItemOnError implements SkipItemCauseInterface
 {
-    private Throwable $error;
-
-    public function __construct(Throwable $error)
-    {
-        $this->error = $error;
+    public function __construct(
+        private Throwable $error,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function report(JobExecution $execution, $index, $item): void
+    public function report(JobExecution $execution, int|string $index, mixed $item): void
     {
         $execution->getSummary()->increment('errored');
         $execution->addWarning(
@@ -33,7 +31,7 @@ final class SkipItemOnError implements SkipItemCauseInterface
                 [
                     'itemIndex' => $index,
                     'item' => $item,
-                    'class' => \get_class($this->error),
+                    'class' => $this->error::class,
                     'message' => $this->error->getMessage(),
                     'code' => $this->error->getCode(),
                     'trace' => $this->error->getTraceAsString(),

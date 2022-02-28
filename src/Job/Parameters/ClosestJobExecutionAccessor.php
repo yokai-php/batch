@@ -13,23 +13,21 @@ use Yokai\Batch\JobExecution;
  */
 final class ClosestJobExecutionAccessor implements JobParameterAccessorInterface
 {
-    private JobParameterAccessorInterface $accessor;
-
-    public function __construct(JobParameterAccessorInterface $accessor)
-    {
-        $this->accessor = $accessor;
+    public function __construct(
+        private JobParameterAccessorInterface $accessor
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function get(JobExecution $execution)
+    public function get(JobExecution $execution): mixed
     {
         $candidateExecution = $execution;
         do {
             try {
                 return $this->accessor->get($candidateExecution);
-            } catch (CannotAccessParameterException $exception) {
+            } catch (CannotAccessParameterException) {
                 $candidateExecution = $candidateExecution->getParentExecution();
             }
         } while ($candidateExecution !== null);

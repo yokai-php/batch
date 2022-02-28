@@ -22,7 +22,7 @@ class BatchStatusTest extends TestCase
         self::assertSame($unsucessful, $status->isUnsuccessful());
     }
 
-    public function statuses()
+    public function statuses(): \Generator
     {
         yield 'completed' => [BatchStatus::COMPLETED, 'COMPLETED', false];
         yield 'pending' => [BatchStatus::PENDING, 'PENDING', false];

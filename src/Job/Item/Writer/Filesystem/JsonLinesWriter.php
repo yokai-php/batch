@@ -24,16 +24,14 @@ final class JsonLinesWriter implements
 {
     use JobExecutionAwareTrait;
 
-    private JobParameterAccessorInterface $filePath;
-
     /**
      * @var resource
      */
     private $file;
 
-    public function __construct(JobParameterAccessorInterface $filePath)
-    {
-        $this->filePath = $filePath;
+    public function __construct(
+        private JobParameterAccessorInterface $filePath,
+    ) {
     }
 
     /**
@@ -45,9 +43,7 @@ final class JsonLinesWriter implements
         $path = $this->filePath->get($this->jobExecution);
         $dir = \dirname($path);
         if (!@\is_dir($dir) && !@\mkdir($dir, 0777, true)) {
-            throw new RuntimeException(
-                \sprintf('Cannot create dir "%s".', $dir)
-            );
+            throw new RuntimeException(\sprintf('Cannot create dir "%s".', $dir));
         }
 
         $file = @\fopen($path, 'w+');
@@ -65,7 +61,7 @@ final class JsonLinesWriter implements
     {
         foreach ($items as $json) {
             if (!\is_string($json)) {
-                $json = \json_encode($json);
+                $json = \json_encode($json, JSON_THROW_ON_ERROR);
             }
             \fwrite($this->file, $json . \PHP_EOL);
         }

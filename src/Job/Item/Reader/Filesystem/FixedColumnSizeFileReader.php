@@ -32,29 +32,17 @@ final class FixedColumnSizeFileReader implements
         self::HEADERS_MODE_NONE,
     ];
 
-    /**
-     * @var int[]
-     */
-    private array $columns;
-
-    private string $headersMode;
-    private JobParameterAccessorInterface $filePath;
-
-    /**
-     * @param int[] $columns
-     */
     public function __construct(
-        array $columns,
-        JobParameterAccessorInterface $filePath,
-        string $headersMode = self::HEADERS_MODE_NONE
+        /**
+         * @var int[] $columns
+         */
+        private array $columns,
+        private JobParameterAccessorInterface $filePath,
+        private string $headersMode = self::HEADERS_MODE_NONE,
     ) {
         if (!\in_array($headersMode, self::AVAILABLE_HEADERS_MODES, true)) {
             throw UnexpectedValueException::enum(self::AVAILABLE_HEADERS_MODES, $headersMode, 'Invalid header mode.');
         }
-
-        $this->columns = $columns;
-        $this->headersMode = $headersMode;
-        $this->filePath = $filePath;
     }
 
     /**

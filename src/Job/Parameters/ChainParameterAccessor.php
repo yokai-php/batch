@@ -13,27 +13,21 @@ use Yokai\Batch\JobExecution;
  */
 final class ChainParameterAccessor implements JobParameterAccessorInterface
 {
-    /**
-     * @var JobParameterAccessorInterface[]
-     * @phpstan-var iterable<JobParameterAccessorInterface>
-     */
-    private iterable $accessors;
-
-    /**
-     * @param JobParameterAccessorInterface[] $accessors
-     * @phpstan-param iterable<JobParameterAccessorInterface> $accessors
-     */
-    public function __construct(iterable $accessors)
-    {
-        $this->accessors = $accessors;
+    public function __construct(
+        /**
+         * @phpstan-var iterable<JobParameterAccessorInterface>
+         */
+        private iterable $accessors,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function get(JobExecution $execution)
+    public function get(JobExecution $execution): mixed
     {
         $tries = [];
+        /** @var JobParameterAccessorInterface $accessor */
         foreach ($this->accessors as $accessor) {
             try {
                 return $accessor->get($execution);

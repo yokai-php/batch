@@ -14,23 +14,18 @@ use Yokai\Batch\Finder\FinderInterface;
  */
 final class DummyFinder implements FinderInterface
 {
-    /**
-     * @phpstan-var T
-     */
-    private object $object;
-
-    /**
-     * @phpstan-param T $object
-     */
-    public function __construct(object $object)
-    {
-        $this->object = $object;
+    public function __construct(
+        /**
+         * @phpstan-var T
+         */
+        private object $object,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function find($subject): object
+    public function find(mixed $subject): object
     {
         return $this->object;
     }

@@ -9,34 +9,24 @@ namespace Yokai\Batch;
  * It is usually something about sanity/validation.
  * Warning can be added to the execution via {@see JobExecution::addWarning}.
  */
-final class Warning
+final class Warning implements \Stringable
 {
-    /**
-     * The warning message.
-     */
-    private string $message;
-
-    /**
-     * The warning message parameters.
-     * @phpstan-var array<string, string>
-     */
-    private array $parameters;
-
-    /**
-     * Some extra parameters that a developer has provided.
-     * @phpstan-var array<string, mixed>
-     */
-    private array $context;
-
-    /**
-     * @phpstan-param array<string, string> $parameters
-     * @phpstan-param array<string, mixed> $context
-     */
-    public function __construct(string $message, array $parameters = [], array $context = [])
-    {
-        $this->message = $message;
-        $this->parameters = $parameters;
-        $this->context = $context;
+    public function __construct(
+        /**
+         * The warning message.
+         */
+        private string $message,
+        /**
+         * The warning message parameters.
+         * @phpstan-var array<string, string>
+         */
+        private array $parameters = [],
+        /**
+         * Some extra parameters that a developer has provided.
+         * @phpstan-var array<string, mixed>
+         */
+        private array $context = [],
+    ) {
     }
 
     public function __toString(): string

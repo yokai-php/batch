@@ -23,44 +23,27 @@ final class Summary implements
     Countable,
     IteratorAggregate
 {
-    /**
-     * @phpstan-var array<string, mixed>
-     */
-    private array $values;
-
-    /**
-     * @phpstan-param array<string, mixed> $values
-     */
-    public function __construct(array $values = [])
-    {
-        $this->values = $values;
+    public function __construct(
+        /**
+         * @phpstan-var array<string, mixed>
+         */
+        private array $values = [],
+    ) {
     }
 
-    /**
-     * @param string $key
-     * @param mixed  $info
-     */
-    public function set(string $key, $info): void
+    public function set(string $key, mixed $info): void
     {
         $this->values[$key] = $info;
     }
 
-    /**
-     * @param string    $key
-     * @param int|float $increment
-     */
-    public function increment(string $key, $increment = 1): void
+    public function increment(string $key, float|int $increment = 1): void
     {
         $this->values[$key] = ($this->values[$key] ?? 0) + $increment;
     }
 
-    /**
-     * @param string $key
-     * @param mixed  $value
-     */
-    public function append(string $key, $value): void
+    public function append(string $key, mixed $value): void
     {
-        $this->values[$key] = $this->values[$key] ?? [];
+        $this->values[$key] ??= [];
         if (!\is_array($this->values[$key])) {
             throw UnexpectedValueException::type('array', $this->values[$key]);
         }
@@ -68,10 +51,7 @@ final class Summary implements
         $this->values[$key][] = $value;
     }
 
-    /**
-     * @return mixed
-     */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
         return $this->values[$key] ?? null;
     }

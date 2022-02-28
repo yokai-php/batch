@@ -9,27 +9,18 @@ namespace Yokai\Batch\Trigger\Scheduler;
  */
 final class ScheduledJob
 {
-    private string $jobName;
-    /**
-     * @phpstan-var array<string, string>
-     */
-    private array $parameters;
-    private ?string $id;
-
-    /**
-     * @phpstan-param array<string, string> $parameters
-     */
-    public function __construct(string $jobName, array $parameters = [], string $id = null)
-    {
-        $this->jobName = $jobName;
-        $this->parameters = $parameters;
-        $this->id = $id;
+    public function __construct(
+        private string $jobName,
+        /**
+         * @phpstan-var array<string, string>
+         */
+        private array $parameters = [],
+        private ?string $id = null,
+    ) {
     }
 
     /**
      * The job name to trigger.
-     *
-     * @return string
      */
     public function getJobName(): string
     {
@@ -39,7 +30,6 @@ final class ScheduledJob
     /**
      * The job parameters for the job to trigger.
      *
-     * @return array
      * @phpstan-return array<string, string>
      */
     public function getParameters(): array
@@ -49,8 +39,6 @@ final class ScheduledJob
 
     /**
      * An optional job execution id for the job to trigger.
-     *
-     * @return string|null
      */
     public function getId(): ?string
     {

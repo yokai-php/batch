@@ -11,23 +11,15 @@ use Yokai\Batch\JobExecution;
  */
 final class StaticValueParameterAccessor implements JobParameterAccessorInterface
 {
-    /**
-     * @var mixed
-     */
-    private $value;
-
-    /**
-     * @param mixed $value
-     */
-    public function __construct($value)
-    {
-        $this->value = $value;
+    public function __construct(
+        private mixed $value,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function get(JobExecution $execution)
+    public function get(JobExecution $execution): mixed
     {
         return $this->value;
     }

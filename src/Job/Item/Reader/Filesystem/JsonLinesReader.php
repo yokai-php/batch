@@ -22,11 +22,9 @@ final class JsonLinesReader implements
 {
     use JobExecutionAwareTrait;
 
-    private JobParameterAccessorInterface $filePath;
-
-    public function __construct(JobParameterAccessorInterface $filePath)
-    {
-        $this->filePath = $filePath;
+    public function __construct(
+        private JobParameterAccessorInterface $filePath,
+    ) {
     }
 
     /**
@@ -43,7 +41,7 @@ final class JsonLinesReader implements
         }
 
         while ($line = \fgets($file)) {
-            yield \json_decode($line, true);
+            yield \json_decode($line, true, 512, JSON_THROW_ON_ERROR);
         }
 
         \fclose($file);

@@ -13,17 +13,15 @@ use Yokai\Batch\JobExecution;
  */
 final class JobExecutionSummaryAccessor implements JobParameterAccessorInterface
 {
-    private string $name;
-
-    public function __construct(string $name)
-    {
-        $this->name = $name;
+    public function __construct(
+        private string $name,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function get(JobExecution $execution)
+    public function get(JobExecution $execution): mixed
     {
         if (!$execution->getSummary()->has($this->name)) {
             throw new CannotAccessParameterException(

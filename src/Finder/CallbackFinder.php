@@ -13,30 +13,22 @@ namespace Yokai\Batch\Finder;
  */
 class CallbackFinder implements FinderInterface
 {
-    /**
-     * @phpstan-var list<array{0: callable, 1: T}>
-     */
-    private array $strategies;
-
-    /**
-     * @phpstan-var T
-     */
-    private object $default;
-
-    /**
-     * @phpstan-param list<array{0: callable, 1: T}> $strategies
-     * @phpstan-param T $default
-     */
-    public function __construct(array $strategies, object $default)
-    {
-        $this->strategies = $strategies;
-        $this->default = $default;
+    public function __construct(
+        /**
+         * @phpstan-var list<array{0: callable, 1: T}>
+         */
+        private array $strategies,
+        /**
+         * @phpstan-var T
+         */
+        private object $default,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function find($subject): object
+    public function find(mixed $subject): object
     {
         foreach ($this->strategies as [$callback, $component]) {
             if ($callback($subject)) {

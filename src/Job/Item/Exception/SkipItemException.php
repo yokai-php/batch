@@ -16,66 +16,51 @@ use Yokai\Batch\JobExecution;
  */
 final class SkipItemException extends RuntimeException
 {
-    /**
-     * @var mixed
-     */
-    private $item;
-
-    private ?SkipItemCauseInterface $cause;
-
-    /**
-     * @phpstan-var array<string, mixed>
-     */
-    private array $context;
-
-    /**
-     * @param mixed $item
-     *
-     * @phpstan-param array<string, mixed> $context
-     */
-    public function __construct($item, ?SkipItemCauseInterface $cause, array $context = [])
-    {
+    public function __construct(
+        private mixed $item,
+        private ?SkipItemCauseInterface $cause,
+        /**
+         * @phpstan-var array<string, mixed>
+         */
+        private array $context = [],
+    ) {
         parent::__construct();
-        $this->item = $item;
-        $this->cause = $cause;
-        $this->context = $context;
     }
 
     /**
-     * @param mixed $item
+     * Use this method when it's normal to skip this item.
      *
      * @phpstan-param array<string, mixed> $context
      */
-    public static function justSkip($item, array $context = []): self
+    public static function justSkip(mixed $item, array $context = []): self
     {
         return new self($item, null, $context);
     }
 
     /**
-     * @param mixed $item
+     * Use this method when an error occurs, and you want to mark this item as errored.
      *
      * @phpstan-param array<string, mixed> $context
      */
-    public static function onError($item, Throwable $error, array $context = []): self
+    public static function onError(mixed $item, Throwable $error, array $context = []): self
     {
         return new self($item, new SkipItemOnError($error), $context);
     }
 
     /**
-     * @param mixed $item
+     * Use this method when something seems weird with an item, and you want to warn about it.
      *
      * @phpstan-param array<string, mixed> $context
      */
-    public static function withWarning($item, string $message, array $context = []): self
+    public static function withWarning(mixed $item, string $message, array $context = []): self
     {
         return new self($item, new SkipItemWithWarning($message), $context);
     }
 
     /**
      * The item that has been skipped.
-     * @return mixed
      */
-    public function getItem()
+    public function getItem(): mixed
     {
         return $this->item;
     }

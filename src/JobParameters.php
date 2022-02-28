@@ -21,17 +21,12 @@ final class JobParameters implements
     Countable,
     IteratorAggregate
 {
-    /**
-     * @phpstan-var array<string, mixed>
-     */
-    private array $parameters;
-
-    /**
-     * @phpstan-param array<string, mixed> $parameters
-     */
-    public function __construct(array $parameters = [])
-    {
-        $this->parameters = $parameters;
+    public function __construct(
+        /**
+         * @phpstan-var array<string, mixed>
+         */
+        private array $parameters = [],
+    ) {
     }
 
     /**
@@ -43,10 +38,9 @@ final class JobParameters implements
     }
 
     /**
-     * @return mixed
      * @throws UndefinedJobParameterException If parameter is not defined
      */
-    public function get(string $name)
+    public function get(string $name): mixed
     {
         if (!$this->has($name)) {
             throw new UndefinedJobParameterException($name);

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Yokai\Batch\Job\Item\Processor;
 
 use Yokai\Batch\Exception\UnexpectedValueException;
+use Yokai\Batch\Finder\FinderInterface;
 use Yokai\Batch\Job\Item\ElementConfiguratorTrait;
 use Yokai\Batch\Job\Item\FlushableInterface;
 use Yokai\Batch\Job\Item\InitializableInterface;
 use Yokai\Batch\Job\Item\ItemProcessorInterface;
 use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
-use Yokai\Batch\Finder\FinderInterface;
 
 /**
  * This {@see ItemProcessorInterface} calls different processor for items,
@@ -27,27 +27,22 @@ final class RoutingProcessor implements
     use JobExecutionAwareTrait;
 
     /**
-     * @phpstan-var FinderInterface<ItemProcessorInterface>
-     */
-    private FinderInterface $finder;
-
-    /**
      * @var ItemProcessorInterface[]
      */
     private array $processors = [];
 
-    /**
-     * @phpstan-param FinderInterface<ItemProcessorInterface> $finder
-     */
-    public function __construct(FinderInterface $finder)
-    {
-        $this->finder = $finder;
+    public function __construct(
+        /**
+         * @phpstan-var FinderInterface<ItemProcessorInterface>
+         */
+        private FinderInterface $finder,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function process($item)
+    public function process(mixed $item): mixed
     {
         $processor = $this->finder->find($item);
         if (!$processor instanceof ItemProcessorInterface) {

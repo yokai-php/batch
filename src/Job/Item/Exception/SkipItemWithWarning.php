@@ -12,17 +12,15 @@ use Yokai\Batch\Warning;
  */
 final class SkipItemWithWarning implements SkipItemCauseInterface
 {
-    private string $message;
-
-    public function __construct(string $message)
-    {
-        $this->message = $message;
+    public function __construct(
+        private string $message,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function report(JobExecution $execution, $index, $item): void
+    public function report(JobExecution $execution, int|string $index, mixed $item): void
     {
         $execution->addWarning(new Warning($this->message, [], ['itemIndex' => $index, 'item' => $item]));
     }

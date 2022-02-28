@@ -7,28 +7,31 @@ namespace Yokai\Batch\Serializer;
 use Yokai\Batch\Exception\InvalidArgumentException;
 use Yokai\Batch\Exception\RuntimeException;
 use Yokai\Batch\JobExecution;
+use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
+/**
+ * The serializer is responsible for transforming {@see JobExecution} to string, and the other way round.
+ * It is used by some {@see JobExecutionStorageInterface} during persistence operations.
+ */
 interface JobExecutionSerializerInterface
 {
     /**
-     * @param JobExecution $jobExecution
+     * Transform a {@see JobExecution} to a string.
      *
-     * @return string
      * @throws RuntimeException
      */
     public function serialize(JobExecution $jobExecution): string;
 
     /**
-     * @param string $serializedJobExecution
+     * Transform a string to a {@see JobExecution}.
      *
-     * @return JobExecution
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
     public function unserialize(string $serializedJobExecution): JobExecution;
 
     /**
-     * @return string
+     * Tells the file extension attached to this serializer.
      */
     public function extension(): string;
 }

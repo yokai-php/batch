@@ -17,11 +17,7 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
     {
         return new self(
             $message,
-            \sprintf(
-                'Expecting argument to be %s, but got %s.',
-                $expected,
-                \get_debug_type($argument)
-            )
+            \sprintf('Expecting argument to be %s, but got %s.', $expected, \get_debug_type($argument))
         );
     }
 
@@ -42,11 +38,7 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
 
     public static function min(float|int|null $min, float|int|null $argument, string $message = null): self
     {
-        return new self($message, \sprintf(
-            'Expecting argument to be %s or more, got %s.',
-            $min,
-            $argument
-        ));
+        return new self($message, \sprintf('Expecting argument to be %s or more, got %s.', $min, $argument));
     }
 
     public static function date(string $expected, mixed $argument, string $message = null): self

@@ -13,25 +13,20 @@ use Yokai\Batch\JobExecution;
  */
 final class SiblingJobExecutionAccessor implements JobParameterAccessorInterface
 {
-    private JobParameterAccessorInterface $accessor;
-    private string $sibling;
-
-    public function __construct(JobParameterAccessorInterface $accessor, string $sibling)
-    {
-        $this->accessor = $accessor;
-        $this->sibling = $sibling;
+    public function __construct(
+        private JobParameterAccessorInterface $accessor,
+        private string $sibling,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function get(JobExecution $execution)
+    public function get(JobExecution $execution): mixed
     {
         $parent = $execution->getParentExecution();
         if ($parent === null) {
-            throw new CannotAccessParameterException(
-                'Cannot access parameter, job execution has no parent.'
-            );
+            throw new CannotAccessParameterException('Cannot access parameter, job execution has no parent.');
         }
         $sibling = $parent->getChildExecution($this->sibling);
         if ($sibling === null) {

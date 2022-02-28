@@ -31,14 +31,12 @@ final class JobExecutionLogger extends AbstractLogger
      */
     private static ?DateTimeZone $timezone = null;
 
-    /**
-     * Logs container : where logs are actually written.
-     */
-    private JobExecutionLogs $logs;
-
-    public function __construct(JobExecutionLogs $logs)
-    {
-        $this->logs = $logs;
+    public function __construct(
+        /**
+         * Logs container : where logs are actually written.
+         */
+        private JobExecutionLogs $logs,
+    ) {
     }
 
     /**
@@ -53,7 +51,7 @@ final class JobExecutionLogger extends AbstractLogger
                 $this->date(),
                 self::LEVELS[$level] ?? '',
                 $message,
-                json_encode($context)
+                json_encode($context, JSON_THROW_ON_ERROR)
             )
         );
     }

@@ -24,7 +24,7 @@ final class ArrayMapProcessor implements ItemProcessorInterface
      * @inheritdoc
      * @phpstan-return array<int|string, mixed>
      */
-    public function process($item): array
+    public function process(mixed $item): array
     {
         if (!\is_array($item)) {
             throw UnexpectedValueException::type('array', $item);

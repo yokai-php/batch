@@ -13,30 +13,20 @@ use Yokai\Batch\JobExecution;
  */
 final class DefaultParameterAccessor implements JobParameterAccessorInterface
 {
-    private JobParameterAccessorInterface $accessor;
-
-    /**
-     * @var mixed
-     */
-    private $default;
-
-    /**
-     * @param mixed $default
-     */
-    public function __construct(JobParameterAccessorInterface $accessor, $default)
-    {
-        $this->accessor = $accessor;
-        $this->default = $default;
+    public function __construct(
+        private JobParameterAccessorInterface $accessor,
+        private mixed $default,
+    ) {
     }
 
     /**
      * @inheritdoc
      */
-    public function get(JobExecution $execution)
+    public function get(JobExecution $execution): mixed
     {
         try {
             return $this->accessor->get($execution);
-        } catch (CannotAccessParameterException $exception) {
+        } catch (CannotAccessParameterException) {
             return $this->default;
         }
     }

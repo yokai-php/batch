@@ -18,20 +18,15 @@ use Yokai\Batch\Trigger\Scheduler\SchedulerInterface;
 final class TriggerScheduledJobsJob extends AbstractJob
 {
     /**
-     * @var SchedulerInterface[]
-     * @phstan-var iterable<SchedulerInterface>
+     * @phpstan-param iterable<SchedulerInterface> $schedulers
      */
-    private iterable $schedulers;
-    private JobLauncherInterface $jobLauncher;
-
-    /**
-     * @param SchedulerInterface[] $schedulers
-     * @phstan-param iterable<SchedulerInterface> $schedulers
-     */
-    public function __construct(iterable $schedulers, JobLauncherInterface $jobLauncher)
-    {
-        $this->schedulers = $schedulers;
-        $this->jobLauncher = $jobLauncher;
+    public function __construct(
+        /**
+         * @phstan-var iterable<SchedulerInterface>
+         */
+        private iterable $schedulers,
+        private JobLauncherInterface $jobLauncher,
+    ) {
     }
 
     /**
@@ -41,6 +36,7 @@ final class TriggerScheduledJobsJob extends AbstractJob
     {
         $jobs = [];
 
+        /** @var SchedulerInterface $scheduler */
         foreach ($this->schedulers as $scheduler) {
             foreach ($scheduler->get($jobExecution) as $scheduledJob) {
                 $configuration = $scheduledJob->getParameters();
@@ -51,7 +47,7 @@ final class TriggerScheduledJobsJob extends AbstractJob
                 $scheduledJobExecution = $this->jobLauncher->launch($scheduledJob->getJobName(), $configuration);
 
                 $jobs[] = $info = [
-                    'scheduler' => \get_class($scheduler),
+                    'scheduler' => $scheduler::class,
                     'job' => $scheduledJobExecution->getJobName(),
                     'id' => $scheduledJobExecution->getId(),
                 ];

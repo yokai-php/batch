@@ -160,13 +160,6 @@ final class QueryBuilder
 
     public function getQuery(): Query
     {
-        return new Query(
-            $this->jobNames,
-            $this->ids,
-            $this->statuses,
-            $this->sortBy,
-            $this->limit,
-            $this->offset
-        );
+        return new Query($this->jobNames, $this->ids, $this->statuses, $this->sortBy, $this->limit, $this->offset);
     }
 }

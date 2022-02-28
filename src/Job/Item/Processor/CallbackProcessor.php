@@ -16,7 +16,7 @@ final class CallbackProcessor implements ItemProcessorInterface
         $this->callback = $callback;
     }
 
-    public function process($item)
+    public function process(mixed $item): mixed
     {
         return ($this->callback)($item);
     }

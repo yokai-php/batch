@@ -10,49 +10,31 @@ use Throwable;
  * This class represent an exception that occurred during a {@see JobExecution}.
  * Failure can be added to the execution via {@see JobExecution::addFailureException}.
  */
-final class Failure
+final class Failure implements \Stringable
 {
-    /**
-     * The exception class
-     */
-    private string $class;
-
-    /**
-     * The exception message {@see Throwable::getMessage}
-     */
-    private string $message;
-
-    /**
-     * The exception code {@see Throwable::getCode}
-     */
-    private int $code;
-
-    /**
-     * Some extra parameters that a developer has provided
-     * @phpstan-var array<string, string>
-     */
-    private array $parameters;
-
-    /**
-     * The exception trace {@see Throwable::getTraceAsString}
-     */
-    private ?string $trace;
-
-    /**
-     * @phpstan-param array<string, string> $parameters
-     */
     public function __construct(
-        string $class,
-        string $message,
-        int $code,
-        array $parameters = [],
-        string $trace = null
+        /**
+         * The exception class
+         */
+        private string $class,
+        /**
+         * The exception message {@see Throwable::getMessage}
+         */
+        private string $message,
+        /**
+         * The exception code {@see Throwable::getCode}
+         */
+        private int $code,
+        /**
+         * Some extra parameters that a developer has provided
+         * @phpstan-var array<string, string>
+         */
+        private array $parameters = [],
+        /**
+         * The exception trace {@see Throwable::getTraceAsString}
+         */
+        private ?string $trace = null,
     ) {
-        $this->class = $class;
-        $this->message = $message;
-        $this->code = $code;
-        $this->parameters = $parameters;
-        $this->trace = $trace;
     }
 
     /**
@@ -61,7 +43,7 @@ final class Failure
     public static function fromException(Throwable $exception, array $parameters = []): self
     {
         return new self(
-            get_class($exception),
+            $exception::class,
             $exception->getMessage(),
             $exception->getCode(),
             $parameters,

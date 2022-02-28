@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Yokai\Batch\Job\Item\Writer;
 
 use Yokai\Batch\Exception\UnexpectedValueException;
+use Yokai\Batch\Finder\FinderInterface;
 use Yokai\Batch\Job\Item\ElementConfiguratorTrait;
 use Yokai\Batch\Job\Item\FlushableInterface;
 use Yokai\Batch\Job\Item\InitializableInterface;
 use Yokai\Batch\Job\Item\ItemWriterInterface;
 use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
-use Yokai\Batch\Finder\FinderInterface;
 
 /**
  * This {@see ItemWriterInterface} calls different writer for items,
@@ -27,21 +27,16 @@ final class RoutingWriter implements
     use JobExecutionAwareTrait;
 
     /**
-     * @phpstan-var FinderInterface<ItemWriterInterface>
-     */
-    private FinderInterface $finder;
-
-    /**
      * @var ItemWriterInterface[]
      */
     private array $writers = [];
 
-    /**
-     * @phpstan-param FinderInterface<ItemWriterInterface> $finder
-     */
-    public function __construct(FinderInterface $finder)
-    {
-        $this->finder = $finder;
+    public function __construct(
+        /**
+         * @phpstan-var FinderInterface<ItemWriterInterface>
+         */
+        private FinderInterface $finder,
+    ) {
     }
 
     /**

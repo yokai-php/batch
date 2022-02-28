@@ -14,24 +14,20 @@ use Yokai\Batch\Job\Item\ItemProcessorInterface;
  */
 final class ChainProcessor extends AbstractElementDecorator implements ItemProcessorInterface
 {
-    /**
-     * @var iterable|ItemProcessorInterface[]
-     */
-    private iterable $processors;
-
-    /**
-     * @param iterable|ItemProcessorInterface[] $processors
-     */
-    public function __construct(iterable $processors)
-    {
-        $this->processors = $processors;
+    public function __construct(
+        /**
+         * @var iterable<ItemProcessorInterface> $processors
+         */
+        private iterable $processors,
+    ) {
     }
 
     /**
      * @inheritDoc
      */
-    public function process($item)
+    public function process(mixed $item): mixed
     {
+        /** @var ItemProcessorInterface $processor */
         foreach ($this->processors as $processor) {
             $item = $processor->process($item);
         }

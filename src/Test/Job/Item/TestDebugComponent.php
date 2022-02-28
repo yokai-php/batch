@@ -24,7 +24,6 @@ abstract class TestDebugComponent implements
 {
     use ElementConfiguratorTrait;
 
-    private object $decorated;
     private bool $initialized = false;
     private bool $flushed = false;
     private JobExecution $jobExecution;
@@ -32,9 +31,9 @@ abstract class TestDebugComponent implements
     private bool $summaryProvided = false;
     private bool $jobParametersProvided = false;
 
-    public function __construct(object $decorated)
-    {
-        $this->decorated = $decorated;
+    public function __construct(
+        private object $decorated,
+    ) {
     }
 
     public function configure(JobExecution $jobExecution): void

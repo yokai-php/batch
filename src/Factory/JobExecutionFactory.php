@@ -9,17 +9,9 @@ use Yokai\Batch\JobParameters;
 
 final class JobExecutionFactory
 {
-    /**
-     * @var JobExecutionIdGeneratorInterface
-     */
-    private JobExecutionIdGeneratorInterface $idGenerator;
-
-    /**
-     * @param JobExecutionIdGeneratorInterface $idGenerator
-     */
-    public function __construct(JobExecutionIdGeneratorInterface $idGenerator)
-    {
-        $this->idGenerator = $idGenerator;
+    public function __construct(
+        private JobExecutionIdGeneratorInterface $idGenerator,
+    ) {
     }
 
     /**

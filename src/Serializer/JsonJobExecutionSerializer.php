@@ -31,10 +31,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
                 throw new Exception(\json_last_error_msg());
             }
         } catch (Throwable $exception) {
-            throw RuntimeException::error(
-                $exception,
-                'Cannot serialize job execution to JSON.'
-            );
+            throw RuntimeException::error($exception, 'Cannot serialize job execution to JSON.');
         }
 
         return $json;
@@ -56,10 +53,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
 
             return $this->fromArray($data);
         } catch (Throwable $exception) {
-            throw RuntimeException::error(
-                $exception,
-                'Cannot unserialize job execution from JSON.'
-            );
+            throw RuntimeException::error($exception, 'Cannot unserialize job execution from JSON.');
         }
     }
 

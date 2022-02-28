@@ -11,16 +11,14 @@ use Yokai\Batch\Launcher\JobLauncherInterface;
 
 final class BufferingJobLauncher implements JobLauncherInterface
 {
-    private JobExecutionIdGeneratorInterface $idGenerator;
-
     /**
      * @var JobExecution[]
      */
     private array $executions = [];
 
-    public function __construct(JobExecutionIdGeneratorInterface $idGenerator)
-    {
-        $this->idGenerator = $idGenerator;
+    public function __construct(
+        private JobExecutionIdGeneratorInterface $idGenerator,
+    ) {
     }
 
     /**

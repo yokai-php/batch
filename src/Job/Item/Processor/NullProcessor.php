@@ -14,7 +14,7 @@ final class NullProcessor implements ItemProcessorInterface
     /**
      * @inheritDoc
      */
-    public function process($item)
+    public function process(mixed $item): mixed
     {
         return $item;
     }

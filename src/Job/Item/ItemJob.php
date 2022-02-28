@@ -22,30 +22,19 @@ class ItemJob extends AbstractJob
 {
     use ElementConfiguratorTrait;
 
-    private int $batchSize;
-    private ItemReaderInterface $reader;
-    private ItemProcessorInterface $processor;
-    private ItemWriterInterface $writer;
-    private JobExecutionStorageInterface $executionStorage;
-
     /**
      * @phpstan-var list<object>
      */
     private array $elements;
 
     public function __construct(
-        int $batchSize,
-        ItemReaderInterface $reader,
-        ItemProcessorInterface $processor,
-        ItemWriterInterface $writer,
-        JobExecutionStorageInterface $executionStorage
+        private int $batchSize,
+        private ItemReaderInterface $reader,
+        private ItemProcessorInterface $processor,
+        private ItemWriterInterface $writer,
+        private JobExecutionStorageInterface $executionStorage,
     ) {
-        $this->batchSize = $batchSize;
-        $this->reader = $reader;
-        $this->processor = $processor;
-        $this->writer = $writer;
         $this->elements = [$reader, $processor, $writer];
-        $this->executionStorage = $executionStorage;
     }
 
     /**
@@ -112,13 +101,9 @@ class ItemJob extends AbstractJob
     /**
      * Analyse processed item to determine the items to write.
      *
-     * @param mixed $processedItem The processed item
-     *
-     * @return iterable A list of items to write
-     *
-     * @phpstan-return iterable<mixed>
+     * @return iterable<mixed>
      */
-    protected function getItemsToWrite($processedItem): iterable
+    protected function getItemsToWrite(mixed $processedItem): iterable
     {
         if ($processedItem instanceof ExpandProcessedItem) {
             return $processedItem;
@@ -129,8 +114,6 @@ class ItemJob extends AbstractJob
 
     /**
      * Set up elements before execution.
-     *
-     * @param JobExecution $jobExecution
      */
     private function initializeElements(JobExecution $jobExecution): void
     {

@@ -10,7 +10,7 @@ use Yokai\Batch\Launcher\JobLauncherInterface;
 /**
  * The status of a job execution.
  */
-final class BatchStatus
+final class BatchStatus implements \Stringable
 {
     /**
      * The job execution has not started yet.
@@ -56,11 +56,9 @@ final class BatchStatus
         self::FAILED => 'FAILED',
     ];
 
-    private int $value;
-
-    public function __construct(int $value)
-    {
-        $this->value = $value;
+    public function __construct(
+        private int $value,
+    ) {
     }
 
     /**

@@ -22,21 +22,12 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
  */
 class SimpleJobLauncher implements JobLauncherInterface
 {
-    private JobRegistry $jobRegistry;
-    private JobExecutionFactory $jobExecutionFactory;
-    private JobExecutionStorageInterface $jobExecutionStorage;
-    private ?EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
-        JobRegistry $jobRegistry,
-        JobExecutionFactory $jobExecutionFactory,
-        JobExecutionStorageInterface $jobExecutionStorage,
-        ?EventDispatcherInterface $eventDispatcher
+        private JobRegistry $jobRegistry,
+        private JobExecutionFactory $jobExecutionFactory,
+        private JobExecutionStorageInterface $jobExecutionStorage,
+        private ?EventDispatcherInterface $eventDispatcher,
     ) {
-        $this->jobRegistry = $jobRegistry;
-        $this->jobExecutionFactory = $jobExecutionFactory;
-        $this->jobExecutionStorage = $jobExecutionStorage;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -92,7 +83,7 @@ class SimpleJobLauncher implements JobLauncherInterface
         if (is_string($id)) {
             try {
                 return $this->jobExecutionStorage->retrieve($name, $id);
-            } catch (JobExecutionNotFoundException $notFound) {
+            } catch (JobExecutionNotFoundException) {
             }
         }
 

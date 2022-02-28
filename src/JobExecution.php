@@ -191,7 +191,7 @@ final class JobExecution
     public function setStartTime(?DateTimeInterface $startTime): void
     {
         if ($this->startTime !== null) {
-            throw new ImmutablePropertyException(__CLASS__, 'startTime');
+            throw new ImmutablePropertyException(self::class, 'startTime');
         }
 
         $this->startTime = $startTime;
@@ -203,7 +203,7 @@ final class JobExecution
     public function setEndTime(?DateTimeInterface $endTime): void
     {
         if ($this->endTime !== null) {
-            throw new ImmutablePropertyException(__CLASS__, 'endTime');
+            throw new ImmutablePropertyException(self::class, 'endTime');
         }
 
         $this->endTime = $endTime;
@@ -267,10 +267,7 @@ final class JobExecution
         return $this->parameters;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getParameter(string $name)
+    public function getParameter(string $name): mixed
     {
         return $this->parameters->get($name);
     }

@@ -65,7 +65,7 @@ final class FilterUniqueProcessor implements ItemProcessorInterface
     /**
      * @inheritDoc
      */
-    public function process($item)
+    public function process(mixed $item): mixed
     {
         $unique = (string)($this->extractUnique)($item);
         if (isset($this->encountered[$unique])) {

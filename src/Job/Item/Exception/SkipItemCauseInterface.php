@@ -17,10 +17,6 @@ interface SkipItemCauseInterface
      * Record the cause of item skip to a {@see JobExecution}.
      * Called by {@see ItemJob} when {@see SkipItemException}
      * is thrown by any {@see ItemProcessorInterface}.
-     *
-     * @param JobExecution $execution
-     * @param int|string   $index
-     * @param mixed        $item
      */
-    public function report(JobExecution $execution, $index, $item): void;
+    public function report(JobExecution $execution, int|string $index, mixed $item): void;
 }

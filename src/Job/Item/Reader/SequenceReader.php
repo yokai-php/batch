@@ -12,17 +12,12 @@ use Yokai\Batch\Job\Item\ItemReaderInterface;
  */
 final class SequenceReader extends AbstractElementDecorator implements ItemReaderInterface
 {
-    /**
-     * @var iterable|ItemReaderInterface[]
-     */
-    private iterable $readers;
-
-    /**
-     * @param iterable|ItemReaderInterface[] $readers
-     */
-    public function __construct(iterable $readers)
-    {
-        $this->readers = $readers;
+    public function __construct(
+        /**
+         * @var iterable<ItemReaderInterface> $readers
+         */
+        private iterable $readers,
+    ) {
     }
 
     /**
@@ -30,6 +25,7 @@ final class SequenceReader extends AbstractElementDecorator implements ItemReade
      */
     public function read(): iterable
     {
+        /** @var ItemReaderInterface $reader */
         foreach ($this->readers as $reader) {
             foreach ($reader->read() as $item) {
                 yield $item;

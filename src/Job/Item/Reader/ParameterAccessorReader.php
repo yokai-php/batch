@@ -16,11 +16,9 @@ final class ParameterAccessorReader implements ItemReaderInterface, JobExecution
 {
     use JobExecutionAwareTrait;
 
-    private JobParameterAccessorInterface $data;
-
-    public function __construct(JobParameterAccessorInterface $data)
-    {
-        $this->data = $data;
+    public function __construct(
+        private JobParameterAccessorInterface $data,
+    ) {
     }
 
     /**

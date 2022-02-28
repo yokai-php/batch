@@ -17,13 +17,10 @@ use Yokai\Batch\Job\Item\ItemReaderInterface;
  */
 final class IndexWithReader extends AbstractElementDecorator implements ItemReaderInterface
 {
-    private ItemReaderInterface $reader;
-    private Closure $extractItemIndex;
-
-    public function __construct(ItemReaderInterface $reader, Closure $extractItemIndex)
-    {
-        $this->reader = $reader;
-        $this->extractItemIndex = $extractItemIndex;
+    public function __construct(
+        private ItemReaderInterface $reader,
+        private Closure $extractItemIndex,
+    ) {
     }
 
     /**

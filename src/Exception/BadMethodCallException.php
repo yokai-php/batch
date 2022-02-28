@@ -19,8 +19,8 @@ class BadMethodCallException extends \BadMethodCallException implements Exceptio
         return new self(
             \sprintf(
                 '%s component should have been initialized. Call %s::initialize().',
-                \get_class($component),
-                \get_class($component)
+                $component::class,
+                $component::class
             )
         );
     }

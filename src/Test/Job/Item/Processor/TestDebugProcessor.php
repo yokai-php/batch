@@ -24,7 +24,7 @@ final class TestDebugProcessor extends TestDebugComponent implements ItemProcess
         parent::initialize();
     }
 
-    public function process($item)
+    public function process(mixed $item): mixed
     {
         $this->processed = true;
 
