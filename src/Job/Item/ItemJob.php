@@ -61,6 +61,7 @@ class ItemJob extends AbstractJob
 
         $writeCount = 0;
         $itemsToWrite = [];
+        /** @var int|string $readIndex */
         foreach ($this->reader->read() as $readIndex => $readItem) {
             $summary->increment('read');
 

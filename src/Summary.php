@@ -7,6 +7,7 @@ namespace Yokai\Batch;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Job\SummaryAwareInterface;
 
 /**
@@ -60,6 +61,10 @@ final class Summary implements
     public function append(string $key, $value): void
     {
         $this->values[$key] = $this->values[$key] ?? [];
+        if (!\is_array($this->values[$key])) {
+            throw UnexpectedValueException::type('array', $this->values[$key]);
+        }
+
         $this->values[$key][] = $value;
     }
 

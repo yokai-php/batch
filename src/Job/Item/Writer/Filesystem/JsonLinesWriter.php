@@ -41,7 +41,8 @@ final class JsonLinesWriter implements
      */
     public function initialize(): void
     {
-        $path = (string)$this->filePath->get($this->jobExecution);
+        /** @var string $path */
+        $path = $this->filePath->get($this->jobExecution);
         $dir = \dirname($path);
         if (!@\is_dir($dir) && !@\mkdir($dir, 0777, true)) {
             throw new RuntimeException(
@@ -75,8 +76,6 @@ final class JsonLinesWriter implements
      */
     public function flush(): void
     {
-        if (isset($this->file)) {
-            \fclose($this->file);
-        }
+        \fclose($this->file);
     }
 }

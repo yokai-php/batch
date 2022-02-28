@@ -67,7 +67,7 @@ final class FilterUniqueProcessor implements ItemProcessorInterface
      */
     public function process($item)
     {
-        $unique = ($this->extractUnique)($item);
+        $unique = (string)($this->extractUnique)($item);
         if (isset($this->encountered[$unique])) {
             throw SkipItemException::justSkip($item, ['unique' => $unique]);
         }

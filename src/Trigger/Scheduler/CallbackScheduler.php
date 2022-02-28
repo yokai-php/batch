@@ -28,7 +28,7 @@ class CallbackScheduler implements SchedulerInterface
     private array $config;
 
     /**
-     * @phpstan-param list<array{0: callable, 1: string, 2: array<string, mixed>, 3: string|null}> $config
+     * @phpstan-param list<array{0: callable, 1: string, 2: array<string, mixed>|null, 3: string|null}> $config
      */
     public function __construct(array $config)
     {

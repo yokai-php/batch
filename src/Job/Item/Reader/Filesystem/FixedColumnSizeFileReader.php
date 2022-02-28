@@ -63,7 +63,8 @@ final class FixedColumnSizeFileReader implements
      */
     public function read(): Generator
     {
-        $path = (string)$this->filePath->get($this->jobExecution);
+        /** @var string $path */
+        $path = $this->filePath->get($this->jobExecution);
         $handle = @\fopen($path, 'r');
         if ($handle === false) {
             throw new RuntimeException(\sprintf('Cannot read %s.', $path));

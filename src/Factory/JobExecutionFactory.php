@@ -27,8 +27,9 @@ final class JobExecutionFactory
      */
     public function create(string $name, array $configuration = []): JobExecution
     {
-        $configuration['_id'] ??= $this->idGenerator->generate();
+        /** @var string $id */
+        $id = $configuration['_id'] ??= $this->idGenerator->generate();
 
-        return JobExecution::createRoot($configuration['_id'], $name, null, new JobParameters($configuration));
+        return JobExecution::createRoot($id, $name, null, new JobParameters($configuration));
     }
 }

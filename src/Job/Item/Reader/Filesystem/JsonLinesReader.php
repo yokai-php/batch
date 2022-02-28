@@ -35,7 +35,8 @@ final class JsonLinesReader implements
      */
     public function read(): Generator
     {
-        $path = (string)$this->filePath->get($this->jobExecution);
+        /** @var string $path */
+        $path = $this->filePath->get($this->jobExecution);
         $file = @\fopen($path, 'r');
         if ($file === false) {
             throw new RuntimeException(\sprintf('Cannot open %s for reading.', $path));

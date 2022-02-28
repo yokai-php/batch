@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.4",
+        "phpunit/phpunit": "^9.5",
         "symfony/filesystem": "^5.0|^6.0"
     },
     "autoload-dev": {

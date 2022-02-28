@@ -24,14 +24,14 @@ use Yokai\Batch\JobExecution;
 final class TimeScheduler extends CallbackScheduler
 {
     /**
-     * @phpstan-param list<array{0: DateTimeInterface, 1: string, 2: array<string, mixed>, 3: string|null}> $config
+     * @phpstan-param list<array{0: DateTimeInterface, 1: string, 2: array<string, mixed>|null, 3: string|null}> $config
      */
     public function __construct(array $config)
     {
         $parentConfig = [];
         foreach ($config as $entry) {
             $parentConfig[] = [
-                fn (JobExecution $execution) => $entry[0] <= $execution->getStartTime() ?? new DateTimeImmutable(),
+                fn (JobExecution $execution) => $entry[0] <= ($execution->getStartTime() ?? new DateTimeImmutable()),
                 $entry[1],
                 $entry[2] ?? [],
                 $entry[3] ?? null,

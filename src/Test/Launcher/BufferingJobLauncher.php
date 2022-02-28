@@ -28,8 +28,9 @@ final class BufferingJobLauncher implements JobLauncherInterface
      */
     public function launch(string $name, array $configuration = []): JobExecution
     {
-        $configuration['_id'] ??= $this->idGenerator->generate();
-        $execution = JobExecution::createRoot($configuration['_id'], $name, null, new JobParameters($configuration));
+        /** @var string $id */
+        $id = $configuration['_id'] ??= $this->idGenerator->generate();
+        $execution = JobExecution::createRoot($id, $name, null, new JobParameters($configuration));
         $this->executions[] = $execution;
 
         return $execution;

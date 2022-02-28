@@ -30,6 +30,7 @@ final class SummaryWriter implements ItemWriterInterface, JobExecutionAwareInter
      */
     public function write(iterable $items): void
     {
+        /** @var string $key */
         $key = $this->index->get($this->jobExecution);
         foreach ($items as $item) {
             $this->jobExecution->getSummary()->append($key, $item);

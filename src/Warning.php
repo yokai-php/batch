@@ -24,7 +24,7 @@ final class Warning
 
     /**
      * Some extra parameters that a developer has provided.
-     * @phpstan-var array<string, string>
+     * @phpstan-var array<string, mixed>
      */
     private array $context;
 
@@ -50,7 +50,7 @@ final class Warning
     }
 
     /**
-     * @phpstan-return array<string, string>
+     * @phpstan-return array<string, mixed>
      */
     public function getParameters(): array
     {
@@ -58,7 +58,7 @@ final class Warning
     }
 
     /**
-     * @phpstan-return array<string, string>
+     * @phpstan-return array<string, mixed>
      */
     public function getContext(): array
     {

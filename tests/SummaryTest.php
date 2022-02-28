@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Summary;
 
 class SummaryTest extends TestCase
@@ -96,5 +97,27 @@ class SummaryTest extends TestCase
         $summary->clear();
 
         self::assertCount(0, $summary);
+    }
+
+    public function testAppend(): void
+    {
+        $summary = new Summary(['empty' => [], 'init' => [1, 2]]);
+        $summary->append('empty', 1);
+        $summary->append('empty', 2);
+        $summary->append('empty', 3);
+        $summary->append('init', 3);
+        $summary->append('undefined', 1);
+        $summary->append('undefined', 2);
+        $summary->append('undefined', 3);
+        self::assertSame([1, 2, 3], $summary->get('empty'));
+        self::assertSame([1, 2, 3], $summary->get('init'));
+        self::assertSame([1, 2, 3], $summary->get('undefined'));
+    }
+
+    public function testAppendNotAnArray(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $summary = new Summary(['init' => 'string']);
+        $summary->append('init', 3);
     }
 }

@@ -35,6 +35,9 @@ final class JobRegistry
             throw new UndefinedJobException($name);
         }
 
-        return $this->jobs->get($name);
+        /** @var JobInterface $job */
+        $job = $this->jobs->get($name);
+
+        return $job;
     }
 }
