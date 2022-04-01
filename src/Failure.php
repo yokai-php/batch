@@ -47,7 +47,7 @@ final class Failure implements \Stringable
             $exception->getMessage(),
             $exception->getCode(),
             $parameters,
-            $exception->getTraceAsString()
+            self::buildTrace($exception)
         );
     }
 
@@ -82,5 +82,18 @@ final class Failure implements \Stringable
     public function getTrace(): ?string
     {
         return $this->trace;
+    }
+
+    private static function buildTrace(Throwable $exception, bool $deep = false): string
+    {
+        $trace = ($deep ? 'Caused by: ' : '') . \get_class($exception) . ': ' . $exception->getMessage() .
+            ' (at ' . $exception->getFile() . '(' . $exception->getLine() . '))' . PHP_EOL .
+            \str_replace("\n", \PHP_EOL, $exception->getTraceAsString());
+
+        if ($exception->getPrevious()) {
+            $trace .= \PHP_EOL . self::buildTrace($exception->getPrevious(), true);
+        }
+
+        return $trace;
     }
 }
