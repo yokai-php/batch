@@ -39,13 +39,13 @@ class TriggerScheduledJobsJobTest extends TestCase
         self::assertSame('123', $launcher->getExecutions()[0]->getId());
         self::assertSame(
             ['_id' => '123'],
-            \iterator_to_array($launcher->getExecutions()[0]->getParameters()->getIterator())
+            $launcher->getExecutions()[0]->getParameters()->all()
         );
         self::assertSame('triggered', $launcher->getExecutions()[1]->getJobName());
         self::assertSame('triggered_job_id', $launcher->getExecutions()[1]->getId());
         self::assertSame(
             ['config' => 'value', '_id' => 'triggered_job_id'],
-            \iterator_to_array($launcher->getExecutions()[1]->getParameters()->getIterator())
+            $launcher->getExecutions()[1]->getParameters()->all()
         );
         self::assertSame([
             [

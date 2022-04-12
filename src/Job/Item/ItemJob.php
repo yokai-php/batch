@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Job\Item;
 
-use Yokai\Batch\Job\AbstractJob;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
+use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
@@ -18,7 +18,7 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
  * Then Transformed using an {@see ItemProcessorInterface}.
  * And finally Loaded using an {@see ItemWriterInterface}.
  */
-class ItemJob extends AbstractJob
+class ItemJob implements JobInterface
 {
     use ElementConfiguratorTrait;
 
@@ -40,7 +40,7 @@ class ItemJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    final protected function doExecute(JobExecution $jobExecution): void
+    final public function execute(JobExecution $jobExecution): void
     {
         $rootExecution = $jobExecution->getRootExecution();
         $summary = $jobExecution->getSummary();

@@ -6,14 +6,13 @@ namespace Yokai\Batch\Job;
 
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\JobExecution;
-use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
-class JobWithChildJobs extends AbstractJob
+class JobWithChildJobs implements JobInterface
 {
     public function __construct(
         private JobExecutionStorageInterface $executionStorage,
-        private JobRegistry $jobRegistry,
+        private JobExecutor $jobExecutor,
         /**
          * @var iterable<string>
          */
@@ -24,7 +23,7 @@ class JobWithChildJobs extends AbstractJob
     /**
      * @inheritDoc
      */
-    final protected function doExecute(JobExecution $jobExecution): void
+    final public function execute(JobExecution $jobExecution): void
     {
         $logger = $jobExecution->getLogger();
         foreach ($this->childJobs as $jobName) {
@@ -39,7 +38,7 @@ class JobWithChildJobs extends AbstractJob
             }
 
             $logger->debug('Starting child job', ['job' => $jobName]);
-            $this->jobRegistry->get($jobName)->execute($childExecution);
+            $this->jobExecutor->execute($childExecution);
 
             // Check if the child executed successfully, replicate the status to the job otherwise
             if ($childExecution->getStatus()->isUnsuccessful()) {

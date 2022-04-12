@@ -10,7 +10,7 @@ use Yokai\Batch\JobParameters;
 
 class JobParametersTest extends TestCase
 {
-    public function testHas()
+    public function testHas(): void
     {
         $parameters = new JobParameters(
             ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000]
@@ -25,7 +25,7 @@ class JobParametersTest extends TestCase
         self::assertFalse($parameters->has('notset'));
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $parameters = new JobParameters(
             ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000]
@@ -39,7 +39,7 @@ class JobParametersTest extends TestCase
         self::assertSame(0.000, $parameters->get('float'));
     }
 
-    public function testGetUndefinedParameter()
+    public function testGetUndefinedParameter(): void
     {
         $this->expectException(UndefinedJobParameterException::class);
 
@@ -50,13 +50,22 @@ class JobParametersTest extends TestCase
         $parameters->get('notset');
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         self::assertCount(0, new JobParameters());
         self::assertCount(2, new JobParameters(['null' => null, 'string' => 'foo']));
     }
 
-    public function testGetIterator()
+    public function testAll(): void
+    {
+        self::assertSame([], (new JobParameters())->all());
+        self::assertSame(
+            ['null' => null, 'string' => 'foo'],
+            (new JobParameters(['null' => null, 'string' => 'foo']))->all()
+        );
+    }
+
+    public function testGetIterator(): void
     {
         self::assertSame([], iterator_to_array(new JobParameters()));
         self::assertSame(

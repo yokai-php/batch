@@ -16,6 +16,14 @@ final class JobRegistry
     }
 
     /**
+     * @param array<string, JobInterface> $jobs
+     */
+    public static function fromJobArray(array $jobs): JobRegistry
+    {
+        return new self(new JobContainer($jobs));
+    }
+
+    /**
      * @throws UndefinedJobException
      */
     public function get(string $name): JobInterface

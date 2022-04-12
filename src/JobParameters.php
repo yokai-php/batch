@@ -30,6 +30,14 @@ final class JobParameters implements
     }
 
     /**
+     * @phpstan-return array<string, mixed>
+     */
+    public function all(): array
+    {
+        return $this->parameters;
+    }
+
+    /**
      * Whether a parameter is defined.
      */
     public function has(string $name): bool

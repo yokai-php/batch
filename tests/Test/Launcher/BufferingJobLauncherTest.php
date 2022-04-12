@@ -21,7 +21,7 @@ class BufferingJobLauncherTest extends TestCase
         self::assertSame('123', $launcher->getExecutions()[0]->getId());
         self::assertSame(
             ['_id' => '123'],
-            \iterator_to_array($launcher->getExecutions()[0]->getParameters()->getIterator())
+            $launcher->getExecutions()[0]->getParameters()->all()
         );
 
         $launcher->launch('testing.foo');
@@ -31,13 +31,13 @@ class BufferingJobLauncherTest extends TestCase
         self::assertSame('456', $launcher->getExecutions()[1]->getId());
         self::assertSame(
             ['_id' => '456'],
-            \iterator_to_array($launcher->getExecutions()[1]->getParameters()->getIterator())
+            $launcher->getExecutions()[1]->getParameters()->all()
         );
         self::assertSame('testing.bar', $launcher->getExecutions()[2]->getJobName());
         self::assertSame('789', $launcher->getExecutions()[2]->getId());
         self::assertSame(
             ['var' => 'value', '_id' => '789'],
-            \iterator_to_array($launcher->getExecutions()[2]->getParameters()->getIterator())
+            $launcher->getExecutions()[2]->getParameters()->all()
         );
     }
 }

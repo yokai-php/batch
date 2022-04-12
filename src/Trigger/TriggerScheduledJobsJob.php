@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Trigger;
 
-use Yokai\Batch\Job\AbstractJob;
+use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Launcher\JobLauncherInterface;
 use Yokai\Batch\Trigger\Scheduler\SchedulerInterface;
@@ -15,7 +15,7 @@ use Yokai\Batch\Trigger\Scheduler\SchedulerInterface;
  *
  * This job can be launched using a crontab, so the jobs you scheduled will be evaluated at each crontab rotation.
  */
-final class TriggerScheduledJobsJob extends AbstractJob
+final class TriggerScheduledJobsJob implements JobInterface
 {
     /**
      * @phpstan-param iterable<SchedulerInterface> $schedulers
@@ -32,7 +32,7 @@ final class TriggerScheduledJobsJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    protected function doExecute(JobExecution $jobExecution): void
+    public function execute(JobExecution $jobExecution): void
     {
         $jobs = [];
 

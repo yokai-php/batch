@@ -20,65 +20,50 @@ before starting to work with this library.
 
 declare(strict_types=1);
 
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
-use Yokai\Batch\Job\AbstractJob;
+use Yokai\Batch\Job\JobExecutionAccessor;
+use Yokai\Batch\Job\JobExecutor;
+use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Launcher\SimpleJobLauncher;
+use Yokai\Batch\Registry\JobContainer;
 use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Serializer\JsonJobExecutionSerializer;
 use Yokai\Batch\Storage\FilesystemJobExecutionStorage;
 
-// you should instead use any psr/container implementation
+// you can instead use any psr/container implementation
 // @see https://packagist.org/providers/psr/container-implementation
-$container = new class implements ContainerInterface {
-    private array $jobs;
-
-    public function __construct()
-    {
-        $this->jobs = [
-            // here are the jobs you will want to write
-            // each job has an identifier so it can be launched later
-            'import' => new class extends AbstractJob {
-                protected function doExecute(JobExecution $jobExecution): void
-                {
-                    $fileToImport = $jobExecution->getParameter('path');
-                    // your import logic here
-                }
-            },
-            'export' => new class extends AbstractJob {
-                protected function doExecute(JobExecution $jobExecution): void
-                {
-                    $exportSince = new DateTimeImmutable($jobExecution->getParameter('since'));
-                    // your export logic here
-                }
-            },
-        ];
-    }
-
-    public function get(string $id)
-    {
-        $job = $this->jobs[$id] ?? null;
-        if ($job === null) {
-            throw new class extends \Exception implements NotFoundExceptionInterface {};
+$container = new JobContainer([
+    // here are the jobs you will want to write
+    // each job has an identifier so it can be launched later
+    'import' => new class implements JobInterface {
+        public function execute(JobExecution $jobExecution): void
+        {
+            $fileToImport = $jobExecution->getParameter('path');
+            // your import logic here
         }
+    },
+    'export' => new class implements JobInterface {
+        public function execute(JobExecution $jobExecution): void
+        {
+            $exportSince = new DateTimeImmutable($jobExecution->getParameter('since'));
+            // your export logic here
+        }
+    },
+]);
 
-        return $job;
-    }
-
-    public function has(string $id)
-    {
-        return isset($this->jobs[$id]);
-    }
-};
-
+$jobExecutionStorage = new FilesystemJobExecutionStorage(new JsonJobExecutionSerializer(), '/dir/where/jobs/are/stored');
 $launcher = new SimpleJobLauncher(
-    new JobRegistry($container),
-    new JobExecutionFactory(new UniqidJobExecutionIdGenerator()),
-    new FilesystemJobExecutionStorage(new JsonJobExecutionSerializer(), '/dir/where/jobs/are/stored'),
-    null // or an instance of \Psr\EventDispatcher\EventDispatcherInterface
+    new JobExecutionAccessor(
+        new JobExecutionFactory(new UniqidJobExecutionIdGenerator()), 
+        $jobExecutionStorage
+    ),
+    new JobExecutor(
+        new JobRegistry($container),
+        $jobExecutionStorage,
+        null // or an instance of \Psr\EventDispatcher\EventDispatcherInterface
+    )
 );
 
 // now you can use $launcher to start any job you registered in $container

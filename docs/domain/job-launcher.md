@@ -16,15 +16,31 @@ you have to check the `JobExecution` status that it had returned to know if the 
 declare(strict_types=1);
 
 use Yokai\Batch\Factory\JobExecutionFactory;
+use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
+use Yokai\Batch\Job\JobExecutionAccessor;
+use Yokai\Batch\Job\JobExecutor;
+use Yokai\Batch\Job\JobInterface;
+use Yokai\Batch\JobExecution;
 use Yokai\Batch\Launcher\SimpleJobLauncher;
+use Yokai\Batch\Registry\JobContainer;
 use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Storage\NullJobExecutionStorage;
 
+// you can instead use any psr/container implementation
+// @see https://packagist.org/providers/psr/container-implementation
+$jobs = new JobContainer([
+    'your.job.name' => new class implements JobInterface {
+        public function execute(JobExecution $jobExecution): void
+        {
+            // your business logic
+        }
+    },
+]);
+$jobExecutionStorage = new NullJobExecutionStorage();
+
 $launcher = new SimpleJobLauncher(
-    new JobRegistry(/* an instance of \Psr\Container\ContainerInterface containing jobs */),
-    new JobExecutionFactory(),
-    new NullJobExecutionStorage(),
-    null /* or an instance of \Psr\EventDispatcher\EventDispatcherInterface */
+    new JobExecutionAccessor(new JobExecutionFactory(new UniqidJobExecutionIdGenerator()), $jobExecutionStorage),
+    new JobExecutor(new JobRegistry($jobs), $jobExecutionStorage, null),
 );
 
 $execution = $launcher->launch('your.job.name', ['job' => ['configuration']]);
