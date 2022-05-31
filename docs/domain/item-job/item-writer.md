@@ -21,6 +21,8 @@ It can be any class implementing [ItemWriterInterface](../../../src/Job/Item/Ite
   write items to a job summary value.
 
 **Item writers from bridges:**
+- [DispatchEachItemAsMessageWriter (`symfony/messenger`)](https://github.com/yokai-php/batch-symfony-messenger/blob/0.x/src/Writer/DispatchEachItemAsMessageWriter.php):
+  dispatch each item as a message in a bus.
 - [DoctrineDBALInsertWriter (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALInsertWriter.php):
   write items by inserting in a table via a Doctrine `Connection`.
 - [DoctrineDBALUpsertWriter (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALUpsertWriter.php):
