@@ -11,6 +11,8 @@ It can be any class implementing [ItemWriterInterface](../../../src/Job/Item/Ite
   write items as a json string each on a line of a file.
 - [ChainWriter](../../../src/Job/Item/Writer/ChainWriter.php):
   write items on multiple item writers.
+- [ConditionalWriter](../../../src/Job/Item/Writer/ConditionalWriter.php):
+  will only write items that are matching your conditions.
 - [NullWriter](../../../src/Job/Item/Writer/NullWriter.php):
   do not write items.
 - [RoutingWriter](../../../src/Job/Item/Writer/RoutingWriter.php):
