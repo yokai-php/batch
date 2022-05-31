@@ -13,6 +13,10 @@ It can be any class implementing [ItemWriterInterface](../../../src/Job/Item/Ite
   write items on multiple item writers.
 - [ConditionalWriter](../../../src/Job/Item/Writer/ConditionalWriter.php):
   will only write items that are matching your conditions.
+- [LaunchJobForEachItemWriter](../../../src/Job/Item/Writer/LaunchJobForEachItemWriter.php):
+  launch another job for each items.
+- [LaunchJobForItemsBatchWriter](../../../src/Job/Item/Writer/LaunchJobForItemsBatchWriter.php):
+  launch another job for each item batches.
 - [NullWriter](../../../src/Job/Item/Writer/NullWriter.php):
   do not write items.
 - [RoutingWriter](../../../src/Job/Item/Writer/RoutingWriter.php):
