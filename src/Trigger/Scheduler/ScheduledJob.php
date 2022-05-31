@@ -12,7 +12,7 @@ final class ScheduledJob
     public function __construct(
         private string $jobName,
         /**
-         * @phpstan-var array<string, string>
+         * @phpstan-var array<string, mixed>
          */
         private array $parameters = [],
         private ?string $id = null,
@@ -30,7 +30,7 @@ final class ScheduledJob
     /**
      * The job parameters for the job to trigger.
      *
-     * @phpstan-return array<string, string>
+     * @phpstan-return array<string, mixed>
      */
     public function getParameters(): array
     {

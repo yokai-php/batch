@@ -30,11 +30,17 @@ The only requirement is implementing [`JobInterface`](../../src/Job/JobInterface
 
 ## What types of job exists ?
 
-**Built-in storages:**
+**Built-in jobs:**
 - [ItemJob](../../src/Job/Item/ItemJob.php):
   ETL like, batch processing job ([documentation](item-job.md)).
 - [JobWithChildJobs](../../src/Job/JobWithChildJobs.php):
   a job that trigger other jobs ([documentation](job-with-children.md)).
+
+**Jobs from bridges:**
+- [CopyFilesJob (`league/flysystem`)](https://github.com/yokai-php/batch-league-flysystem/blob/0.x/src/Job/CopyFilesJob.php):
+  copy files from one filesystem to another.
+- [MoveFilesJob (`league/flysystem`)](https://github.com/yokai-php/batch-league-flysystem/blob/0.x/src/Job/MoveFilesJob.php):
+  move files from one filesystem to another.
 
 ## On the same subject
 
