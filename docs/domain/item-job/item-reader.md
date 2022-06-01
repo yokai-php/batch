@@ -25,10 +25,16 @@ It can be any class implementing [ItemReaderInterface](../../../src/Job/Item/Ite
 **Item readers from bridges:**
 - [FlatFileReader (`box/spout`)](https://github.com/yokai-php/batch-box-spout/blob/0.x/src/Reader/FlatFileReader.php):
   read from any CSV/ODS/XLSX file.
-- [DoctrineDBALQueryReader (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALQueryReader.php):
-  read execute an SQL query and iterate over results.
+- [DoctrineDBALQueryOffsetReader (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALQueryOffsetReader.php):
+  read execute an SQL query and iterate over results, using a limit + offset pagination strategy.
+- [DoctrineDBALQueryCursorReader (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALQueryCursorReader.php):
+  read execute an SQL query and iterate over results, using a column based cursor strategy.
 - [EntityReader (`doctrine/orm`)](https://github.com/yokai-php/batch-doctrine-orm/blob/0.x/src/EntityReader.php):
   read from any Doctrine ORM entity.
+
+**Item readers for testing purpose:**
+- [TestDebugReader](../../../src/Test/Job/Item/Reader/TestDebugReader.php):
+  dummy item reader that you can use in your unit tests.
 
 ## On the same subject
 

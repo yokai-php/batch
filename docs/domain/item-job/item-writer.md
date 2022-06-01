@@ -38,6 +38,12 @@ It can be any class implementing [ItemWriterInterface](../../../src/Job/Item/Ite
 - [FlatFileWriter (`box/spout`)](https://github.com/yokai-php/batch-box-spout/blob/0.x/src/Writer/FlatFileWriter.php):
   write items to any CSV/ODS/XLSX file.
 
+**Item writers for testing purpose:**
+- [InMemoryWriter](../../../src/Test/Job/Item/Writer/InMemoryWriter.php):
+  write in a private var which can be accessed afterward in your tests.
+- [TestDebugWriter](../../../src/Test/Job/Item/Writer/TestDebugWriter.php):
+  dummy item writer that you can use in your unit tests.
+
 ## On the same subject
 
 - [What is an item job ?](../item-job.md)

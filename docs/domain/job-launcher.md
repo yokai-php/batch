@@ -58,6 +58,11 @@ $execution = $launcher->launch('your.job.name', ['job' => ['configuration']]);
 - [DispatchMessageJobLauncher (`symfony/messenger`)](https://github.com/yokai-php/batch-symfony-messenger/blob/0.x/src/DispatchMessageJobLauncher.php):
   execute the job via a symfony message dispatch.
 
+**Launchers for testing purpose:**
+- [BufferingJobLauncher](../../src/Test/Launcher/BufferingJobLauncher.php):
+  do not execute job, but store execution in a private var that can be accessed afterwards in your tests.
+
 ## On the same subject
 
+- [What is a job ?](job.md)
 - [What is a job execution ?](job-execution.md)

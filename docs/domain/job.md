@@ -35,6 +35,7 @@ The only requirement is implementing [`JobInterface`](../../src/Job/JobInterface
   ETL like, batch processing job ([documentation](item-job.md)).
 - [JobWithChildJobs](../../src/Job/JobWithChildJobs.php):
   a job that trigger other jobs ([documentation](job-with-children.md)).
+- [TriggerScheduledJobsJob](../../src/Trigger/TriggerScheduledJobsJob.php):
 
 **Jobs from bridges:**
 - [CopyFilesJob (`league/flysystem`)](https://github.com/yokai-php/batch-league-flysystem/blob/0.x/src/Job/CopyFilesJob.php):
@@ -46,3 +47,4 @@ The only requirement is implementing [`JobInterface`](../../src/Job/JobInterface
 
 - [How do I start a job ?](job-launcher.md)
 - [How do I build a batch processing job ?](item-job.md)
+- [How do I access parameters of a job ?](job-parameter-accessor.md)

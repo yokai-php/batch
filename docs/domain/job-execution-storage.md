@@ -43,6 +43,10 @@ Depending on which storage you decided to use, you may also be able to:
 - [DoctrineDBALJobExecutionStorage (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALJobExecutionStorage.php):
   store job executions to a relational database.
 
+**Storages for testing purpose:**
+- [InMemoryJobExecutionStorage](../../src/Test/Storage/InMemoryJobExecutionStorage.php):
+  store executions in a private var that can be accessed afterwards in your tests.
+
 ## On the same subject
 
 - [How do I create my own storage ?](../recipes/custom-job-execution-storage.md)
