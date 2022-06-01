@@ -6,7 +6,6 @@ namespace Yokai\Batch\Tests\Launcher;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\Job\JobExecutionAccessor;
@@ -24,7 +23,6 @@ class SimpleJobLauncherTest extends TestCase
     public function test(): void
     {
         $job = $this->prophesize(JobInterface::class);
-        $dispatcher = $this->prophesize(EventDispatcherInterface::class);
 
         $launcher = new SimpleJobLauncher(
             new JobExecutionAccessor(
@@ -34,7 +32,7 @@ class SimpleJobLauncherTest extends TestCase
             new JobExecutor(
                 JobRegistry::fromJobArray(['phpunit' => $job->reveal()]),
                 $jobExecutionStorage,
-                $dispatcher->reveal()
+                null
             )
         );
 

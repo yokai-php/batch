@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Event\ExceptionEvent;
@@ -20,41 +19,31 @@ use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
+use Yokai\Batch\Tests\Dummy\DebugEventDispatcher;
 use Yokai\Batch\Warning;
 
 class JobExecutorTest extends TestCase
 {
     use ProphecyTrait;
 
-    private const JOB_NAME = 'phpunit';
-
-    /**
-     * @var ObjectProphecy&JobInterface
-     */
-    private ObjectProphecy $job;
-
-    /**
-     * @var ObjectProphecy&EventDispatcherInterface
-     */
-    private ObjectProphecy $dispatcher;
-
+    private JobInterface|ObjectProphecy $job;
+    private DebugEventDispatcher $dispatcher;
     private JobExecutor $executor;
 
     protected function setUp(): void
     {
         $this->job = $this->prophesize(JobInterface::class);
-        $this->dispatcher = $this->prophesize(EventDispatcherInterface::class);
-
+        $this->dispatcher = new DebugEventDispatcher();
         $this->executor = new JobExecutor(
-            JobRegistry::fromJobArray([self::JOB_NAME => $this->job->reveal()]),
+            JobRegistry::fromJobArray(['test.job_executor' => $this->job->reveal()]),
             new InMemoryJobExecutionStorage(),
-            $this->dispatcher->reveal()
+            $this->dispatcher
         );
     }
 
     public function testLaunch(): void
     {
-        $execution = JobExecution::createRoot('123', self::JOB_NAME);
+        $execution = JobExecution::createRoot('123', 'test.job_executor');
         $this->job->execute($execution)
             ->shouldBeCalledTimes(1)
             ->will(function (array $args): void {
@@ -66,11 +55,6 @@ class JobExecutorTest extends TestCase
 
         $this->executor->execute($execution);
 
-        $this->dispatcher->dispatch(Argument::type(PreExecuteEvent::class))
-            ->shouldHaveBeenCalledTimes(1);
-        $this->dispatcher->dispatch(Argument::type(PostExecuteEvent::class))
-            ->shouldHaveBeenCalledTimes(1);
-
         self::assertNotNull($execution->getStartTime());
         self::assertNotNull($execution->getEndTime());
         self::assertSame(BatchStatus::COMPLETED, $execution->getStatus()->getValue());
@@ -79,6 +63,10 @@ class JobExecutorTest extends TestCase
         self::assertStringContainsString('DEBUG: Starting job', $logs);
         self::assertStringContainsString('INFO: Job executed successfully', $logs);
         self::assertStringContainsString('DEBUG: Job produced summary', $logs);
+        $events = $this->dispatcher->getEvents();
+        self::assertCount(2, $events);
+        self::assertInstanceOf(PreExecuteEvent::class, $events[0] ?? null);
+        self::assertInstanceOf(PostExecuteEvent::class, $events[1] ?? null);
     }
 
     /**
@@ -86,18 +74,11 @@ class JobExecutorTest extends TestCase
      */
     public function testLaunchJobCatchErrors(Throwable $error): void
     {
-        $execution = JobExecution::createRoot('123', self::JOB_NAME);
+        $execution = JobExecution::createRoot('123', 'test.job_executor');
         $this->job->execute($execution)
             ->willThrow($error);
 
         $this->executor->execute($execution);
-
-        $this->dispatcher->dispatch(Argument::type(PreExecuteEvent::class))
-            ->shouldHaveBeenCalledTimes(1);
-        $this->dispatcher->dispatch(Argument::type(ExceptionEvent::class))
-            ->shouldHaveBeenCalledTimes(1);
-        $this->dispatcher->dispatch(Argument::type(PostExecuteEvent::class))
-            ->shouldHaveBeenCalledTimes(1);
 
         self::assertNotNull($execution->getStartTime());
         self::assertNotNull($execution->getEndTime());
@@ -107,29 +88,28 @@ class JobExecutorTest extends TestCase
         $logs = (string)$execution->getLogs();
         self::assertStringContainsString('DEBUG: Starting job', $logs);
         self::assertStringContainsString('ERROR: Job did not executed successfully', $logs);
+        $events = $this->dispatcher->getEvents();
+        self::assertCount(3, $events);
+        self::assertInstanceOf(PreExecuteEvent::class, $events[0] ?? null);
+        self::assertInstanceOf(ExceptionEvent::class, $events[1] ?? null);
+        self::assertInstanceOf(PostExecuteEvent::class, $events[2] ?? null);
     }
 
     public function testLaunchErrorWithStatusListener(): void
     {
-        $execution = JobExecution::createRoot('123', self::JOB_NAME);
+        $execution = JobExecution::createRoot('123', 'test.job_executor');
         $this->job->execute($execution)
             ->willThrow($exception = new \RuntimeException());
 
-        $this->dispatcher->dispatch(Argument::type(ExceptionEvent::class))
-            ->shouldBeCalledTimes(1)
-            ->will(function (array $args) use ($exception) {
-                /** @var ExceptionEvent $event */
-                $event = $args[0];
+        $this->dispatcher->addListener(
+            ExceptionEvent::class,
+            function (ExceptionEvent $event) use ($exception) {
                 Assert::assertSame($exception, $event->getException());
                 $event->setStatus(BatchStatus::COMPLETED);
-            });
+            }
+        );
 
         $this->executor->execute($execution);
-
-        $this->dispatcher->dispatch(Argument::type(PreExecuteEvent::class))
-            ->shouldHaveBeenCalledTimes(1);
-        $this->dispatcher->dispatch(Argument::type(PostExecuteEvent::class))
-            ->shouldHaveBeenCalledTimes(1);
 
         self::assertNotNull($execution->getStartTime());
         self::assertNotNull($execution->getEndTime());
@@ -137,6 +117,11 @@ class JobExecutorTest extends TestCase
         $logs = (string)$execution->getLogs();
         self::assertStringContainsString('DEBUG: Starting job', $logs);
         self::assertStringContainsString('INFO: Job executed successfully', $logs);
+        $events = $this->dispatcher->getEvents();
+        self::assertCount(3, $events);
+        self::assertInstanceOf(PreExecuteEvent::class, $events[0] ?? null);
+        self::assertInstanceOf(ExceptionEvent::class, $events[1] ?? null);
+        self::assertInstanceOf(PostExecuteEvent::class, $events[2] ?? null);
     }
 
     public function testLaunchJobNotExecutable(): void
@@ -144,17 +129,14 @@ class JobExecutorTest extends TestCase
         $this->job->execute(Argument::any())
             ->shouldNotBeCalled();
 
-        $execution = JobExecution::createRoot('123', self::JOB_NAME, new BatchStatus(BatchStatus::COMPLETED));
+        $execution = JobExecution::createRoot('123', 'test.job_executor', new BatchStatus(BatchStatus::COMPLETED));
         $this->executor->execute($execution);
-
-        $this->dispatcher->dispatch(Argument::type(PreExecuteEvent::class))
-            ->shouldNotHaveBeenCalled();
-        $this->dispatcher->dispatch(Argument::type(PostExecuteEvent::class))
-            ->shouldNotHaveBeenCalled();
 
         $logs = (string)$execution->getLogs();
         self::assertStringContainsString('WARNING: Job execution not allowed to be executed', $logs);
         self::assertStringNotContainsString('DEBUG: Starting job', $logs);
+        $events = $this->dispatcher->getEvents();
+        self::assertCount(0, $events);
     }
 
     public function errors(): \Generator
