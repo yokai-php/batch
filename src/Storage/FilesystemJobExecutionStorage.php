@@ -154,7 +154,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         return array_slice($candidates, $query->offset(), $query->limit());
     }
 
-    public function buildFilePath(string $jobName, string $executionId): string
+    private function buildFilePath(string $jobName, string $executionId): string
     {
         return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) .
             '.' . $this->serializer->extension();

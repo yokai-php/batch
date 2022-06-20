@@ -11,7 +11,7 @@ use Yokai\Batch\Trigger\Scheduler\SchedulerInterface;
 
 /**
  * This job is able to automatically trigger other jobs when you decide it.
- * It rely on a list of @see SchedulerInterface that tells this job what jobs to trigger.
+ * It rely on a list of {@see SchedulerInterface} that tells this job what jobs to trigger.
  *
  * This job can be launched using a crontab, so the jobs you scheduled will be evaluated at each crontab rotation.
  */

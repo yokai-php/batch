@@ -9,6 +9,11 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobParameters;
 use Yokai\Batch\Launcher\JobLauncherInterface;
 
+/**
+ * This {@see JobLauncherInterface} should be used in test.
+ * It will remember launched executions
+ * and will allow you to fetch these for assertions.
+ */
 final class BufferingJobLauncher implements JobLauncherInterface
 {
     /**

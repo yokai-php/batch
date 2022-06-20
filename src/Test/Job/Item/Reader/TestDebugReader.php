@@ -7,6 +7,11 @@ namespace Yokai\Batch\Test\Job\Item\Reader;
 use Yokai\Batch\Job\Item\ItemReaderInterface;
 use Yokai\Batch\Test\Job\Item\TestDebugComponent;
 
+/**
+ * This {@see ItemReaderInterface} should be used in test
+ * for components working with generic {@see ItemReaderInterface}.
+ * It provides convenient assertion methods to ensure your reader was used correctly.
+ */
 final class TestDebugReader extends TestDebugComponent implements ItemReaderInterface
 {
     private ItemReaderInterface $decorated;

@@ -7,6 +7,12 @@ namespace Yokai\Batch\Test\Job\Item\Writer;
 use Yokai\Batch\Job\Item\InitializableInterface;
 use Yokai\Batch\Job\Item\ItemWriterInterface;
 
+/**
+ * This {@see ItemWriterInterface} should be used in test
+ * for components working with generic {@see ItemWriterInterface}.
+ * It provides convenient methods retrieve written items along execution
+ * and perform assertions on these.
+ */
 final class InMemoryWriter implements ItemWriterInterface, InitializableInterface
 {
     /**

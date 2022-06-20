@@ -12,6 +12,8 @@ use Yokai\Batch\JobExecution;
 interface ListableJobExecutionStorageInterface extends JobExecutionStorageInterface
 {
     /**
+     * List all job executions that are for the given job.
+     *
      * @return iterable|JobExecution[]
      */
     public function list(string $jobName): iterable;

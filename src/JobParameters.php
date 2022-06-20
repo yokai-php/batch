@@ -30,6 +30,8 @@ final class JobParameters implements
     }
 
     /**
+     * Get all parameter values.
+     *
      * @phpstan-return array<string, mixed>
      */
     public function all(): array
@@ -46,6 +48,8 @@ final class JobParameters implements
     }
 
     /**
+     * Get a parameter value.
+     *
      * @throws UndefinedJobParameterException If parameter is not defined
      */
     public function get(string $name): mixed

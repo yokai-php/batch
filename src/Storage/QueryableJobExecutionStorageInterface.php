@@ -12,6 +12,8 @@ use Yokai\Batch\JobExecution;
 interface QueryableJobExecutionStorageInterface extends ListableJobExecutionStorageInterface
 {
     /**
+     * Execute query against stored job executions, and return the matching list.
+     *
      * @return iterable|JobExecution[]
      */
     public function query(Query $query): iterable;

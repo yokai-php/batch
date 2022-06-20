@@ -7,6 +7,9 @@ namespace Yokai\Batch\Test\Storage;
 use PHPUnit\Framework\Assert;
 use Yokai\Batch\JobExecution;
 
+/**
+ * Handy methods for JobExecution storage test classes.
+ */
 trait JobExecutionStorageTestTrait
 {
     private static function assertExecutions(array $expectedCouples, iterable $executions): void

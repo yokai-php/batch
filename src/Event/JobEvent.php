@@ -6,6 +6,9 @@ namespace Yokai\Batch\Event;
 
 use Yokai\Batch\JobExecution;
 
+/**
+ * Base class for all job execution related events.
+ */
 class JobEvent
 {
     public function __construct(

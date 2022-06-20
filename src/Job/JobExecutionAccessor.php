@@ -23,6 +23,8 @@ final class JobExecutionAccessor
     }
 
     /**
+     * Retrieve or create a {@see JobExecution}.
+     *
      * @param array<string, mixed> $configuration
      */
     public function get(string $name, array $configuration): JobExecution

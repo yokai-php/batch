@@ -31,16 +31,25 @@ final class Summary implements
     ) {
     }
 
+    /**
+     * Set value.
+     */
     public function set(string $key, mixed $info): void
     {
         $this->values[$key] = $info;
     }
 
+    /**
+     * Handle a numeric value by incrementing value of it.
+     */
     public function increment(string $key, float|int $increment = 1): void
     {
         $this->values[$key] = ($this->values[$key] ?? 0) + $increment;
     }
 
+    /**
+     * Handle an array value by appending a new value to it.
+     */
     public function append(string $key, mixed $value): void
     {
         $this->values[$key] ??= [];
@@ -51,17 +60,25 @@ final class Summary implements
         $this->values[$key][] = $value;
     }
 
+    /**
+     * Get a value, or null if not set.
+     */
     public function get(string $key): mixed
     {
         return $this->values[$key] ?? null;
     }
 
+    /**
+     * Whether a value was set.
+     */
     public function has(string $key): bool
     {
         return array_key_exists($key, $this->values);
     }
 
     /**
+     * Get all values.
+     *
      * @phpstan-return array<string, mixed>
      */
     public function all(): array
@@ -69,6 +86,9 @@ final class Summary implements
         return $this->values;
     }
 
+    /**
+     * Clear all values.
+     */
     public function clear(): void
     {
         $this->values = [];

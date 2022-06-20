@@ -10,7 +10,7 @@ use Yokai\Batch\JobExecution;
 
 /**
  * This scheduler implementation uses constructor settings to compute schedules.
- * The main setting is a @see DateTimeInterface that will be converted to a closure,
+ * The main setting is a {@see DateTimeInterface} that will be converted to a closure,
  * if that date is before job execution start time, the associated job schedule will be triggered.
  *
  * Example :

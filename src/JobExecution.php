@@ -176,6 +176,10 @@ final class JobExecution
         return $this->endTime;
     }
 
+    /**
+     * Build a {@see DateInterval}
+     * from {@see JobExecution::$startTime} to {@see JobExecution::$endTime}.
+     */
     public function getDuration(): DateInterval
     {
         $now = new DateTime();
@@ -248,6 +252,9 @@ final class JobExecution
         return array_values($this->childExecutions);
     }
 
+    /**
+     * Add a child execution.
+     */
     public function addChildExecution(JobExecution $execution): void
     {
         $this->childExecutions[$execution->getJobName()] = $execution;
@@ -267,6 +274,9 @@ final class JobExecution
         return $this->parameters;
     }
 
+    /**
+     * Get a parameter value.
+     */
     public function getParameter(string $name): mixed
     {
         return $this->parameters->get($name);
@@ -280,6 +290,9 @@ final class JobExecution
         return $this->failures;
     }
 
+    /**
+     * Add a failure to the execution.
+     */
     public function addFailure(Failure $failure, bool $log = true): void
     {
         $this->failures[] = $failure;
@@ -289,6 +302,8 @@ final class JobExecution
     }
 
     /**
+     * Add a failure, build from exception, to the execution.
+     *
      * @phpstan-param array<string, string> $parameters
      */
     public function addFailureException(Throwable $exception, array $parameters = [], bool $log = true): void
@@ -324,6 +339,9 @@ final class JobExecution
         return $this->warnings;
     }
 
+    /**
+     * Add a warning to the execution.
+     */
     public function addWarning(Warning $warning, bool $log = true): void
     {
         $this->warnings[] = $warning;

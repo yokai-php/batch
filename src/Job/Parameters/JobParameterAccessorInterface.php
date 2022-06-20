@@ -14,6 +14,8 @@ use Yokai\Batch\JobExecution;
 interface JobParameterAccessorInterface
 {
     /**
+     * Get the parameter value from job execution.
+     *
      * @param JobExecution $execution A job execution (for context)
      *
      * @return mixed The requested value

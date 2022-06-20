@@ -15,9 +15,14 @@ use Yokai\Batch\Failure;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobExecutionLogs;
 use Yokai\Batch\JobParameters;
+use Yokai\Batch\Storage\JobExecutionStorageInterface;
 use Yokai\Batch\Summary;
 use Yokai\Batch\Warning;
 
+/**
+ * This {@see JobExecutionStorageInterface} will (un)serialise any {@see JobExecution} to/from json,
+ * using internal (de)normalisation and PHP {@see json_encode} and {@see json_decode} functions.
+ */
 final class JsonJobExecutionSerializer implements JobExecutionSerializerInterface
 {
     /**

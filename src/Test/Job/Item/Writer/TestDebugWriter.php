@@ -7,6 +7,11 @@ namespace Yokai\Batch\Test\Job\Item\Writer;
 use Yokai\Batch\Job\Item\ItemWriterInterface;
 use Yokai\Batch\Test\Job\Item\TestDebugComponent;
 
+/**
+ * This {@see ItemWriterInterface} should be used in test
+ * for components working with generic {@see ItemWriterInterface}.
+ * It provides convenient assertion methods to ensure your writer was used correctly.
+ */
 final class TestDebugWriter extends TestDebugComponent implements ItemWriterInterface
 {
     private ItemWriterInterface $decorated;

@@ -70,9 +70,9 @@ final class QueryBuilder
     private int $offset = 0;
 
     /**
-     * @param string[] $names
+     * Filter executions that are for one of the given job names.
      *
-     * @return $this
+     * @param string[] $names
      */
     public function jobs(array $names): self
     {
@@ -89,9 +89,9 @@ final class QueryBuilder
     }
 
     /**
-     * @param string[] $ids
+     * Filter executions that are one of given ids.
      *
-     * @return $this
+     * @param string[] $ids
      */
     public function ids(array $ids): self
     {
@@ -108,9 +108,9 @@ final class QueryBuilder
     }
 
     /**
-     * @param int[] $statuses
+     * Filter executions that are on given status.
      *
-     * @return $this
+     * @param int[] $statuses Any of {@see BatchStatus::*}
      */
     public function statuses(array $statuses): self
     {
@@ -127,7 +127,9 @@ final class QueryBuilder
     }
 
     /**
-     * @return $this
+     * Sort executions.
+     *
+     * @param string $by One of {@see QueryBuilder::SORT_BY_*}
      */
     public function sort(string $by): self
     {
@@ -141,7 +143,7 @@ final class QueryBuilder
     }
 
     /**
-     * @return $this
+     * Limit query to a certain amount of executions.
      */
     public function limit(int $limit, int $offset): self
     {
@@ -158,6 +160,9 @@ final class QueryBuilder
         return $this;
     }
 
+    /**
+     * Build query from criteria in this builder.
+     */
     public function getQuery(): Query
     {
         return new Query($this->jobNames, $this->ids, $this->statuses, $this->sortBy, $this->limit, $this->offset);

@@ -12,8 +12,13 @@ use Yokai\Batch\Summary;
  *
  * Summary can also be accessed by implementing {@see JobExecutionAwareInterface}
  * and calling {@see JobExecution::getSummary} on the provided execution.
+ *
+ * Default implementation from {@see SummaryAwareTrait} can be used.
  */
 interface SummaryAwareInterface
 {
+    /**
+     * Set summary to the job component.
+     */
     public function setSummary(Summary $summary): void;
 }

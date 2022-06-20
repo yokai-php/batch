@@ -12,6 +12,8 @@ use Yokai\Batch\JobExecution;
 interface SchedulerInterface
 {
     /**
+     * Get list of job to schedule.
+     *
      * @return ScheduledJob[]
      * @phpstan-return iterable<ScheduledJob>
      */

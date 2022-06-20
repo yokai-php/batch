@@ -9,6 +9,11 @@ use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
+/**
+ * This {@see JobExecutionStorageInterface} should be used in test.
+ * It will store executions in memory
+ * and will allow you to fetch these for assertions.
+ */
 final class InMemoryJobExecutionStorage implements JobExecutionStorageInterface
 {
     /**

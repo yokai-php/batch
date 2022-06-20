@@ -11,5 +11,8 @@ use Yokai\Batch\JobExecution;
  */
 interface JobExecutionIdGeneratorInterface
 {
+    /**
+     * Generate and return a new id for the {@see JobExecution}.
+     */
     public function generate(): string;
 }

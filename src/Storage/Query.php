@@ -24,7 +24,7 @@ final class Query
         /**
          * @var string[]
          */
-        private array $jobNames,
+        private array $jobs,
         /**
          * @var string[]
          */
@@ -33,7 +33,7 @@ final class Query
          * @var int[]
          */
         private array $statuses,
-        private ?string $sortBy,
+        private ?string $sort,
         private int $limit,
         private int $offset = 0,
     ) {
@@ -44,7 +44,7 @@ final class Query
      */
     public function jobs(): array
     {
-        return $this->jobNames;
+        return $this->jobs;
     }
 
     /**
@@ -65,7 +65,7 @@ final class Query
 
     public function sort(): ?string
     {
-        return $this->sortBy;
+        return $this->sort;
     }
 
     public function limit(): int

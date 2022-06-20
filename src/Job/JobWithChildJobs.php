@@ -8,6 +8,10 @@ use Yokai\Batch\BatchStatus;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
+/**
+ * This {@see JobInterface} will execute by triggering child jobs.
+ * If a child job fails, following child jobs won't be executed.
+ */
 class JobWithChildJobs implements JobInterface
 {
     public function __construct(

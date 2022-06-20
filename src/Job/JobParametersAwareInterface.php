@@ -13,8 +13,13 @@ use Yokai\Batch\JobParameters;
  *
  * Parameters can also be accessed by implementing {@see JobExecutionAwareInterface}
  * and calling {@see JobExecution::getParameters} on the provided execution.
+ *
+ * Default implementation from {@see JobParametersAwareTrait} can be used.
  */
 interface JobParametersAwareInterface
 {
+    /**
+     * Set parameters to the job component.
+     */
     public function setJobParameters(JobParameters $parameters): void;
 }

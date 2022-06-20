@@ -22,6 +22,9 @@ final class JobExecutionLogs implements \Stringable
         return $this->logs;
     }
 
+    /**
+     * Append message to logs.
+     */
     public function log(string $message): void
     {
         $this->logs .= $message . PHP_EOL;

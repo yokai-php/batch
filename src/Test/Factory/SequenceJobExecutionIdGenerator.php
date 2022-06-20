@@ -6,6 +6,10 @@ namespace Yokai\Batch\Test\Factory;
 
 use Yokai\Batch\Factory\JobExecutionIdGeneratorInterface;
 
+/**
+ * This {@see JobExecutionIdGeneratorInterface} should be used in test to generate predictable ids.
+ * Sequence is provided at construction and items will be
+ */
 final class SequenceJobExecutionIdGenerator implements JobExecutionIdGeneratorInterface
 {
     /**

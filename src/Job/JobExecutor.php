@@ -33,6 +33,9 @@ final class JobExecutor
     ) {
     }
 
+    /**
+     * Execute job and respect rules around it.
+     */
     public function execute(JobExecution $jobExecution): void
     {
         $logger = $jobExecution->getLogger();

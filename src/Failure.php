@@ -38,6 +38,8 @@ final class Failure implements \Stringable
     }
 
     /**
+     * Static constructor from an exception.
+     *
      * @phpstan-param array<string, string> $parameters
      */
     public static function fromException(Throwable $exception, array $parameters = []): self
