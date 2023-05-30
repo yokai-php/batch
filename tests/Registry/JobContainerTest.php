@@ -25,7 +25,7 @@ class JobContainerTest extends TestCase
 
     public function testGetNotFound(): void
     {
-        $this->expectDeprecationMessage('You have requested a non-existent job "bar".');
+        $this->expectExceptionMessage('You have requested a non-existent job "bar".');
         $this->expectException(NotFoundExceptionInterface::class);
         $foo = $this->prophesize(JobInterface::class)->reveal();
         $container = new JobContainer(['foo' => $foo]);
