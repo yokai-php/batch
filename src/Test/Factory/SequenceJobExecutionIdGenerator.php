@@ -26,9 +26,6 @@ final class SequenceJobExecutionIdGenerator implements JobExecutionIdGeneratorIn
         $this->sequence = \array_values($sequence);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function generate(): string
     {
         $current = $this->sequence[$this->current] ?? '';

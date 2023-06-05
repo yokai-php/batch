@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Event;
 
-use Yokai\Batch\Event\PostExecuteEvent;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Event\PostExecuteEvent;
 use Yokai\Batch\JobExecution;
 
 class PostExecuteEventTest extends TestCase

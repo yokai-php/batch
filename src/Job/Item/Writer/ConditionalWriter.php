@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Job\Item\Writer;
 
+use Closure;
 use Yokai\Batch\Job\Item\ElementConfiguratorTrait;
 use Yokai\Batch\Job\Item\FlushableInterface;
 use Yokai\Batch\Job\Item\InitializableInterface;
 use Yokai\Batch\Job\Item\ItemWriterInterface;
-use Closure;
 use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
 

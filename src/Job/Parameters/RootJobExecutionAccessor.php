@@ -17,9 +17,6 @@ final class RootJobExecutionAccessor implements JobParameterAccessorInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function get(JobExecution $execution): mixed
     {
         return $this->accessor->get($execution->getRootExecution());

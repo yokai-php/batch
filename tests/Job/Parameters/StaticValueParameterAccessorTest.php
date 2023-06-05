@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Parameters;
 
-use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
 class StaticValueParameterAccessorTest extends TestCase

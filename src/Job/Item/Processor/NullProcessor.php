@@ -11,9 +11,6 @@ use Yokai\Batch\Job\Item\ItemProcessorInterface;
  */
 final class NullProcessor implements ItemProcessorInterface
 {
-    /**
-     * @inheritDoc
-     */
     public function process(mixed $item): mixed
     {
         return $item;

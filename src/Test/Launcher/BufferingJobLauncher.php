@@ -26,9 +26,6 @@ final class BufferingJobLauncher implements JobLauncherInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function launch(string $name, array $configuration = []): JobExecution
     {
         /** @var string $id */

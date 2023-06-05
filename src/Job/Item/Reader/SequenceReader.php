@@ -20,9 +20,6 @@ final class SequenceReader extends AbstractElementDecorator implements ItemReade
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function read(): iterable
     {
         /** @var ItemReaderInterface $reader */
@@ -33,9 +30,6 @@ final class SequenceReader extends AbstractElementDecorator implements ItemReade
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getDecoratedElements(): iterable
     {
         return $this->readers;

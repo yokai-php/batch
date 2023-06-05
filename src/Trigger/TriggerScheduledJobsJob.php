@@ -29,9 +29,6 @@ final class TriggerScheduledJobsJob implements JobInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(JobExecution $jobExecution): void
     {
         $jobs = [];

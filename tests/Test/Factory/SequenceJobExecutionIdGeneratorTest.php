@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Test\Factory;
 
-use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 
 class SequenceJobExecutionIdGeneratorTest extends TestCase
 {

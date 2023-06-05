@@ -11,7 +11,7 @@ class DummyFinderTest extends TestCase
 {
     public function test(): void
     {
-        $dummy = new class {
+        $dummy = new class() {
         };
         $finder = new DummyFinder($dummy);
 

@@ -25,9 +25,6 @@ use Yokai\Batch\Warning;
  */
 final class JsonJobExecutionSerializer implements JobExecutionSerializerInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function serialize(JobExecution $jobExecution): string
     {
         try {
@@ -42,9 +39,6 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
         return $json;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function unserialize(string $serializedJobExecution): JobExecution
     {
         try {
@@ -62,9 +56,6 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function extension(): string
     {
         return 'json';

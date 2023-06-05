@@ -20,9 +20,6 @@ class SimpleJobLauncher implements JobLauncherInterface
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function launch(string $name, array $configuration = []): JobExecution
     {
         $execution = $this->jobExecutionAccessor->get($name, $configuration);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Trigger\Scheduler;
 
+use PHPUnit\Framework\TestCase;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Trigger\Scheduler\CallbackScheduler;
-use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Trigger\Scheduler\ScheduledJob;
 
 class CallbackSchedulerTest extends TestCase

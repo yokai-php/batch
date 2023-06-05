@@ -6,11 +6,11 @@ namespace Yokai\Batch\Tests\Job\Item\Processor;
 
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\UnexpectedValueException;
+use Yokai\Batch\Finder\CallbackFinder;
 use Yokai\Batch\Job\Item\Processor\CallbackProcessor;
 use Yokai\Batch\Job\Item\Processor\NullProcessor;
 use Yokai\Batch\Job\Item\Processor\RoutingProcessor;
 use Yokai\Batch\JobExecution;
-use Yokai\Batch\Finder\CallbackFinder;
 use Yokai\Batch\Test\Finder\DummyFinder;
 use Yokai\Batch\Test\Job\Item\Processor\TestDebugProcessor;
 

@@ -39,9 +39,6 @@ final class RoutingWriter implements
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function write(iterable $items): void
     {
         $writerAndItems = [];
@@ -68,17 +65,11 @@ final class RoutingWriter implements
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
         $this->writers = [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function flush(): void
     {
         $writers = $this->writers;

@@ -19,9 +19,6 @@ final class JobExecutionParameterAccessor implements JobParameterAccessorInterfa
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function get(JobExecution $execution): mixed
     {
         try {

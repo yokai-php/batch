@@ -11,11 +11,11 @@ class CallbackFinderTest extends TestCase
 {
     public function test(): void
     {
-        $integers = new class {
+        $integers = new class() {
         };
-        $numbers = new class {
+        $numbers = new class() {
         };
-        $default = new class {
+        $default = new class() {
         };
         $finder = new CallbackFinder([
             [fn($subject) => \is_int($subject), $integers],

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Test\Job\Item\Writer;
 
-use Yokai\Batch\Test\Job\Item\Writer\InMemoryWriter;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Test\Job\Item\Writer\InMemoryWriter;
 
 class InMemoryWriterTest extends TestCase
 {

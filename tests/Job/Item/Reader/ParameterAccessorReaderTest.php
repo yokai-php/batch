@@ -33,12 +33,12 @@ class ParameterAccessorReaderTest extends TestCase
     {
         yield 'Read from preserved iterable' => [
             new StaticValueParameterAccessor([1 => 'One', 2 => 'Two', 3 => 'Three']),
-            [1 => 'One', 2 => 'Two', 3 => 'Three']
+            [1 => 'One', 2 => 'Two', 3 => 'Three'],
         ];
 
         yield 'Read from static' => [
             new StaticValueParameterAccessor('Not iterable and converted to array'),
-            ['Not iterable and converted to array']
+            ['Not iterable and converted to array'],
         ];
     }
 }

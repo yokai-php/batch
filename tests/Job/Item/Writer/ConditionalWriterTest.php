@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item\Writer;
 
-use Yokai\Batch\Job\Item\Writer\ConditionalWriter;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Job\Item\Writer\ConditionalWriter;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Job\Item\Writer\InMemoryWriter;
 use Yokai\Batch\Test\Job\Item\Writer\TestDebugWriter;
@@ -15,7 +15,7 @@ class ConditionalWriterTest extends TestCase
     public function testWriteSomething(): void
     {
         $writer = new ConditionalWriter(
-            fn (int $number) => ($number % 2) === 0,
+            fn(int $number) => ($number % 2) === 0,
             $debugWriter = new TestDebugWriter($memoryWriter = new InMemoryWriter())
         );
 
@@ -33,7 +33,7 @@ class ConditionalWriterTest extends TestCase
     public function testWriteNothing(): void
     {
         $writer = new ConditionalWriter(
-            fn () => false,
+            fn() => false,
             $debugWriter = new TestDebugWriter($memoryWriter = new InMemoryWriter())
         );
 

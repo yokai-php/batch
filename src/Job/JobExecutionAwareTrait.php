@@ -13,9 +13,6 @@ trait JobExecutionAwareTrait
 {
     private JobExecution $jobExecution;
 
-    /**
-     * @inheritdoc
-     */
     public function setJobExecution(JobExecution $jobExecution): void
     {
         $this->jobExecution = $jobExecution;

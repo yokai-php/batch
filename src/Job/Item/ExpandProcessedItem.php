@@ -35,7 +35,6 @@ final class ExpandProcessedItem implements IteratorAggregate
     }
 
     /**
-     * @inheritdoc
      * @phpstan-return Iterator<mixed>
      */
     public function getIterator(): Iterator

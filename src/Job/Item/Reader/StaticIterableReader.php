@@ -19,9 +19,6 @@ final class StaticIterableReader implements ItemReaderInterface
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function read(): iterable
     {
         return $this->items;

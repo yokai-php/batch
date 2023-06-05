@@ -39,7 +39,7 @@ class FailureTest extends TestCase
     public function failures(): Generator
     {
         yield [
-            fn () => Failure::fromException(
+            fn() => Failure::fromException(
                 new LogicException('I will fail because of {var}'),
                 ['{var}' => 'test var']
             ),
@@ -50,10 +50,10 @@ class FailureTest extends TestCase
                 'LogicException: I will fail because of {var}',
             ],
             ['{var}' => 'test var'],
-            'I will fail because of test var'
+            'I will fail because of test var',
         ];
         yield [
-            fn () => Failure::fromException(
+            fn() => Failure::fromException(
                 new RuntimeException('This is a test', 123, new LogicException('Previous exception'))
             ),
             'RuntimeException',
@@ -64,7 +64,7 @@ class FailureTest extends TestCase
                 'Caused by: LogicException: Previous exception',
             ],
             [],
-            'This is a test'
+            'This is a test',
         ];
     }
 }

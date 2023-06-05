@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Storage\NullJobExecutionStorage;
-use PHPUnit\Framework\TestCase;
 
 class NullJobExecutionStorageTest extends TestCase
 {

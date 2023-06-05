@@ -40,7 +40,6 @@ final class JobExecutionLogger extends AbstractLogger
     }
 
     /**
-     * @inheritDoc
      * @param array<string, mixed> $context
      */
     public function log($level, $message, array $context = []): void

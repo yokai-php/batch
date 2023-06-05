@@ -13,9 +13,6 @@ trait JobParametersAwareTrait
 {
     private JobParameters $jobParameters;
 
-    /**
-     * @inheritdoc
-     */
     public function setJobParameters(JobParameters $jobParameters): void
     {
         $this->jobParameters = $jobParameters;

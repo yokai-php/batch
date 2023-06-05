@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item\Processor;
 
-use Yokai\Batch\Job\Item\Processor\CallbackProcessor;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Job\Item\Processor\CallbackProcessor;
 
 class CallbackProcessorTest extends TestCase
 {

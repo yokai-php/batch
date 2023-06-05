@@ -18,9 +18,6 @@ final class ParentJobExecutionAccessor implements JobParameterAccessorInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function get(JobExecution $execution): mixed
     {
         $parent = $execution->getParentExecution();

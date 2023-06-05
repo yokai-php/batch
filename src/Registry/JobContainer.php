@@ -30,7 +30,7 @@ final class JobContainer implements ContainerInterface
     {
         if (!isset($this->jobs[$id])) {
             $message = \sprintf('You have requested a non-existent job "%s".', $id);
-            throw new class ($message) extends Exception implements NotFoundExceptionInterface {
+            throw new class($message) extends Exception implements NotFoundExceptionInterface {
             };
         }
 

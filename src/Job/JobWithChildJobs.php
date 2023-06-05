@@ -24,9 +24,6 @@ class JobWithChildJobs implements JobInterface
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     final public function execute(JobExecution $jobExecution): void
     {
         $logger = $jobExecution->getLogger();

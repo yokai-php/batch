@@ -25,9 +25,6 @@ class CallbackFinder implements FinderInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function find(mixed $subject): object
     {
         foreach ($this->strategies as [$callback, $component]) {

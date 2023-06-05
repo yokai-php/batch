@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Registry;
 
+use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\NotFoundExceptionInterface;
 use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\Registry\JobContainer;
-use PHPUnit\Framework\TestCase;
 
 class JobContainerTest extends TestCase
 {

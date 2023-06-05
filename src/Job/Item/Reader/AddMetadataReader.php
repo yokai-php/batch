@@ -26,7 +26,6 @@ final class AddMetadataReader extends AbstractElementDecorator implements ItemRe
     }
 
     /**
-     * @inheritdoc
      * @phpstan-return Generator<array<mixed>>
      */
     public function read(): Generator
@@ -40,9 +39,6 @@ final class AddMetadataReader extends AbstractElementDecorator implements ItemRe
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getDecoratedElements(): iterable
     {
         yield $this->reader;

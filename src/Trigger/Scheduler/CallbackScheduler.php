@@ -44,7 +44,6 @@ class CallbackScheduler implements SchedulerInterface
     }
 
     /**
-     * @inheritdoc
      * @phpstan-return Generator<ScheduledJob>
      */
     public function get(JobExecution $execution): Generator

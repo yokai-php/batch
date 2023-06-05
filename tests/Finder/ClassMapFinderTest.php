@@ -17,11 +17,11 @@ class ClassMapFinderTest extends TestCase
 {
     public function test(): void
     {
-        $dates = new class {
+        $dates = new class() {
         };
-        $exceptions = new class {
+        $exceptions = new class() {
         };
-        $default = new class {
+        $default = new class() {
         };
         $finder = new ClassMapFinder([DateTimeInterface::class => $dates, Throwable::class => $exceptions], $default);
 

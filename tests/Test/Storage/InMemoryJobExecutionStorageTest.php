@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Test\Storage;
 
+use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
 use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
-use PHPUnit\Framework\TestCase;
 
 class InMemoryJobExecutionStorageTest extends TestCase
 {

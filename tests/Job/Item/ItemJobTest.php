@@ -111,10 +111,10 @@ class ItemJobTest extends TestCase
     public function expand(): \Generator
     {
         yield [
-            fn($item) => new ExpandProcessedItem(['fruit:' . $item, 'vegetable:' . $item])
+            fn($item) => new ExpandProcessedItem(['fruit:' . $item, 'vegetable:' . $item]),
         ];
         yield [
-            fn($item) => new ExpandProcessedItem(new ArrayIterator(['fruit:' . $item, 'vegetable:' . $item]))
+            fn($item) => new ExpandProcessedItem(new ArrayIterator(['fruit:' . $item, 'vegetable:' . $item])),
         ];
         yield [
             function ($item) {
@@ -124,7 +124,7 @@ class ItemJobTest extends TestCase
                 };
 
                 return new ExpandProcessedItem($generator());
-            }
+            },
         ];
     }
 }

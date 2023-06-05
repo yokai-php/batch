@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item\Writer;
 
-use Yokai\Batch\Job\Item\Writer\SummaryWriter;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Job\Item\Writer\SummaryWriter;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 

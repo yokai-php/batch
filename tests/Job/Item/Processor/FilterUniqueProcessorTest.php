@@ -6,9 +6,9 @@ namespace Yokai\Batch\Tests\Job\Item\Processor;
 
 use ArrayIterator;
 use Generator;
+use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\Job\Item\Processor\FilterUniqueProcessor;
-use PHPUnit\Framework\TestCase;
 
 class FilterUniqueProcessorTest extends TestCase
 {

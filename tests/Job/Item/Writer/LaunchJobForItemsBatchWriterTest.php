@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item\Writer;
 
-use Yokai\Batch\Job\Item\Writer\LaunchJobForItemsBatchWriter;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Job\Item\Writer\LaunchJobForItemsBatchWriter;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 use Yokai\Batch\Test\Launcher\BufferingJobLauncher;
@@ -40,7 +40,7 @@ class LaunchJobForItemsBatchWriterTest extends TestCase
         $writer = new LaunchJobForItemsBatchWriter(
             $launcher = new BufferingJobLauncher(new SequenceJobExecutionIdGenerator(['456', '789'])),
             'test.launched_job',
-            fn (iterable $items) => ['itemsInLaunchedJob' => $items, 'extraParameter' => 'foo']
+            fn(iterable $items) => ['itemsInLaunchedJob' => $items, 'extraParameter' => 'foo']
         );
 
         $writer->setJobExecution($execution = JobExecution::createRoot('123', 'test.launch_for_items_writer'));

@@ -17,9 +17,6 @@ final class SkipItemWithWarning implements SkipItemCauseInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function report(JobExecution $execution, int|string $index, mixed $item): void
     {
         $execution->addWarning(new Warning($this->message, [], ['itemIndex' => $index, 'item' => $item]));

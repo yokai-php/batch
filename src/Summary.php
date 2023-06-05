@@ -32,7 +32,7 @@ final class Summary implements
     }
 
     /**
-     * Set value.
+     * Set summary value.
      */
     public function set(string $key, mixed $info): void
     {
@@ -95,7 +95,6 @@ final class Summary implements
     }
 
     /**
-     * @inheritdoc
      * @phpstan-return ArrayIterator<string, mixed>
      */
     public function getIterator(): ArrayIterator
@@ -103,9 +102,6 @@ final class Summary implements
         return new ArrayIterator($this->values);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function count(): int
     {
         return count($this->values);

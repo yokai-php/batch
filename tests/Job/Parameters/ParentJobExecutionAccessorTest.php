@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Parameters;
 
+use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\CannotAccessParameterException;
 use Yokai\Batch\Job\Parameters\JobParameterAccessorInterface;
 use Yokai\Batch\Job\Parameters\ParentJobExecutionAccessor;
-use PHPUnit\Framework\TestCase;
 use Yokai\Batch\JobExecution;
 
 class ParentJobExecutionAccessorTest extends TestCase

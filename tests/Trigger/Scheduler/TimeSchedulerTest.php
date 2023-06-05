@@ -6,10 +6,10 @@ namespace Yokai\Batch\Tests\Trigger\Scheduler;
 
 use DateTime;
 use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Trigger\Scheduler\ScheduledJob;
 use Yokai\Batch\Trigger\Scheduler\TimeScheduler;
-use PHPUnit\Framework\TestCase;
 
 class TimeSchedulerTest extends TestCase
 {

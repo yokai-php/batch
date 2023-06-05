@@ -35,9 +35,6 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function store(JobExecution $execution): void
     {
         try {
@@ -47,9 +44,6 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function remove(JobExecution $execution): void
     {
         try {
@@ -65,9 +59,6 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function retrieve(string $jobName, string $executionId): JobExecution
     {
         try {
@@ -79,9 +70,6 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function list(string $jobName): iterable
     {
         $glob = new \GlobIterator($this->buildFilePath($jobName, '*'));
@@ -95,9 +83,6 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function query(Query $query): iterable
     {
         $candidates = [];
@@ -114,12 +99,12 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
             }
 
             $names = $query->jobs();
-            if (count($names) > 0 && !in_array($execution->getJobName(), $names)) {
+            if (count($names) > 0 && !in_array($execution->getJobName(), $names, true)) {
                 continue;
             }
 
             $ids = $query->ids();
-            if (count($ids) > 0 && !in_array($execution->getId(), $ids)) {
+            if (count($ids) > 0 && !in_array($execution->getId(), $ids, true)) {
                 continue;
             }
 
