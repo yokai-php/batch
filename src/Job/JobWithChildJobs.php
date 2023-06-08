@@ -11,6 +11,8 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
 /**
  * This {@see JobInterface} will execute by triggering child jobs.
  * If a child job fails, following child jobs won't be executed.
+ *
+ * @final use {@see AbstractDecoratedJob} instead.
  */
 class JobWithChildJobs implements JobInterface
 {

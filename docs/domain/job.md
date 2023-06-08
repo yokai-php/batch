@@ -31,11 +31,14 @@ The only requirement is implementing [`JobInterface`](../../src/Job/JobInterface
 ## What types of job exists ?
 
 **Built-in jobs:**
+- [AbstractDecoratedJob](../../src/Job/AbstractDecoratedJob.php):
+  a job that is designed to be extended, helps job construction.
 - [ItemJob](../../src/Job/Item/ItemJob.php):
   ETL like, batch processing job ([documentation](item-job.md)).
 - [JobWithChildJobs](../../src/Job/JobWithChildJobs.php):
   a job that trigger other jobs ([documentation](job-with-children.md)).
 - [TriggerScheduledJobsJob](../../src/Trigger/TriggerScheduledJobsJob.php):
+  a job that trigger other jobs when schedule is due (todo documentation).
 
 **Jobs from bridges:**
 - [CopyFilesJob (`league/flysystem`)](https://github.com/yokai-php/batch-league-flysystem/blob/0.x/src/Job/CopyFilesJob.php):

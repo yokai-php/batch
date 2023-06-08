@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Job\Item;
 
+use Yokai\Batch\Job\AbstractDecoratedJob;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\JobExecution;
@@ -17,6 +18,8 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
  * Items are Extracted using an {@see ItemReaderInterface}.
  * Then Transformed using an {@see ItemProcessorInterface}.
  * And finally Loaded using an {@see ItemWriterInterface}.
+ *
+ * @final use {@see AbstractDecoratedJob} instead.
  */
 class ItemJob implements JobInterface
 {
