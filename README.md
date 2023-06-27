@@ -39,10 +39,11 @@ Looking for something in particular ?
 
 Looking for something more specific ?
 
-- [Read/Write from/to CSV/ODS/XLSX](https://github.com/yokai-php/batch-box-spout)
 - [Store job executions in relational database](https://github.com/yokai-php/batch-doctrine-dbal)
 - [Read from Doctrine ORM entities](https://github.com/yokai-php/batch-doctrine-orm)
 - [Write to Doctrine ORM/ODM... objects](https://github.com/yokai-php/batch-doctrine-persistence)
+- [Copy/Move files in a job / Trigger job when file found](https://github.com/yokai-php/batch-league-flysystem)
+- [Read/Write from/to CSV/ODS/XLSX](https://github.com/yokai-php/batch-box-spout)
 - [Trigger async jobs using CLI command](https://github.com/yokai-php/batch-symfony-console): 
 - [Integration with Symfony framework](https://github.com/yokai-php/batch-symfony-framework)
 - [Trigger async jobs using using queue](https://github.com/yokai-php/batch-symfony-messenger): 

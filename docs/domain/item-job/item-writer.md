@@ -35,7 +35,9 @@ It can be any class implementing [ItemWriterInterface](../../../src/Job/Item/Ite
   write items by inserting/updating in a table via a Doctrine `Connection`.
 - [ObjectWriter (`doctrine/persistence`)](https://github.com/yokai-php/batch-doctrine-persistence/blob/0.x/src/ObjectWriter.php):
   write items to any Doctrine `ObjectManager`.
-- [FlatFileWriter (`box/spout`)](https://github.com/yokai-php/batch-box-spout/blob/0.x/src/Writer/FlatFileWriter.php):
+- `DEPRECATED` [FlatFileWriter (`box/spout`)](https://github.com/yokai-php/batch-box-spout/blob/0.x/src/Writer/FlatFileWriter.php):
+  write items to any CSV/ODS/XLSX file.
+- [FlatFileWriter (`openspout/openspout`)](https://github.com/yokai-php/batch-openspout/blob/0.x/src/Writer/FlatFileWriter.php):
   write items to any CSV/ODS/XLSX file.
 
 **Item writers for testing purpose:**
