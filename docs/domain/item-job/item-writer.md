@@ -13,6 +13,8 @@ It can be any class implementing [ItemWriterInterface](../../../src/Job/Item/Ite
   write items on multiple item writers.
 - [ConditionalWriter](../../../src/Job/Item/Writer/ConditionalWriter.php):
   will only write items that are matching your conditions.
+- [DispatchEventsWriter](../../../src/Job/Item/Writer/DispatchEventsWriter.php):
+  will dispatch events before and after writing.
 - [LaunchJobForEachItemWriter](../../../src/Job/Item/Writer/LaunchJobForEachItemWriter.php):
   launch another job for each items.
 - [LaunchJobForItemsBatchWriter](../../../src/Job/Item/Writer/LaunchJobForItemsBatchWriter.php):

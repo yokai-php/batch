@@ -19,9 +19,17 @@ trait JobExecutionAwareTrait
     }
 
     /**
+     * Get current job execution.
+     */
+    protected function getJobExecution(): JobExecution
+    {
+        return $this->jobExecution;
+    }
+
+    /**
      * Get root execution of current job execution.
      */
-    public function getRootExecution(): JobExecution
+    protected function getRootExecution(): JobExecution
     {
         return $this->jobExecution->getRootExecution();
     }

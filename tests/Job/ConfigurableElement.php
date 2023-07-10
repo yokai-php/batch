@@ -23,6 +23,11 @@ final class ConfigurableElement implements
     use JobParametersAwareTrait;
     use SummaryAwareTrait;
 
+    public function getRootExecution(): JobExecution
+    {
+        return $this->jobExecution->getRootExecution();
+    }
+
     public function getJobExecution(): JobExecution
     {
         return $this->jobExecution;
