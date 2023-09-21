@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Job;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\JobExecution;
+use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 
 /**
@@ -24,6 +26,24 @@ class JobWithChildJobs implements JobInterface
          */
         private iterable $childJobs,
     ) {
+    }
+
+    /**
+     * When creating {@see JobWithChildJobs}, you might prefer that child jobs are not available from the outside.
+     * You can do it by yourself, but this method will do it for you in one line.
+     *
+     * @param array<string, JobInterface> $children
+     */
+    public static function withAnonymousChildren(
+        array $children,
+        JobExecutionStorageInterface $executionStorage,
+        EventDispatcherInterface $eventDispatcher = null,
+    ): self {
+        return new self(
+            $executionStorage,
+            new JobExecutor(JobRegistry::fromJobArray($children), $executionStorage, $eventDispatcher),
+            \array_keys($children),
+        );
     }
 
     final public function execute(JobExecution $jobExecution): void
