@@ -132,7 +132,7 @@ final class JobExecution
     }
 
     /**
-     * Create a root execution of a job (ie : that has no parent).
+     * Create a child execution of a job (ie : that has a parent).
      */
     public static function createChild(
         JobExecution $parent,

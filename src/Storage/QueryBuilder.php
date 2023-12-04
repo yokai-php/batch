@@ -13,8 +13,8 @@ use Yokai\Batch\Exception\UnexpectedValueException;
  * Usage:
  *
  *     (new QueryBuilder())
- *         ->jobs(['123', '456'])
- *         ->ids(['export', 'import'])
+ *         ->ids(['123', '456'])
+ *         ->jobs(['export', 'import'])
  *         ->statuses([BatchStatus::RUNNING, BatchStatus::COMPLETED])
  *         ->sort(Query::SORT_BY_END_DESC)
  *         ->limit(6, 12)
@@ -23,8 +23,8 @@ use Yokai\Batch\Exception\UnexpectedValueException;
  * Not an immutable object, can be used without chaining calls:
  *
  *     $builder = new QueryBuilder();
- *     $builder->jobs(['123', '456']);
- *     $builder->ids(['export', 'import']);
+ *     $builder->ids(['123', '456']);
+ *     $builder->jobs(['export', 'import']);
  *     $builder->statuses([BatchStatus::RUNNING, BatchStatus::COMPLETED]);
  *     $builder->sort(Query::SORT_BY_END_DESC);
  *     $builder->limit(6, 12);

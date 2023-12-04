@@ -61,14 +61,14 @@ class QueryBuilderTest extends TestCase
         ];
         yield 'Query complex' => [
             fn() => (new QueryBuilder())
-                ->jobs(['123', '456'])
-                ->ids(['export', 'import'])
+                ->ids(['123', '456'])
+                ->jobs(['export', 'import'])
                 ->statuses([BatchStatus::RUNNING, BatchStatus::COMPLETED])
                 ->sort(Query::SORT_BY_END_DESC)
                 ->limit(6, 12),
             new Query(
-                ['123', '456'],
                 ['export', 'import'],
+                ['123', '456'],
                 [BatchStatus::RUNNING, BatchStatus::COMPLETED],
                 Query::SORT_BY_END_DESC,
                 6,
