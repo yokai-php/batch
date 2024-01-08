@@ -32,7 +32,6 @@
         }
     },
     "suggest": {
-        "yokai/batch-box-spout": "Read/Write from/to CSV/ODS/XLSX",
         "yokai/batch-doctrine-dbal": "Store jobs executions in a relational database",
         "yokai/batch-doctrine-orm": "Read from Doctrine ORM entities",
         "yokai/batch-doctrine-persistence": "Write to Doctrine objects to managers",

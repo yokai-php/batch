@@ -23,8 +23,6 @@ It can be any class implementing [ItemReaderInterface](../../../src/Job/Item/Ite
   read from an iterable you provide during construction.
 
 **Item readers from bridges:**
-- `DEPRECATED` [FlatFileReader (`box/spout`)](https://github.com/yokai-php/batch-box-spout/blob/0.x/src/Reader/FlatFileReader.php):
-  read from any CSV/ODS/XLSX file.
 - [FlatFileReader (`openspout/openspout`)](https://github.com/yokai-php/batch-openspout/blob/0.x/src/Reader/FlatFileReader.php):
   read from any CSV/ODS/XLSX file.
 - [DoctrineDBALQueryOffsetReader (`doctrine/dbal`)](https://github.com/yokai-php/batch-doctrine-dbal/blob/0.x/src/DoctrineDBALQueryOffsetReader.php):
