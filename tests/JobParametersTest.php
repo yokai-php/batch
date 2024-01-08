@@ -67,10 +67,10 @@ class JobParametersTest extends TestCase
 
     public function testGetIterator(): void
     {
-        self::assertSame([], iterator_to_array(new JobParameters()));
+        self::assertSame([], \iterator_to_array(new JobParameters()));
         self::assertSame(
             ['null' => null, 'string' => 'foo'],
-            iterator_to_array(new JobParameters(['null' => null, 'string' => 'foo']))
+            \iterator_to_array(new JobParameters(['null' => null, 'string' => 'foo']))
         );
     }
 }

@@ -76,9 +76,9 @@ final class QueryBuilder
      */
     public function jobs(array $names): self
     {
-        $names = array_unique($names);
+        $names = \array_unique($names);
         foreach ($names as $name) {
-            if (!is_string($name)) {
+            if (!\is_string($name)) {
                 throw UnexpectedValueException::type('string', $name);
             }
         }
@@ -95,9 +95,9 @@ final class QueryBuilder
      */
     public function ids(array $ids): self
     {
-        $ids = array_unique($ids);
+        $ids = \array_unique($ids);
         foreach ($ids as $id) {
-            if (!is_string($id)) {
+            if (!\is_string($id)) {
                 throw UnexpectedValueException::type('string', $id);
             }
         }
@@ -114,9 +114,9 @@ final class QueryBuilder
      */
     public function statuses(array $statuses): self
     {
-        $statuses = array_unique($statuses);
+        $statuses = \array_unique($statuses);
         foreach ($statuses as $status) {
-            if (!in_array($status, self::STATUSES_ENUM, true)) {
+            if (!\in_array($status, self::STATUSES_ENUM, true)) {
                 throw UnexpectedValueException::enum(self::STATUSES_ENUM, $status);
             }
         }
@@ -133,7 +133,7 @@ final class QueryBuilder
      */
     public function sort(string $by): self
     {
-        if (!in_array($by, self::SORTS_ENUM, true)) {
+        if (!\in_array($by, self::SORTS_ENUM, true)) {
             throw UnexpectedValueException::enum(self::SORTS_ENUM, $by);
         }
 

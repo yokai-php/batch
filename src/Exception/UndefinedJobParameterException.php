@@ -8,6 +8,6 @@ class UndefinedJobParameterException extends InvalidArgumentException
 {
     public function __construct(string $name)
     {
-        parent::__construct(sprintf('Parameter "%s" is undefined', $name));
+        parent::__construct(\sprintf('Parameter "%s" is undefined', $name));
     }
 }

@@ -30,7 +30,7 @@ final class JobExecutionAccessor
     public function get(string $name, array $configuration): JobExecution
     {
         $id = $configuration['_id'] ?? null;
-        if (is_string($id)) {
+        if (\is_string($id)) {
             try {
                 return $this->jobExecutionStorage->retrieve($name, $id);
             } catch (JobExecutionNotFoundException) {

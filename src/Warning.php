@@ -31,7 +31,7 @@ final class Warning implements \Stringable
 
     public function __toString(): string
     {
-        return strtr($this->message, $this->parameters);
+        return \strtr($this->message, $this->parameters);
     }
 
     public function getMessage(): string

@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $artifactDir = @getenv('ARTIFACT_DIR');
-if (false === $artifactDir) {
+if ($artifactDir === false) {
     throw new \LogicException('Missing "ARTIFACT_DIR" env var.');
 }
 

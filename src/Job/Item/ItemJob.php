@@ -77,7 +77,7 @@ class ItemJob implements JobInterface
                 $itemsToWrite[] = $item;
                 $writeCount++;
 
-                if (0 === $writeCount % $this->batchSize) {
+                if ($writeCount % $this->batchSize === 0) {
                     $this->writer->write($itemsToWrite);
                     $summary->increment('write', $writeCount);
                     $itemsToWrite = [];

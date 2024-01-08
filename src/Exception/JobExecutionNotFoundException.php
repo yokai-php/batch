@@ -11,7 +11,7 @@ class JobExecutionNotFoundException extends \InvalidArgumentException implements
     public function __construct(string $jobName, string $executionId, Throwable $previous = null)
     {
         parent::__construct(
-            sprintf('Job execution "%s" of job "%s" cannot be found', $executionId, $jobName),
+            \sprintf('Job execution "%s" of job "%s" cannot be found', $executionId, $jobName),
             0,
             $previous
         );

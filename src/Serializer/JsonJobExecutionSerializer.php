@@ -70,13 +70,13 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
             'id' => $jobExecution->getId(),
             'jobName' => $jobExecution->getJobName(),
             'status' => $jobExecution->getStatus()->getValue(),
-            'parameters' => iterator_to_array($jobExecution->getParameters()),
+            'parameters' => \iterator_to_array($jobExecution->getParameters()),
             'startTime' => $this->dateToString($jobExecution->getStartTime()),
             'endTime' => $this->dateToString($jobExecution->getEndTime()),
             'summary' => $jobExecution->getSummary()->all(),
-            'failures' => array_map([$this, 'failureToArray'], $jobExecution->getFailures()),
-            'warnings' => array_map([$this, 'warningToArray'], $jobExecution->getWarnings()),
-            'childExecutions' => array_map([$this, 'toArray'], $jobExecution->getChildExecutions()),
+            'failures' => \array_map([$this, 'failureToArray'], $jobExecution->getFailures()),
+            'warnings' => \array_map([$this, 'warningToArray'], $jobExecution->getWarnings()),
+            'childExecutions' => \array_map([$this, 'toArray'], $jobExecution->getChildExecutions()),
             'logs' => $jobExecution->getParentExecution() === null ? (string)$jobExecution->getLogs() : '',
         ];
     }

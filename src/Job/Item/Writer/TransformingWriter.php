@@ -60,7 +60,7 @@ final class TransformingWriter implements
             }
         }
 
-        if (count($transformedItems) > 0) {
+        if (\count($transformedItems) > 0) {
             $this->writer->write($transformedItems);
         }
     }

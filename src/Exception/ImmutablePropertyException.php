@@ -9,7 +9,7 @@ class ImmutablePropertyException extends LogicException
     public function __construct(string $class, string $property)
     {
         parent::__construct(
-            sprintf('%s:%s property is immutable and therefor cannot be modified.', $class, $property)
+            \sprintf('%s:%s property is immutable and therefor cannot be modified.', $class, $property)
         );
     }
 }

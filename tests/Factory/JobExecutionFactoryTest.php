@@ -19,7 +19,7 @@ class JobExecutionFactoryTest extends TestCase
         self::assertSame('export', $executionWithoutConfig->getJobName());
         self::assertSame(
             ['_id' => $executionWithoutConfig->getId()],
-            iterator_to_array($executionWithoutConfig->getParameters())
+            \iterator_to_array($executionWithoutConfig->getParameters())
         );
         $this->assertExecutionIsEmpty($executionWithoutConfig);
 
@@ -28,7 +28,7 @@ class JobExecutionFactoryTest extends TestCase
         self::assertSame('idFromOutside', $executionWithId->getId());
         self::assertSame(
             ['_id' => 'idFromOutside'],
-            iterator_to_array($executionWithId->getParameters())
+            \iterator_to_array($executionWithId->getParameters())
         );
         $this->assertExecutionIsEmpty($executionWithId);
 
@@ -36,14 +36,14 @@ class JobExecutionFactoryTest extends TestCase
         self::assertSame('export', $executionWithConfig->getJobName());
         self::assertSame(
             ['string' => 'foo', '_id' => $executionWithConfig->getId()],
-            iterator_to_array($executionWithConfig->getParameters())
+            \iterator_to_array($executionWithConfig->getParameters())
         );
         $this->assertExecutionIsEmpty($executionWithConfig);
     }
 
     private function assertExecutionIsEmpty(JobExecution $jobExecution): void
     {
-        self::assertSame([], iterator_to_array($jobExecution->getSummary()));
+        self::assertSame([], \iterator_to_array($jobExecution->getSummary()));
         self::assertSame([], $jobExecution->getChildExecutions());
         self::assertNull($jobExecution->getStartTime());
         self::assertNull($jobExecution->getEndTime());

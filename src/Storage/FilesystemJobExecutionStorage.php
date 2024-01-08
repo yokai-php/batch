@@ -48,10 +48,10 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
     {
         try {
             $path = $this->buildFilePath($execution->getJobName(), $execution->getId());
-            if (!file_exists($path)) {
+            if (!\file_exists($path)) {
                 throw FilesystemException::fileNotFound($path);
             }
-            if (!@unlink($path)) {
+            if (!@\unlink($path)) {
                 throw FilesystemException::cannotRemoveFile($path);
             }
         } catch (Throwable $exception) {
@@ -87,7 +87,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
     {
         $candidates = [];
         $glob = new \GlobIterator(
-            implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->serializer->extension()
+            \implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->serializer->extension()
         );
         /** @var \SplFileInfo $file */
         foreach ($glob as $file) {
@@ -99,17 +99,17 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
             }
 
             $names = $query->jobs();
-            if (count($names) > 0 && !in_array($execution->getJobName(), $names, true)) {
+            if (\count($names) > 0 && !\in_array($execution->getJobName(), $names, true)) {
                 continue;
             }
 
             $ids = $query->ids();
-            if (count($ids) > 0 && !in_array($execution->getId(), $ids, true)) {
+            if (\count($ids) > 0 && !\in_array($execution->getId(), $ids, true)) {
                 continue;
             }
 
             $statuses = $query->statuses();
-            if (count($statuses) > 0 && !$execution->getStatus()->isOneOf($statuses)) {
+            if (\count($statuses) > 0 && !$execution->getStatus()->isOneOf($statuses)) {
                 continue;
             }
 
@@ -133,36 +133,36 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         };
 
         if ($order) {
-            uasort($candidates, $order);
+            \uasort($candidates, $order);
         }
 
-        return array_slice($candidates, $query->offset(), $query->limit());
+        return \array_slice($candidates, $query->offset(), $query->limit());
     }
 
     private function buildFilePath(string $jobName, string $executionId): string
     {
-        return implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) .
+        return \implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) .
             '.' . $this->serializer->extension();
     }
 
     private function executionToFile(JobExecution $execution): void
     {
         $path = $this->buildFilePath($execution->getJobName(), $execution->getId());
-        $dir = dirname($path);
-        if (!is_dir($dir) && false === @mkdir($dir, 0777, true)) {
+        $dir = \dirname($path);
+        if (!\is_dir($dir) && @\mkdir($dir, 0777, true) === false) {
             throw FilesystemException::cannotCreateDir($path);
         }
 
         $content = $this->serializer->serialize($execution);
 
-        if (false === @file_put_contents($path, $content)) {
+        if (@\file_put_contents($path, $content) === false) {
             throw FilesystemException::cannotWriteFile($path);
         }
     }
 
     private function fileToExecution(string $file): JobExecution
     {
-        $content = @file_get_contents($file);
+        $content = @\file_get_contents($file);
         if ($content === false) {
             throw FilesystemException::cannotReadFile($file);
         }

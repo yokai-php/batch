@@ -45,7 +45,7 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
     {
         return new self(
             $message,
-            sprintf(
+            \sprintf(
                 'Expecting a date with format "%s". Got "%s"',
                 $expected,
                 \is_scalar($argument) ? $argument : \get_debug_type($argument)

@@ -73,7 +73,7 @@ final class Summary implements
      */
     public function has(string $key): bool
     {
-        return array_key_exists($key, $this->values);
+        return \array_key_exists($key, $this->values);
     }
 
     /**
@@ -104,6 +104,6 @@ final class Summary implements
 
     public function count(): int
     {
-        return count($this->values);
+        return \count($this->values);
     }
 }

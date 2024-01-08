@@ -89,7 +89,7 @@ final class BatchStatus implements \Stringable
      */
     public function isOneOf(array $values): bool
     {
-        return in_array($this->value, $values, true);
+        return \in_array($this->value, $values, true);
     }
 
     /**

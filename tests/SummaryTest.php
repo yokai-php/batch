@@ -85,7 +85,7 @@ class SummaryTest extends TestCase
     {
         $summary = new Summary(['null' => null, 'string' => 'foo']);
 
-        self::assertSame(['null' => null, 'string' => 'foo'], iterator_to_array($summary));
+        self::assertSame(['null' => null, 'string' => 'foo'], \iterator_to_array($summary));
     }
 
     public function testCount(): void

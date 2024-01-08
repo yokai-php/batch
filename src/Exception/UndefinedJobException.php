@@ -10,6 +10,6 @@ class UndefinedJobException extends InvalidArgumentException
 {
     public function __construct(string $name, Throwable $previous = null)
     {
-        parent::__construct(sprintf('Job "%s" is undefined', $name), $previous);
+        parent::__construct(\sprintf('Job "%s" is undefined', $name), $previous);
     }
 }

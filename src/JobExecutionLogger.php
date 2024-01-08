@@ -45,19 +45,19 @@ final class JobExecutionLogger extends AbstractLogger
     public function log($level, $message, array $context = []): void
     {
         $this->logs->log(
-            sprintf(
+            \sprintf(
                 '[%s] %s: %s %s',
                 $this->date(),
                 self::LEVELS[$level] ?? '',
                 $message,
-                json_encode($context, JSON_THROW_ON_ERROR)
+                \json_encode($context, JSON_THROW_ON_ERROR)
             )
         );
     }
 
     private function date(): string
     {
-        self::$timezone ??= new DateTimeZone(date_default_timezone_get() ?: 'UTC');
+        self::$timezone ??= new DateTimeZone(\date_default_timezone_get() ?: 'UTC');
 
         $date = new DateTime('now', self::$timezone);
         $date->setTimezone(self::$timezone);

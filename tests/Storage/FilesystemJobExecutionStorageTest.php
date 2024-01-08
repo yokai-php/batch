@@ -71,7 +71,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         $file = self::STORAGE_DIR . '/export/123456789.txt';
         self::assertFileExists($file);
         self::assertIsReadable($file);
-        self::assertEquals('serialized job execution', file_get_contents($file));
+        self::assertEquals('serialized job execution', \file_get_contents($file));
     }
 
     public function testStoreFileNotWritable(): void
@@ -98,7 +98,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
     public function testRetrieve(): void
     {
         $jobExecution = JobExecution::createRoot('123456789', 'export');
-        file_put_contents(self::STORAGE_DIR . '/export/123456789.txt', 'serialized and stored job execution');
+        \file_put_contents(self::STORAGE_DIR . '/export/123456789.txt', 'serialized and stored job execution');
 
         $this->serializer->unserialize('serialized and stored job execution')
             ->shouldBeCalledTimes(1)

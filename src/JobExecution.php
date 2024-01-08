@@ -249,7 +249,7 @@ final class JobExecution
      */
     public function getChildExecutions(): array
     {
-        return array_values($this->childExecutions);
+        return \array_values($this->childExecutions);
     }
 
     /**

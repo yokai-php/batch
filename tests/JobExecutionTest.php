@@ -138,25 +138,25 @@ class JobExecutionTest extends TestCase
         $failureToString = fn(Failure $failure): string => (string)$failure;
 
         $jobExecution = JobExecution::createRoot('123456789', 'export');
-        self::assertSame([], array_map($failureMessage, $jobExecution->getFailures()));
-        self::assertSame([], array_map($failureMessage, $jobExecution->getAllFailures()));
+        self::assertSame([], \array_map($failureMessage, $jobExecution->getFailures()));
+        self::assertSame([], \array_map($failureMessage, $jobExecution->getAllFailures()));
         $jobExecution->addFailureException(new \Exception('Job Failure'));
-        self::assertSame(['Job Failure'], array_map($failureMessage, $jobExecution->getFailures()));
-        self::assertSame(['Job Failure'], array_map($failureMessage, $jobExecution->getAllFailures()));
+        self::assertSame(['Job Failure'], \array_map($failureMessage, $jobExecution->getFailures()));
+        self::assertSame(['Job Failure'], \array_map($failureMessage, $jobExecution->getAllFailures()));
 
         $jobExecution->addChildExecution($prepareJobExecution = $jobExecution->createChildExecution('prepare'));
         $jobExecution->addChildExecution($exportJobExecution = $jobExecution->createChildExecution('export'));
         $prepareJobExecution->addFailureException(new \Exception('Prepare Job Failure'));
         $exportJobExecution->addFailureException(new \Exception('Export Job Failure'));
 
-        self::assertSame(['Job Failure'], array_map($failureMessage, $jobExecution->getFailures()));
+        self::assertSame(['Job Failure'], \array_map($failureMessage, $jobExecution->getFailures()));
         self::assertSame(
             ['Job Failure', 'Prepare Job Failure', 'Export Job Failure'],
-            array_map($failureMessage, $jobExecution->getAllFailures())
+            \array_map($failureMessage, $jobExecution->getAllFailures())
         );
         self::assertSame(
             ['Job Failure', 'Prepare Job Failure', 'Export Job Failure'],
-            array_map($failureToString, $jobExecution->getAllFailures())
+            \array_map($failureToString, $jobExecution->getAllFailures())
         );
 
         $logs = (string)$jobExecution->getLogs();
@@ -171,25 +171,25 @@ class JobExecutionTest extends TestCase
         $warningToString = fn(Warning $warning): string => (string)$warning;
 
         $jobExecution = JobExecution::createRoot('123456789', 'export');
-        self::assertSame([], array_map($warningMessage, $jobExecution->getWarnings()));
-        self::assertSame([], array_map($warningMessage, $jobExecution->getAllWarnings()));
+        self::assertSame([], \array_map($warningMessage, $jobExecution->getWarnings()));
+        self::assertSame([], \array_map($warningMessage, $jobExecution->getAllWarnings()));
         $jobExecution->addWarning(new Warning('Job Warning', [], ['foo' => 'FOO']));
-        self::assertSame(['Job Warning'], array_map($warningMessage, $jobExecution->getWarnings()));
-        self::assertSame(['Job Warning'], array_map($warningMessage, $jobExecution->getAllWarnings()));
+        self::assertSame(['Job Warning'], \array_map($warningMessage, $jobExecution->getWarnings()));
+        self::assertSame(['Job Warning'], \array_map($warningMessage, $jobExecution->getAllWarnings()));
 
         $jobExecution->addChildExecution($prepareChildExecution = $jobExecution->createChildExecution('prepare'));
         $jobExecution->addChildExecution($exportChildExecution = $jobExecution->createChildExecution('export'));
         $prepareChildExecution->addWarning(new Warning('Prepare Job Warning'));
         $exportChildExecution->addWarning(new Warning('Export Job Warning', [], ['bar' => 'BAR']));
 
-        self::assertSame(['Job Warning'], array_map($warningMessage, $jobExecution->getWarnings()));
+        self::assertSame(['Job Warning'], \array_map($warningMessage, $jobExecution->getWarnings()));
         self::assertSame(
             ['Job Warning', 'Prepare Job Warning', 'Export Job Warning'],
-            array_map($warningMessage, $jobExecution->getAllWarnings())
+            \array_map($warningMessage, $jobExecution->getAllWarnings())
         );
         self::assertSame(
             ['Job Warning', 'Prepare Job Warning', 'Export Job Warning'],
-            array_map($warningToString, $jobExecution->getAllWarnings())
+            \array_map($warningToString, $jobExecution->getAllWarnings())
         );
 
         $logs = (string)$jobExecution->getLogs();

@@ -44,7 +44,7 @@ final class JobParameters implements
      */
     public function has(string $name): bool
     {
-        return array_key_exists($name, $this->parameters);
+        return \array_key_exists($name, $this->parameters);
     }
 
     /**
@@ -63,7 +63,7 @@ final class JobParameters implements
 
     public function count(): int
     {
-        return count($this->parameters);
+        return \count($this->parameters);
     }
 
     /**
