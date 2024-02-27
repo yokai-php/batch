@@ -8,6 +8,7 @@ use DateInterval;
 use DateTime;
 use DateTimeInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Throwable;
 use Yokai\Batch\Exception\ImmutablePropertyException;
 use Yokai\Batch\Factory\JobExecutionIdGeneratorInterface;
@@ -378,5 +379,16 @@ final class JobExecution
     public function getLogger(): LoggerInterface
     {
         return $this->logger;
+    }
+
+    /**
+     * Log the error from a Throwable
+     * @param Throwable $error The error to log
+     * @param string|null $message The message to use while logging
+     * @param LogLevel::* $level The level to use while logging
+     */
+    public function logError(Throwable $error, string $message = null, string $level = LogLevel::ERROR): void
+    {
+        $this->logger->log($level, $message ?? 'An error occurred', ['error' => (string)$error]);
     }
 }
