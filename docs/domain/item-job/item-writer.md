@@ -27,6 +27,8 @@ It can be any class implementing [ItemWriterInterface](../../../src/Job/Item/Ite
   write items to a job summary value.
 - [TransformingWriter](../../../src/Job/Item/Writer/TransformingWriter.php):
   perform items transformation before delegating to another writer.
+- [CallbackWriter](../../../src/Job/Item/Writer/CallbackWriter.php):
+  delegate items write operations to a closure passed at construction.
 
 **Item writers from bridges:**
 - [DispatchEachItemAsMessageWriter (`symfony/messenger`)](https://github.com/yokai-php/batch-symfony-messenger/blob/0.x/src/Writer/DispatchEachItemAsMessageWriter.php):
