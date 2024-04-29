@@ -21,6 +21,8 @@ It can be any class implementing [ItemReaderInterface](../../../src/Job/Item/Ite
   read from multiple item reader, one after the other.
 - [StaticIterableReader](../../../src/Job/Item/Reader/StaticIterableReader.php):
   read from an iterable you provide during construction.
+- [CallbackReader](../../../src/Job/Item/Reader/CallbackReader.php):
+  read from a `Closure` you provide during construction.
 
 **Item readers from bridges:**
 - [FlatFileReader (`openspout/openspout`)](https://github.com/yokai-php/batch-openspout/blob/0.x/src/Reader/FlatFileReader.php):
