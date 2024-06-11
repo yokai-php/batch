@@ -30,12 +30,12 @@ composer require yokai/batch
 
 ## Documentation
 
-Let's [get started](docs/getting-started.md) around core concepts of this library.
+Let's [get started](https://github.com/yokai-php/batch-src/blob/0.x/docs/batch/getting-started.md) around core concepts of this library.
 
 Looking for something in particular ?
 
-- [How to use *Aware interfaces ?](docs/recipes/aware-interfaces.md)
-- [Create your own job execution storage](docs/recipes/custom-job-execution-storage.md)
+- [How to use *Aware interfaces ?](https://github.com/yokai-php/batch-src/blob/0.x/docs/batch/recipes/aware-interfaces.md)
+- [Create your own job execution storage](https://github.com/yokai-php/batch-src/blob/0.x/docs/batch/recipes/custom-job-execution-storage.md)
 
 Looking for something more specific ?
 
