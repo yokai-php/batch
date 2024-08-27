@@ -40,7 +40,9 @@ final class JobExecutionLogger extends AbstractLogger
     }
 
     /**
+     * @param string               $level
      * @param array<string, mixed> $context
+     * @param string|\Stringable   $message
      */
     public function log($level, $message, array $context = []): void
     {
