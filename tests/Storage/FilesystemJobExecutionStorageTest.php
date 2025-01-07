@@ -232,6 +232,62 @@ class FilesystemJobExecutionStorageTest extends TestCase
                 ['list', '20210910'],
             ],
         ];
+        yield 'Filter start time lower boundary' => [
+            (new QueryBuilder())
+                ->startTime(new \DateTimeImmutable('2021-09-20T10:35:48+0200'), null),
+            [
+                ['export', '20210920'],
+                ['export', '20210922'],
+                ['list', '20210920'],
+            ],
+        ];
+        yield 'Filter start time upper boundary' => [
+            (new QueryBuilder())
+                ->startTime(null, new \DateTimeImmutable('2021-09-20T10:35:50+0200')),
+            [
+                ['export', '20210920'],
+                ['list', '20210910'],
+                ['list', '20210915'],
+            ],
+        ];
+        yield 'Filter start time boundaries' => [
+            (new QueryBuilder())
+                ->startTime(
+                    new \DateTimeImmutable('2021-09-20T10:35:48+0200'),
+                    new \DateTimeImmutable('2021-09-20T10:35:50+0200'),
+                ),
+            [
+                ['export', '20210920'],
+            ],
+        ];
+        yield 'Filter end time lower boundary' => [
+            (new QueryBuilder())
+                ->endTime(new \DateTimeImmutable('2021-09-20T10:35:48+0200'), null),
+            [
+                ['export', '20210920'],
+                ['export', '20210922'],
+                ['list', '20210920'],
+            ],
+        ];
+        yield 'Filter end time upper boundary' => [
+            (new QueryBuilder())
+                ->endTime(null, new \DateTimeImmutable('2021-09-20T10:35:50+0200')),
+            [
+                ['export', '20210920'],
+                ['list', '20210910'],
+                ['list', '20210915'],
+            ],
+        ];
+        yield 'Filter end time boundaries' => [
+            (new QueryBuilder())
+                ->endTime(
+                    new \DateTimeImmutable('2021-09-20T10:35:48+0200'),
+                    new \DateTimeImmutable('2021-09-20T10:35:50+0200'),
+                ),
+            [
+                ['export', '20210920'],
+            ],
+        ];
     }
 
     public function testRetrieveFilePathNotFound(): void

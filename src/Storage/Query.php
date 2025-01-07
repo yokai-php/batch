@@ -33,9 +33,11 @@ final class Query
          * @var int[]
          */
         private array $statuses,
+        private ?TimeFilter $startTime,
+        private ?TimeFilter $endTime,
         private ?string $sort,
         private int $limit,
-        private int $offset = 0,
+        private int $offset,
     ) {
     }
 
@@ -61,6 +63,16 @@ final class Query
     public function statuses(): array
     {
         return $this->statuses;
+    }
+
+    public function startTime(): ?TimeFilter
+    {
+        return $this->startTime;
+    }
+
+    public function endTime(): ?TimeFilter
+    {
+        return $this->endTime;
     }
 
     public function sort(): ?string

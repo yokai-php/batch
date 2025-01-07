@@ -113,6 +113,26 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
                 continue;
             }
 
+            $startTime = $execution->getStartTime();
+            $startDateFrom = $query->startTime()?->getFrom();
+            if ($startDateFrom !== null && ($startTime === null || $startTime < $startDateFrom)) {
+                continue;
+            }
+            $startDateTo = $query->startTime()?->getTo();
+            if ($startDateTo !== null && ($startTime === null || $startTime > $startDateTo)) {
+                continue;
+            }
+
+            $endTime = $execution->getEndTime();
+            $endDateFrom = $query->endTime()?->getFrom();
+            if ($endDateFrom !== null && ($endTime === null || $endTime < $endDateFrom)) {
+                continue;
+            }
+            $endDateTo = $query->endTime()?->getTo();
+            if ($endDateTo !== null && ($endTime === null || $endTime > $endDateTo)) {
+                continue;
+            }
+
             $candidates[] = $execution;
         }
 

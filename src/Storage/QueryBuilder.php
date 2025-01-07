@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Storage;
 
+use DateTimeInterface;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Exception\UnexpectedValueException;
 
@@ -16,6 +17,8 @@ use Yokai\Batch\Exception\UnexpectedValueException;
  *         ->ids(['123', '456'])
  *         ->jobs(['export', 'import'])
  *         ->statuses([BatchStatus::RUNNING, BatchStatus::COMPLETED])
+ *         ->startTime(new \DateTimeImmutable('2023-07-07 15:18'), new \DateTime('2023-07-07 16:30'))
+ *         ->endTime(new \DateTimeImmutable('2023-07-07 15:18'), new \DateTime('2023-07-07 16:30'))
  *         ->sort(Query::SORT_BY_END_DESC)
  *         ->limit(6, 12)
  *         ->getQuery();
@@ -26,6 +29,8 @@ use Yokai\Batch\Exception\UnexpectedValueException;
  *     $builder->ids(['123', '456']);
  *     $builder->jobs(['export', 'import']);
  *     $builder->statuses([BatchStatus::RUNNING, BatchStatus::COMPLETED]);
+ *     $builder->startTime(new \DateTimeImmutable('2023-07-07 15:18'), new \DateTime('2023-07-07 16:30'));
+ *     $builder->endTime(new \DateTimeImmutable('2023-07-07 15:18'), new \DateTime('2023-07-07 16:30'));
  *     $builder->sort(Query::SORT_BY_END_DESC);
  *     $builder->limit(6, 12);
  *     $builder->getQuery();
@@ -62,6 +67,10 @@ final class QueryBuilder
      * @var int[]
      */
     private array $statuses = [];
+
+    private ?TimeFilter $startTime = null;
+
+    private ?TimeFilter $endTime = null;
 
     private ?string $sortBy = null;
 
@@ -127,6 +136,44 @@ final class QueryBuilder
     }
 
     /**
+     * Filter executions that started in a frame.
+     * Both frame boundaries are optional.
+     * Calling this method with both null boundaries result in removing the filter.
+     *
+     * @param DateTimeInterface|null $from Beginning of the time frame
+     * @param DateTimeInterface|null $to   End of the time frame
+     */
+    public function startTime(?DateTimeInterface $from, ?DateTimeInterface $to): self
+    {
+        if ($from === null && $to === null) {
+            $this->startTime = null;
+        } else {
+            $this->startTime = new TimeFilter($from, $to);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Filter executions that ended in a frame.
+     * Both frame boundaries are optional.
+     * Calling this method with both null boundaries result in removing the filter.
+     *
+     * @param DateTimeInterface|null $from Beginning of the time frame
+     * @param DateTimeInterface|null $to   End of the time frame
+     */
+    public function endTime(?DateTimeInterface $from, ?DateTimeInterface $to): self
+    {
+        if ($from === null && $to === null) {
+            $this->endTime = null;
+        } else {
+            $this->endTime = new TimeFilter($from, $to);
+        }
+
+        return $this;
+    }
+
+    /**
      * Sort executions.
      *
      * @param string $by One of {@see QueryBuilder::SORT_BY_*}
@@ -165,6 +212,15 @@ final class QueryBuilder
      */
     public function getQuery(): Query
     {
-        return new Query($this->jobNames, $this->ids, $this->statuses, $this->sortBy, $this->limit, $this->offset);
+        return new Query(
+            $this->jobNames,
+            $this->ids,
+            $this->statuses,
+            $this->startTime,
+            $this->endTime,
+            $this->sortBy,
+            $this->limit,
+            $this->offset
+        );
     }
 }
