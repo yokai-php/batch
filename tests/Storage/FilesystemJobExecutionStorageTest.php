@@ -150,6 +150,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         );
 
         self::assertExecutions($expectedCouples, $storage->query($query->getQuery()));
+        self::assertEquals(\count($expectedCouples), $storage->count($query->getQuery()));
     }
 
     public function query(): \Generator

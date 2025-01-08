@@ -159,6 +159,14 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         return \array_slice($candidates, $query->offset(), $query->limit());
     }
 
+    public function count(Query $query): int
+    {
+        /** @var JobExecution[] $result */
+        $result = $this->query($query);
+
+        return \count($result);
+    }
+
     private function buildFilePath(string $jobName, string $executionId): string
     {
         return \implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) .
