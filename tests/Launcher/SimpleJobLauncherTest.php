@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Factory\JobExecutionFactory;
+use Yokai\Batch\Factory\JobExecutionParametersBuilder\NullJobExecutionParametersBuilder;
 use Yokai\Batch\Job\JobExecutionAccessor;
 use Yokai\Batch\Job\JobExecutor;
 use Yokai\Batch\Job\JobInterface;
@@ -26,14 +27,17 @@ class SimpleJobLauncherTest extends TestCase
 
         $launcher = new SimpleJobLauncher(
             new JobExecutionAccessor(
-                new JobExecutionFactory(new SequenceJobExecutionIdGenerator(['123'])),
+                new JobExecutionFactory(
+                    new SequenceJobExecutionIdGenerator(['123']),
+                    new NullJobExecutionParametersBuilder(),
+                ),
                 $jobExecutionStorage = new InMemoryJobExecutionStorage(),
             ),
             new JobExecutor(
                 JobRegistry::fromJobArray(['phpunit' => $job->reveal()]),
                 $jobExecutionStorage,
-                null
-            )
+                null,
+            ),
         );
 
         $execution = $launcher->launch('phpunit');

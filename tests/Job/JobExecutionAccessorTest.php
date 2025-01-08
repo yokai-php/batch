@@ -6,6 +6,7 @@ namespace Yokai\Batch\Tests\Job;
 
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Factory\JobExecutionFactory;
+use Yokai\Batch\Factory\JobExecutionParametersBuilder\NullJobExecutionParametersBuilder;
 use Yokai\Batch\Job\JobExecutionAccessor;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
@@ -16,10 +17,13 @@ class JobExecutionAccessorTest extends TestCase
     public function test(): void
     {
         $accessor = new JobExecutionAccessor(
-            new JobExecutionFactory(new SequenceJobExecutionIdGenerator(['123', '456'])),
+            new JobExecutionFactory(
+                new SequenceJobExecutionIdGenerator(['123', '456']),
+                new NullJobExecutionParametersBuilder(),
+            ),
             $storage = new InMemoryJobExecutionStorage(
-                $existing = JobExecution::createRoot('abc', 'test')
-            )
+                $existing = JobExecution::createRoot('abc', 'test'),
+            ),
         );
 
         self::assertSame($existing, $accessor->get('test', ['_id' => 'abc']));

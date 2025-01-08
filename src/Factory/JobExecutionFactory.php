@@ -14,6 +14,7 @@ final class JobExecutionFactory
 {
     public function __construct(
         private JobExecutionIdGeneratorInterface $idGenerator,
+        private JobExecutionParametersBuilderInterface $parametersBuilder,
     ) {
     }
 
@@ -24,6 +25,7 @@ final class JobExecutionFactory
      */
     public function create(string $name, array $configuration = []): JobExecution
     {
+        $configuration = $configuration + $this->parametersBuilder->build($name);
         /** @var string $id */
         $id = $configuration['_id'] ??= $this->idGenerator->generate();
 

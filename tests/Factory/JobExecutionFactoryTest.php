@@ -6,6 +6,7 @@ namespace Yokai\Batch\Tests\Factory;
 
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Factory\JobExecutionFactory;
+use Yokai\Batch\Factory\JobExecutionParametersBuilder\NullJobExecutionParametersBuilder;
 use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
 use Yokai\Batch\JobExecution;
 
@@ -13,7 +14,10 @@ class JobExecutionFactoryTest extends TestCase
 {
     public function testCreate(): void
     {
-        $executionFactory = new JobExecutionFactory(new UniqidJobExecutionIdGenerator());
+        $executionFactory = new JobExecutionFactory(
+            new UniqidJobExecutionIdGenerator(),
+            new NullJobExecutionParametersBuilder()
+        );
 
         $executionWithoutConfig = $executionFactory->create('export');
         self::assertSame('export', $executionWithoutConfig->getJobName());
