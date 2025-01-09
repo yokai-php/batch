@@ -30,12 +30,7 @@ composer require yokai/batch
 
 ## Documentation
 
-Let's [get started](https://github.com/yokai-php/batch-src/blob/0.x/docs/batch/getting-started.md) around core concepts of this library.
-
-Looking for something in particular ?
-
-- [How to use *Aware interfaces ?](https://github.com/yokai-php/batch-src/blob/0.x/docs/batch/recipes/aware-interfaces.md)
-- [Create your own job execution storage](https://github.com/yokai-php/batch-src/blob/0.x/docs/batch/recipes/custom-job-execution-storage.md)
+Please read the [getting started documentation page](https://yokai-batch.readthedocs.io/en/0.x/getting-started/standalone-library.html).
 
 Looking for something more specific ?
 
@@ -43,9 +38,9 @@ Looking for something more specific ?
 - [Read from Doctrine ORM entities](https://github.com/yokai-php/batch-doctrine-orm)
 - [Write to Doctrine ORM/ODM... objects](https://github.com/yokai-php/batch-doctrine-persistence)
 - [Copy/Move files in a job / Trigger job when file found](https://github.com/yokai-php/batch-league-flysystem)
-- [Trigger async jobs using CLI command](https://github.com/yokai-php/batch-symfony-console): 
+- [Trigger async jobs using CLI command](https://github.com/yokai-php/batch-symfony-console)
 - [Integration with Symfony framework](https://github.com/yokai-php/batch-symfony-framework)
-- [Trigger async jobs using using queue](https://github.com/yokai-php/batch-symfony-messenger): 
+- [Trigger async jobs using queue](https://github.com/yokai-php/batch-symfony-messenger)
 - [Normalize/Denormalize job items with](https://github.com/yokai-php/batch-symfony-serializer)
 - [Validate & Skip invalid items](https://github.com/yokai-php/batch-symfony-validator)
 
