@@ -14,8 +14,8 @@ namespace Yokai\Batch\Finder;
 class ClassMapFinder extends CallbackFinder
 {
     /**
-     * @phpstan-param array<class-string, T> $classMap
-     * @phpstan-param T $default
+     * @param array<class-string, T> $classMap
+     * @param T $default
      */
     public function __construct(array $classMap, object $default)
     {

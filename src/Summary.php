@@ -25,7 +25,7 @@ final class Summary implements
 {
     public function __construct(
         /**
-         * @phpstan-var array<string, mixed>
+         * @var array<string, mixed>
          */
         private array $values = [],
     ) {
@@ -79,7 +79,7 @@ final class Summary implements
     /**
      * Get all values.
      *
-     * @phpstan-return array<string, mixed>
+     * @return array<string, mixed>
      */
     public function all(): array
     {
@@ -95,7 +95,7 @@ final class Summary implements
     }
 
     /**
-     * @phpstan-return ArrayIterator<string, mixed>
+     * @return ArrayIterator<string, mixed>
      */
     public function getIterator(): ArrayIterator
     {

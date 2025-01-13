@@ -13,7 +13,7 @@ final class StaticIterableReader implements ItemReaderInterface
 {
     public function __construct(
         /**
-         * @phpstan-var iterable<mixed>
+         * @var iterable<mixed>
          */
         private iterable $items,
     ) {

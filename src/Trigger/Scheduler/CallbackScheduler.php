@@ -23,12 +23,12 @@ use Yokai\Batch\JobExecution;
 class CallbackScheduler implements SchedulerInterface
 {
     /**
-     * @phpstan-var list<array{0: callable, 1: string, 2: array<string, mixed>, 3: string|null}>
+     * @var list<array{0: callable, 1: string, 2: array<string, mixed>, 3: string|null}>
      */
     private array $config;
 
     /**
-     * @phpstan-param list<array{0: callable, 1: string, 2: array<string, mixed>|null, 3: string|null}> $config
+     * @param list<array{0: callable, 1: string, 2: array<string, mixed>|null, 3: string|null}> $config
      */
     public function __construct(array $config)
     {
@@ -44,7 +44,7 @@ class CallbackScheduler implements SchedulerInterface
     }
 
     /**
-     * @phpstan-return Generator<ScheduledJob>
+     * @return Generator<ScheduledJob>
      */
     public function get(JobExecution $execution): Generator
     {

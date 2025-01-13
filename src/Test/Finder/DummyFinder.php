@@ -16,7 +16,7 @@ final class DummyFinder implements FinderInterface
 {
     public function __construct(
         /**
-         * @phpstan-var T
+         * @var T
          */
         private object $object,
     ) {

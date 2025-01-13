@@ -28,7 +28,7 @@ final class JsonLinesReader implements
     }
 
     /**
-     * @phpstan-return Generator<mixed>
+     * @return Generator<mixed>
      */
     public function read(): Generator
     {

@@ -26,7 +26,7 @@ class ItemJob implements JobInterface
     use ElementConfiguratorTrait;
 
     /**
-     * @phpstan-var list<object>
+     * @var list<object>
      */
     private array $elements;
 

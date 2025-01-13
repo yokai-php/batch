@@ -18,7 +18,7 @@ use Yokai\Batch\Trigger\Scheduler\SchedulerInterface;
 final class TriggerScheduledJobsJob implements JobInterface
 {
     /**
-     * @phpstan-param iterable<SchedulerInterface> $schedulers
+     * @param iterable<SchedulerInterface> $schedulers
      */
     public function __construct(
         /**

@@ -33,7 +33,7 @@ final class RoutingWriter implements
 
     public function __construct(
         /**
-         * @phpstan-var FinderInterface<ItemWriterInterface>
+         * @var FinderInterface<ItemWriterInterface>
          */
         private FinderInterface $finder,
     ) {

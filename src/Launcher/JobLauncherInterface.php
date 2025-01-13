@@ -19,7 +19,7 @@ interface JobLauncherInterface
      *
      * @return JobExecution Information about job's execution
      *
-     * @phpstan-param array<string, mixed> $configuration
+     * @param array<string, mixed> $configuration
      */
     public function launch(string $name, array $configuration = []): JobExecution;
 }

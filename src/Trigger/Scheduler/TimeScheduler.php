@@ -24,7 +24,7 @@ use Yokai\Batch\JobExecution;
 final class TimeScheduler extends CallbackScheduler
 {
     /**
-     * @phpstan-param list<array{0: DateTimeInterface, 1: string, 2: array<string, mixed>|null, 3: string|null}> $config
+     * @param list<array{0: DateTimeInterface, 1: string, 2: array<string, mixed>|null, 3: string|null}> $config
      */
     public function __construct(array $config)
     {

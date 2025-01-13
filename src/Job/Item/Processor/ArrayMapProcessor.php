@@ -21,7 +21,7 @@ final class ArrayMapProcessor implements ItemProcessorInterface
     }
 
     /**
-     * @phpstan-return array<int|string, mixed>
+     * @return array<int|string, mixed>
      */
     public function process(mixed $item): array
     {

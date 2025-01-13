@@ -18,12 +18,12 @@ final class Warning implements \Stringable
         private string $message,
         /**
          * The warning message parameters.
-         * @phpstan-var array<string, string>
+         * @var array<string, string>
          */
         private array $parameters = [],
         /**
          * Some extra parameters that a developer has provided.
-         * @phpstan-var array<string, mixed>
+         * @var array<string, mixed>
          */
         private array $context = [],
     ) {
@@ -40,7 +40,7 @@ final class Warning implements \Stringable
     }
 
     /**
-     * @phpstan-return array<string, mixed>
+     * @return array<string, mixed>
      */
     public function getParameters(): array
     {
@@ -48,7 +48,7 @@ final class Warning implements \Stringable
     }
 
     /**
-     * @phpstan-return array<string, mixed>
+     * @return array<string, mixed>
      */
     public function getContext(): array
     {

@@ -33,7 +33,7 @@ final class RoutingProcessor implements
 
     public function __construct(
         /**
-         * @phpstan-var FinderInterface<ItemProcessorInterface>
+         * @var FinderInterface<ItemProcessorInterface>
          */
         private FinderInterface $finder,
     ) {

@@ -48,7 +48,7 @@ abstract class AbstractElementDecorator implements
     /**
      * Implement this method and return all elements that your class is decorating.
      *
-     * @phpstan-return iterable<object>
+     * @return iterable<object>
      */
     abstract protected function getDecoratedElements(): iterable;
 }

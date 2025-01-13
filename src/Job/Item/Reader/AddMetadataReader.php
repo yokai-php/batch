@@ -19,14 +19,14 @@ final class AddMetadataReader extends AbstractElementDecorator implements ItemRe
     public function __construct(
         private ItemReaderInterface $reader,
         /**
-         * @phpstan-var array<string, mixed>
+         * @var array<string, mixed>
          */
         private array $metadata,
     ) {
     }
 
     /**
-     * @phpstan-return Generator<array<mixed>>
+     * @return Generator<array<mixed>>
      */
     public function read(): Generator
     {

@@ -8,7 +8,7 @@ namespace Yokai\Batch\Finder;
  * A finder is a component that is able to
  * filter out the appropriate subcomponent from a list.
  *
- * @phpstan-template T of object
+ * @template T of object
  */
 interface FinderInterface
 {
@@ -18,7 +18,7 @@ interface FinderInterface
      * @param mixed $subject The subject that should help to find component
      *
      * @return object The component that matches the subject
-     * @phpstan-return T
+     * @return T
      */
     public function find(mixed $subject): object;
 }

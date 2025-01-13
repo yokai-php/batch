@@ -12,7 +12,7 @@ interface ItemReaderInterface
     /**
      * A list of items to process and write.
      *
-     * @phpstan-return iterable<mixed>
+     * @return iterable<mixed>
      */
     public function read(): iterable;
 }

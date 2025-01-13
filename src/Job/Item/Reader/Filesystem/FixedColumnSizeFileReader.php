@@ -46,7 +46,7 @@ final class FixedColumnSizeFileReader implements
     }
 
     /**
-     * @phpstan-return Generator<array<mixed>>
+     * @return Generator<array<mixed>>
      */
     public function read(): Generator
     {

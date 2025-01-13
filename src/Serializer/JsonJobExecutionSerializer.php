@@ -62,7 +62,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @phpstan-return array<string, mixed>
+     * @return array<string, mixed>
      */
     private function toArray(JobExecution $jobExecution): array
     {
@@ -82,7 +82,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @phpstan-param array<string, mixed> $jobExecutionData
+     * @param array<string, mixed> $jobExecutionData
      */
     private function fromArray(array $jobExecutionData, JobExecution $parentExecution = null): JobExecution
     {
@@ -146,7 +146,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @phpstan-return array<string, mixed>
+     * @return array<string, mixed>
      */
     private function failureToArray(Failure $failure): array
     {
@@ -160,7 +160,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @phpstan-param array<string, mixed> $array
+     * @param array<string, mixed> $array
      */
     private function failureFromArray(array $array): Failure
     {
@@ -174,7 +174,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @phpstan-return array<string, mixed>
+     * @return array<string, mixed>
      */
     private function warningToArray(Warning $warning): array
     {
@@ -186,7 +186,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @phpstan-param array<string, mixed> $array
+     * @param array<string, mixed> $array
      */
     private function warningFromArray(array $array): Warning
     {

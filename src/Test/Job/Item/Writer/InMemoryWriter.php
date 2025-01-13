@@ -16,12 +16,12 @@ use Yokai\Batch\Job\Item\ItemWriterInterface;
 final class InMemoryWriter implements ItemWriterInterface, InitializableInterface
 {
     /**
-     * @phpstan-var list<mixed>
+     * @var list<mixed>
      */
     private array $items = [];
 
     /**
-     * @phpstan-var list<list<mixed>>
+     * @var list<list<mixed>>
      */
     private array $batchItems = [];
 
@@ -41,7 +41,7 @@ final class InMemoryWriter implements ItemWriterInterface, InitializableInterfac
     }
 
     /**
-     * @phpstan-return list<mixed>
+     * @return list<mixed>
      */
     public function getItems(): array
     {
@@ -49,7 +49,7 @@ final class InMemoryWriter implements ItemWriterInterface, InitializableInterfac
     }
 
     /**
-     * @phpstan-return list<list<mixed>>
+     * @return list<list<mixed>>
      */
     public function getBatchItems(): array
     {

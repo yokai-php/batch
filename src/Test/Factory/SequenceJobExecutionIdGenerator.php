@@ -13,13 +13,13 @@ use Yokai\Batch\Factory\JobExecutionIdGeneratorInterface;
 final class SequenceJobExecutionIdGenerator implements JobExecutionIdGeneratorInterface
 {
     /**
-     * @phpstan-var list<string>
+     * @var list<string>
      */
     private array $sequence;
     private int $current = 0;
 
     /**
-     * @phpstan-param list<string> $sequence
+     * @param list<string> $sequence
      */
     public function __construct(array $sequence)
     {

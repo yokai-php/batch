@@ -27,7 +27,7 @@ final class Failure implements \Stringable
         private int $code,
         /**
          * Some extra parameters that a developer has provided
-         * @phpstan-var array<string, string>
+         * @var array<string, string>
          */
         private array $parameters = [],
         /**
@@ -40,7 +40,7 @@ final class Failure implements \Stringable
     /**
      * Static constructor from an exception.
      *
-     * @phpstan-param array<string, string> $parameters
+     * @param array<string, string> $parameters
      */
     public static function fromException(Throwable $exception, array $parameters = []): self
     {
@@ -74,7 +74,7 @@ final class Failure implements \Stringable
     }
 
     /**
-     * @phpstan-return array<string, string>
+     * @return array<string, string>
      */
     public function getParameters(): array
     {

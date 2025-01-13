@@ -16,7 +16,7 @@ class ReplaceWithVariablesParameterAccessor implements JobParameterAccessorInter
     public function __construct(
         private JobParameterAccessorInterface $accessor,
         /**
-         * @phpstan-var array<string, string>
+         * @var array<string, string>
          */
         private array $variables = []
     ) {
@@ -33,7 +33,7 @@ class ReplaceWithVariablesParameterAccessor implements JobParameterAccessorInter
     }
 
     /**
-     * @phpstan-return array<string, string>
+     * @return array<string, string>
      */
     protected function getVariables(JobExecution $execution): array
     {

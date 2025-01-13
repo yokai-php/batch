@@ -15,7 +15,7 @@ final class ChainParameterAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         /**
-         * @phpstan-var iterable<JobParameterAccessorInterface>
+         * @var iterable<JobParameterAccessorInterface>
          */
         private iterable $accessors,
     ) {

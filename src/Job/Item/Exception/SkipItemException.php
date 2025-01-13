@@ -20,7 +20,7 @@ final class SkipItemException extends RuntimeException
         private mixed $item,
         private ?SkipItemCauseInterface $cause,
         /**
-         * @phpstan-var array<string, mixed>
+         * @var array<string, mixed>
          */
         private array $context = [],
     ) {
@@ -30,7 +30,7 @@ final class SkipItemException extends RuntimeException
     /**
      * Use this method when it's normal to skip this item.
      *
-     * @phpstan-param array<string, mixed> $context
+     * @param array<string, mixed> $context
      */
     public static function justSkip(mixed $item, array $context = []): self
     {
@@ -40,7 +40,7 @@ final class SkipItemException extends RuntimeException
     /**
      * Use this method when an error occurs, and you want to mark this item as errored.
      *
-     * @phpstan-param array<string, mixed> $context
+     * @param array<string, mixed> $context
      */
     public static function onError(mixed $item, Throwable $error, array $context = []): self
     {
@@ -50,7 +50,7 @@ final class SkipItemException extends RuntimeException
     /**
      * Use this method when something seems weird with an item, and you want to warn about it.
      *
-     * @phpstan-param array<string, mixed> $context
+     * @param array<string, mixed> $context
      */
     public static function withWarning(mixed $item, string $message, array $context = []): self
     {
@@ -76,7 +76,7 @@ final class SkipItemException extends RuntimeException
 
     /**
      * Some contextual information provided by the developer.
-     * @phpstan-return array<string, mixed>
+     * @return array<string, mixed>
      */
     public function getContext(): array
     {

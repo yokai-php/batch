@@ -18,12 +18,12 @@ use IteratorIterator;
 final class ExpandProcessedItem implements IteratorAggregate
 {
     /**
-     * @phpstan-var Iterator<mixed>
+     * @var Iterator<mixed>
      */
     private Iterator $iterator;
 
     /**
-     * @phpstan-param iterable<mixed> $iterator
+     * @param iterable<mixed> $iterator
      */
     public function __construct(iterable $iterator)
     {
@@ -35,7 +35,7 @@ final class ExpandProcessedItem implements IteratorAggregate
     }
 
     /**
-     * @phpstan-return Iterator<mixed>
+     * @return Iterator<mixed>
      */
     public function getIterator(): Iterator
     {

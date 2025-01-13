@@ -20,7 +20,7 @@ final class FilterUniqueProcessor implements ItemProcessorInterface
     private Closure $extractUnique;
 
     /**
-     * @phpstan-var array<string, bool>
+     * @var array<string, bool>
      */
     private array $encountered = [];
 

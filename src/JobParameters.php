@@ -23,7 +23,7 @@ final class JobParameters implements
 {
     public function __construct(
         /**
-         * @phpstan-var array<string, mixed>
+         * @var array<string, mixed>
          */
         private array $parameters = [],
     ) {
@@ -32,7 +32,7 @@ final class JobParameters implements
     /**
      * Get all parameter values.
      *
-     * @phpstan-return array<string, mixed>
+     * @return array<string, mixed>
      */
     public function all(): array
     {
@@ -67,7 +67,7 @@ final class JobParameters implements
     }
 
     /**
-     * @phpstan-return ArrayIterator<string, mixed>
+     * @return ArrayIterator<string, mixed>
      */
     public function getIterator(): ArrayIterator
     {

@@ -15,11 +15,11 @@ class CallbackFinder implements FinderInterface
 {
     public function __construct(
         /**
-         * @phpstan-var list<array{0: callable, 1: T}>
+         * @var list<array{0: callable, 1: T}>
          */
         private array $strategies,
         /**
-         * @phpstan-var T
+         * @var T
          */
         private object $default,
     ) {
