@@ -42,6 +42,7 @@ Looking for something more specific ?
 - [Integration with Symfony framework](https://github.com/yokai-php/batch-symfony-framework)
 - [Trigger async jobs using queue](https://github.com/yokai-php/batch-symfony-messenger)
 - [Normalize/Denormalize job items with](https://github.com/yokai-php/batch-symfony-serializer)
+- [Use UUID or ULID for job execution ids](https://github.com/yokai-php/batch-symfony-ulid)
 - [Validate & Skip invalid items](https://github.com/yokai-php/batch-symfony-validator)
 
 
