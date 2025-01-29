@@ -16,13 +16,13 @@ class SequenceReaderTest extends TestCase
     {
         $sequence = [
             new TestDebugReader(
-                new StaticIterableReader([1, 2, 3])
+                new StaticIterableReader([1, 2, 3]),
             ),
             new TestDebugReader(
-                new StaticIterableReader([4, 5, 6])
+                new StaticIterableReader([4, 5, 6]),
             ),
             new TestDebugReader(
-                new StaticIterableReader([7, 8, 9])
+                new StaticIterableReader([7, 8, 9]),
             ),
         ];
 

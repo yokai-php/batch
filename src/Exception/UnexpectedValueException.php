@@ -17,7 +17,7 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
     {
         return new self(
             $message,
-            \sprintf('Expecting argument to be %s, but got %s.', $expected, \get_debug_type($argument))
+            \sprintf('Expecting argument to be %s, but got %s.', $expected, \get_debug_type($argument)),
         );
     }
 
@@ -31,8 +31,8 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
             \sprintf(
                 'Expecting argument to be one of "%s", but got %s.',
                 \implode('", "', $expected),
-                \is_scalar($argument) ? $argument : \get_debug_type($argument)
-            )
+                \is_scalar($argument) ? $argument : \get_debug_type($argument),
+            ),
         );
     }
 
@@ -48,8 +48,8 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
             \sprintf(
                 'Expecting a date with format "%s". Got "%s"',
                 $expected,
-                \is_scalar($argument) ? $argument : \get_debug_type($argument)
-            )
+                \is_scalar($argument) ? $argument : \get_debug_type($argument),
+            ),
         );
     }
 }

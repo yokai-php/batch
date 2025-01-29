@@ -14,7 +14,7 @@ use Yokai\Batch\JobExecution;
 final class ClosestJobExecutionAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
-        private JobParameterAccessorInterface $accessor
+        private JobParameterAccessorInterface $accessor,
     ) {
     }
 

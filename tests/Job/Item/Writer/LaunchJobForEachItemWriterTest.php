@@ -17,7 +17,7 @@ class LaunchJobForEachItemWriterTest extends TestCase
         $writer = new LaunchJobForEachItemWriter(
             $launcher = new BufferingJobLauncher(new SequenceJobExecutionIdGenerator(['abc', 'def', 'hij', 'klm'])),
             'test.launched_job',
-            'itemInLaunchedJob'
+            'itemInLaunchedJob',
         );
 
         $writer->setJobExecution($execution = JobExecution::createRoot('123', 'test.launch_for_items_writer'));
@@ -46,7 +46,7 @@ class LaunchJobForEachItemWriterTest extends TestCase
         $writer = new LaunchJobForEachItemWriter(
             $launcher = new BufferingJobLauncher(new SequenceJobExecutionIdGenerator(['abc', 'def', 'hij', 'klm'])),
             'test.launched_job',
-            fn($item) => ['itemInLaunchedJob' => $item, 'extraParameter' => 'foo']
+            fn($item) => ['itemInLaunchedJob' => $item, 'extraParameter' => 'foo'],
         );
 
         $writer->setJobExecution($execution = JobExecution::createRoot('123', 'test.launch_for_items_writer'));

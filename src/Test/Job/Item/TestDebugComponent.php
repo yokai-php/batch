@@ -126,7 +126,7 @@ abstract class TestDebugComponent implements
         Assert::assertSame(
             $initialized,
             $this->initialized,
-            'Element was' . ($initialized ? ' not' : '') . ' initialized'
+            'Element was' . ($initialized ? ' not' : '') . ' initialized',
         );
         Assert::assertFalse($this->wasUsed(), 'Element was used');
         Assert::assertSame($flushed, $this->flushed, 'Element was' . ($flushed ? ' not' : '') . ' flushed');

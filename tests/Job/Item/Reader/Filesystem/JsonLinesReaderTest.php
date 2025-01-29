@@ -26,7 +26,7 @@ class JsonLinesReaderTest extends TestCase
                 null,
                 0,
             ],
-            \iterator_to_array($reader->read())
+            \iterator_to_array($reader->read()),
         );
     }
 

@@ -29,7 +29,7 @@ final class JobExecutor
     public function __construct(
         private JobRegistry $jobRegistry,
         private JobExecutionStorageInterface $jobExecutionStorage,
-        private ?EventDispatcherInterface $eventDispatcher,
+        private EventDispatcherInterface|null $eventDispatcher,
     ) {
     }
 

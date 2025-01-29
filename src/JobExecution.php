@@ -42,13 +42,13 @@ final class JobExecution
      * The date and time when the job started.
      * If null, the job is not started yet.
      */
-    private ?DateTimeInterface $startTime = null;
+    private DateTimeInterface|null $startTime = null;
 
     /**
      * The date and time when the job finished.
      * If null, the job is not finished yet.
      */
-    private ?DateTimeInterface $endTime = null;
+    private DateTimeInterface|null $endTime = null;
 
     /**
      * List of failures that occurred in the execution.
@@ -77,7 +77,7 @@ final class JobExecution
      * Most of the time null, filled whenever using a {@see JobWithChildJobs}.
      * Inverse side of {@see JobExecution::$childExecutions}
      */
-    private ?JobExecution $parentExecution;
+    private JobExecution|null $parentExecution;
 
     /**
      * The children executions.
@@ -100,13 +100,13 @@ final class JobExecution
     private LoggerInterface $logger;
 
     private function __construct(
-        ?JobExecution $parentExecution,
+        JobExecution|null $parentExecution,
         string $id,
         string $jobName,
-        ?BatchStatus $status,
-        ?JobParameters $parameters,
-        ?Summary $summary,
-        ?JobExecutionLogs $logs
+        BatchStatus|null $status,
+        JobParameters|null $parameters,
+        Summary|null $summary,
+        JobExecutionLogs|null $logs,
     ) {
         $this->parentExecution = $parentExecution;
         $this->id = $id;
@@ -127,7 +127,7 @@ final class JobExecution
         BatchStatus $status = null,
         JobParameters $parameters = null,
         Summary $summary = null,
-        JobExecutionLogs $logs = null
+        JobExecutionLogs $logs = null,
     ): self {
         return new self(null, $id, $jobName, $status, $parameters, $summary, $logs);
     }
@@ -140,7 +140,7 @@ final class JobExecution
         string $jobName,
         BatchStatus $status = null,
         JobParameters $parameters = null,
-        Summary $summary = null
+        Summary $summary = null,
     ): self {
         return new self($parent, $parent->getId(), $jobName, $status, $parameters, $summary, null);
     }
@@ -167,12 +167,12 @@ final class JobExecution
         }
     }
 
-    public function getStartTime(): ?DateTimeInterface
+    public function getStartTime(): DateTimeInterface|null
     {
         return $this->startTime;
     }
 
-    public function getEndTime(): ?DateTimeInterface
+    public function getEndTime(): DateTimeInterface|null
     {
         return $this->endTime;
     }
@@ -193,7 +193,7 @@ final class JobExecution
     /**
      * @throws ImmutablePropertyException If {@see JobExecution::$startTime} is not null.
      */
-    public function setStartTime(?DateTimeInterface $startTime): void
+    public function setStartTime(DateTimeInterface|null $startTime): void
     {
         if ($this->startTime !== null) {
             throw new ImmutablePropertyException(self::class, 'startTime');
@@ -205,7 +205,7 @@ final class JobExecution
     /**
      * @throws ImmutablePropertyException If {@see JobExecution::$endTime} is not null.
      */
-    public function setEndTime(?DateTimeInterface $endTime): void
+    public function setEndTime(DateTimeInterface|null $endTime): void
     {
         if ($this->endTime !== null) {
             throw new ImmutablePropertyException(self::class, 'endTime');
@@ -227,7 +227,7 @@ final class JobExecution
         return self::createChild($this, $childName);
     }
 
-    public function getParentExecution(): ?JobExecution
+    public function getParentExecution(): JobExecution|null
     {
         return $this->parentExecution;
     }
@@ -265,7 +265,7 @@ final class JobExecution
      * Get a child execution for which the job name is $childName.
      * Returns null if that execution does not exist.
      */
-    public function getChildExecution(string $childName): ?JobExecution
+    public function getChildExecution(string $childName): JobExecution|null
     {
         return $this->childExecutions[$childName] ?? null;
     }

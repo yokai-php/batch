@@ -37,7 +37,7 @@ class JobExecutorTest extends TestCase
         $this->executor = new JobExecutor(
             JobRegistry::fromJobArray(['test.job_executor' => $this->job->reveal()]),
             new InMemoryJobExecutionStorage(),
-            $this->dispatcher
+            $this->dispatcher,
         );
     }
 
@@ -106,7 +106,7 @@ class JobExecutorTest extends TestCase
             function (ExceptionEvent $event) use ($exception) {
                 Assert::assertSame($exception, $event->getException());
                 $event->setStatus(BatchStatus::COMPLETED);
-            }
+            },
         );
 
         $this->executor->execute($execution);

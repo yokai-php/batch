@@ -30,13 +30,13 @@ class SummaryTest extends TestCase
         $summary->set('float', 0.999);
         self::assertSame(
             ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => true, 'int' => 1, 'float' => 0.999],
-            $summary->all()
+            $summary->all(),
         );
 
         $summary->set('string', 'bar');
         self::assertSame(
             ['null' => null, 'string' => 'bar', 'array' => [], 'bool' => true, 'int' => 1, 'float' => 0.999],
-            $summary->all()
+            $summary->all(),
         );
     }
 
@@ -51,14 +51,14 @@ class SummaryTest extends TestCase
 
         self::assertSame(
             ['int' => 4, 'float' => 3.999, 'notset' => 1],
-            $summary->all()
+            $summary->all(),
         );
     }
 
     public function testGet(): void
     {
         $summary = new Summary(
-            ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => true, 'int' => 1, 'float' => 0.999]
+            ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => true, 'int' => 1, 'float' => 0.999],
         );
         $summary->set('string', 'foo');
         $summary->set('array', []);

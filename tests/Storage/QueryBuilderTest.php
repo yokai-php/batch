@@ -64,7 +64,7 @@ class QueryBuilderTest extends TestCase
                 endTime: $endTime,
                 sort: $sortBy,
                 limit: $limit,
-                offset: $offset
+                offset: $offset,
             ),
         ];
         yield 'Query with sort' => [
@@ -77,7 +77,7 @@ class QueryBuilderTest extends TestCase
                 endTime: $endTime,
                 sort: Query::SORT_BY_START_DESC,
                 limit: $limit,
-                offset: $offset
+                offset: $offset,
             ),
         ];
         yield 'Query with limit' => [
@@ -90,7 +90,7 @@ class QueryBuilderTest extends TestCase
                 endTime: $endTime,
                 sort: $sortBy,
                 limit: 30,
-                offset: 60
+                offset: 60,
             ),
         ];
         $startTimeFrom = new \DateTimeImmutable('2023-07-07 15:18');
@@ -105,7 +105,7 @@ class QueryBuilderTest extends TestCase
                 endTime: null,
                 sort: $sortBy,
                 limit: $limit,
-                offset: $offset
+                offset: $offset,
             ),
         ];
         yield 'Query with start time boundary reset' => [
@@ -118,7 +118,7 @@ class QueryBuilderTest extends TestCase
                 endTime: null,
                 sort: $sortBy,
                 limit: $limit,
-                offset: $offset
+                offset: $offset,
             ),
         ];
         $endTimeFrom = new \DateTimeImmutable('2023-07-07 15:18');
@@ -133,7 +133,7 @@ class QueryBuilderTest extends TestCase
                 endTime: new TimeFilter($endTimeFrom, $endTimeTo),
                 sort: $sortBy,
                 limit: $limit,
-                offset: $offset
+                offset: $offset,
             ),
         ];
         yield 'Query with end time boundary reset' => [
@@ -146,7 +146,7 @@ class QueryBuilderTest extends TestCase
                 endTime: null,
                 sort: $sortBy,
                 limit: $limit,
-                offset: $offset
+                offset: $offset,
             ),
         ];
         yield 'Query complex' => [
@@ -166,7 +166,7 @@ class QueryBuilderTest extends TestCase
                 endTime: new TimeFilter($endTimeFrom, $endTimeTo),
                 sort: Query::SORT_BY_END_DESC,
                 limit: 6,
-                offset: 12
+                offset: 12,
             ),
         ];
     }
@@ -201,7 +201,7 @@ class QueryBuilderTest extends TestCase
                     BatchStatus::ABANDONED,
                     BatchStatus::FAILED,
                 ],
-                666
+                666,
             ),
         ];
         yield 'QueryBuilder::sort expect any Query::SORT_*' => [
@@ -213,7 +213,7 @@ class QueryBuilderTest extends TestCase
                     Query::SORT_BY_END_ASC,
                     Query::SORT_BY_END_DESC,
                 ],
-                'wrong'
+                'wrong',
             ),
         ];
         yield 'QueryBuilder::limit $limit argument expect positive int' => [

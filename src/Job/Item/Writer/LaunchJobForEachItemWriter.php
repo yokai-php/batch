@@ -36,7 +36,7 @@ final class LaunchJobForEachItemWriter implements ItemWriterInterface, JobExecut
             $execution = $this->launcher->launch($this->jobName, $parameters);
             $this->jobExecution->getLogger()->notice(
                 'Triggered job for item.',
-                ['jobName' => $execution->getJobName(), 'executionId' => $execution->getId()]
+                ['jobName' => $execution->getJobName(), 'executionId' => $execution->getId()],
             );
         }
     }

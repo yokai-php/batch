@@ -26,7 +26,7 @@ final class JobExecutionParameterAccessor implements JobParameterAccessorInterfa
         } catch (UndefinedJobParameterException $exception) {
             throw new CannotAccessParameterException(
                 \sprintf('Cannot access "%s" parameter from job execution.', $this->name),
-                $exception
+                $exception,
             );
         }
     }

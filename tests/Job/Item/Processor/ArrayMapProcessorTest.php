@@ -15,11 +15,11 @@ class ArrayMapProcessorTest extends TestCase
         $processor = new ArrayMapProcessor(fn($string) => \mb_strtoupper($string));
         self::assertSame(
             ['firstName' => 'JOHN', 'lastName' => 'DOE'],
-            $processor->process(['firstName' => 'John', 'lastName' => 'Doe'])
+            $processor->process(['firstName' => 'John', 'lastName' => 'Doe']),
         );
         self::assertSame(
             ['TOMATO', 'BANANA', 'EGGPLANT'],
-            $processor->process(['tomato', 'BaNaNa', 'Eggplant'])
+            $processor->process(['tomato', 'BaNaNa', 'Eggplant']),
         );
     }
 

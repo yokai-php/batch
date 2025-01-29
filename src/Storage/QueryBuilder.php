@@ -68,11 +68,11 @@ final class QueryBuilder
      */
     private array $statuses = [];
 
-    private ?TimeFilter $startTime = null;
+    private TimeFilter|null $startTime = null;
 
-    private ?TimeFilter $endTime = null;
+    private TimeFilter|null $endTime = null;
 
-    private ?string $sortBy = null;
+    private string|null $sortBy = null;
 
     private int $limit = 10;
 
@@ -143,7 +143,7 @@ final class QueryBuilder
      * @param DateTimeInterface|null $from Beginning of the time frame
      * @param DateTimeInterface|null $to   End of the time frame
      */
-    public function startTime(?DateTimeInterface $from, ?DateTimeInterface $to): self
+    public function startTime(DateTimeInterface|null $from, DateTimeInterface|null $to): self
     {
         if ($from === null && $to === null) {
             $this->startTime = null;
@@ -162,7 +162,7 @@ final class QueryBuilder
      * @param DateTimeInterface|null $from Beginning of the time frame
      * @param DateTimeInterface|null $to   End of the time frame
      */
-    public function endTime(?DateTimeInterface $from, ?DateTimeInterface $to): self
+    public function endTime(DateTimeInterface|null $from, DateTimeInterface|null $to): self
     {
         if ($from === null && $to === null) {
             $this->endTime = null;
@@ -220,7 +220,7 @@ final class QueryBuilder
             $this->endTime,
             $this->sortBy,
             $this->limit,
-            $this->offset
+            $this->offset,
         );
     }
 }

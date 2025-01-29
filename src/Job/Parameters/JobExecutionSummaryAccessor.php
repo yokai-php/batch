@@ -22,7 +22,7 @@ final class JobExecutionSummaryAccessor implements JobParameterAccessorInterface
     {
         if (!$execution->getSummary()->has($this->name)) {
             throw new CannotAccessParameterException(
-                \sprintf('Cannot access parameter, summary variable "%s" does not exists.', $this->name)
+                \sprintf('Cannot access parameter, summary variable "%s" does not exists.', $this->name),
             );
         }
 

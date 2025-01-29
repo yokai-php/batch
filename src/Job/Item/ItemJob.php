@@ -60,7 +60,7 @@ class ItemJob implements JobInterface
                 $summary->increment('skipped');
                 $logger->debug(
                     \sprintf('Skipping item %s.', $readIndex),
-                    $exception->getContext() + ['item' => $exception->getItem()]
+                    $exception->getContext() + ['item' => $exception->getItem()],
                 );
 
                 $cause = $exception->getCause();

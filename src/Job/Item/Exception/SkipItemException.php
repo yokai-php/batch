@@ -18,7 +18,7 @@ final class SkipItemException extends RuntimeException
 {
     public function __construct(
         private mixed $item,
-        private ?SkipItemCauseInterface $cause,
+        private SkipItemCauseInterface|null $cause,
         /**
          * @var array<string, mixed>
          */
@@ -69,7 +69,7 @@ final class SkipItemException extends RuntimeException
      * The cause of the exception.
      * Will be used by {@see ItemJob} to leave a trace in {@see JobExecution}.
      */
-    public function getCause(): ?SkipItemCauseInterface
+    public function getCause(): SkipItemCauseInterface|null
     {
         return $this->cause;
     }

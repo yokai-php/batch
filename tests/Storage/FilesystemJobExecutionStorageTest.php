@@ -50,11 +50,11 @@ class FilesystemJobExecutionStorageTest extends TestCase
 
     private function createStorage(
         string $dir = self::STORAGE_DIR,
-        JobExecutionSerializerInterface $serializer = null
+        JobExecutionSerializerInterface $serializer = null,
     ): FilesystemJobExecutionStorage {
         return new FilesystemJobExecutionStorage(
             $serializer ?? $this->serializer->reveal(),
-            $dir
+            $dir,
         );
     }
 
@@ -114,7 +114,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
     {
         $storage = $this->createStorage(
             __DIR__ . '/fixtures/filesystem-job-execution',
-            new JsonJobExecutionSerializer()
+            new JsonJobExecutionSerializer(),
         );
 
         self::assertExecutions($expectedCouples, $storage->list($jobName));
@@ -146,7 +146,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
     {
         $storage = $this->createStorage(
             __DIR__ . '/fixtures/filesystem-job-execution',
-            new JsonJobExecutionSerializer()
+            new JsonJobExecutionSerializer(),
         );
 
         self::assertExecutions($expectedCouples, $storage->query($query->getQuery()));

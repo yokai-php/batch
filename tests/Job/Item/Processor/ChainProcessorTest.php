@@ -17,15 +17,15 @@ class ChainProcessorTest extends TestCase
         $chain = [
             // substract 1
             new TestDebugProcessor(
-                new CallbackProcessor(fn(int $number) => $number - 1)
+                new CallbackProcessor(fn(int $number) => $number - 1),
             ),
             // multiply by 2
             new TestDebugProcessor(
-                new CallbackProcessor(fn(int $number) => $number * 2)
+                new CallbackProcessor(fn(int $number) => $number * 2),
             ),
             // add 10
             new TestDebugProcessor(
-                new CallbackProcessor(fn(int $number) => $number + 10)
+                new CallbackProcessor(fn(int $number) => $number + 10),
             ),
         ];
 

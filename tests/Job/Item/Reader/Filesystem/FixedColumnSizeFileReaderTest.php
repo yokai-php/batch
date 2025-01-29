@@ -23,7 +23,7 @@ class FixedColumnSizeFileReaderTest extends TestCase
         $reader = new FixedColumnSizeFileReader(
             $columns,
             new StaticValueParameterAccessor(__DIR__ . '/fixtures/fixed-column-size.txt'),
-            $headersMode
+            $headersMode,
         );
         $reader->setJobExecution($execution);
         self::assertSame($expected, \iterator_to_array($reader->read()));
@@ -41,7 +41,7 @@ class FixedColumnSizeFileReaderTest extends TestCase
         $execution = JobExecution::createRoot('123456', 'testing');
         $reader = new FixedColumnSizeFileReader(
             [10, 10],
-            new StaticValueParameterAccessor(__DIR__ . '/fixtures/unknown-file.ext')
+            new StaticValueParameterAccessor(__DIR__ . '/fixtures/unknown-file.ext'),
         );
         $reader->setJobExecution($execution);
         \iterator_to_array($reader->read());

@@ -36,7 +36,7 @@ class SkipItemOnErrorTest extends TestCase
                 'code' => $error->getCode(),
                 'trace' => $error->getTraceAsString(),
             ],
-            $execution->getWarnings()[0]->getContext()
+            $execution->getWarnings()[0]->getContext(),
         );
     }
 

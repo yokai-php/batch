@@ -16,7 +16,7 @@ class ConditionalWriterTest extends TestCase
     {
         $writer = new ConditionalWriter(
             fn(int $number) => ($number % 2) === 0,
-            $debugWriter = new TestDebugWriter($memoryWriter = new InMemoryWriter())
+            $debugWriter = new TestDebugWriter($memoryWriter = new InMemoryWriter()),
         );
 
         $writer->setJobExecution(JobExecution::createRoot('123', 'test.conditional_writer'));
@@ -34,7 +34,7 @@ class ConditionalWriterTest extends TestCase
     {
         $writer = new ConditionalWriter(
             fn() => false,
-            $debugWriter = new TestDebugWriter($memoryWriter = new InMemoryWriter())
+            $debugWriter = new TestDebugWriter($memoryWriter = new InMemoryWriter()),
         );
 
         $writer->setJobExecution(JobExecution::createRoot('123', 'test.conditional_writer'));

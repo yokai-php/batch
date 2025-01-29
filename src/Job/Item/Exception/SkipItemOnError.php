@@ -32,8 +32,8 @@ final class SkipItemOnError implements SkipItemCauseInterface
                     'message' => $this->error->getMessage(),
                     'code' => $this->error->getCode(),
                     'trace' => $this->error->getTraceAsString(),
-                ]
-            )
+                ],
+            ),
         );
     }
 

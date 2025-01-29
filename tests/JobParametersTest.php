@@ -13,7 +13,7 @@ class JobParametersTest extends TestCase
     public function testHas(): void
     {
         $parameters = new JobParameters(
-            ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000]
+            ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000],
         );
 
         self::assertTrue($parameters->has('null'));
@@ -28,7 +28,7 @@ class JobParametersTest extends TestCase
     public function testGet(): void
     {
         $parameters = new JobParameters(
-            ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000]
+            ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000],
         );
 
         self::assertSame(null, $parameters->get('null'));
@@ -44,7 +44,7 @@ class JobParametersTest extends TestCase
         $this->expectException(UndefinedJobParameterException::class);
 
         $parameters = new JobParameters(
-            ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000]
+            ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000],
         );
 
         $parameters->get('notset');
@@ -61,7 +61,7 @@ class JobParametersTest extends TestCase
         self::assertSame([], (new JobParameters())->all());
         self::assertSame(
             ['null' => null, 'string' => 'foo'],
-            (new JobParameters(['null' => null, 'string' => 'foo']))->all()
+            (new JobParameters(['null' => null, 'string' => 'foo']))->all(),
         );
     }
 
@@ -70,7 +70,7 @@ class JobParametersTest extends TestCase
         self::assertSame([], \iterator_to_array(new JobParameters()));
         self::assertSame(
             ['null' => null, 'string' => 'foo'],
-            \iterator_to_array(new JobParameters(['null' => null, 'string' => 'foo']))
+            \iterator_to_array(new JobParameters(['null' => null, 'string' => 'foo'])),
         );
     }
 }

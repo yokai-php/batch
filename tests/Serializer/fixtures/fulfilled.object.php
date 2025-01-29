@@ -19,7 +19,7 @@ $failure = new Failure(
     'An error occurred',
     666,
     $hash,
-    "A stack trace\nSomething that indicates\nWhere the error occurred\nIn application code"
+    "A stack trace\nSomething that indicates\nWhere the error occurred\nIn application code",
 );
 
 $jobExecution = JobExecution::createRoot(
@@ -34,8 +34,8 @@ $jobExecution = JobExecution::createRoot(
 2020 [INFO]: Exported one row
 2020 [WARNING]: Invalid row
 
-LOG
-    )
+LOG,
+    ),
 );
 $jobExecution->setStartTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T00:00:01+0200'));
 $jobExecution->setEndTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T01:59:59+0200'));
@@ -47,8 +47,8 @@ $jobExecution->addChildExecution(
         'prepare',
         new BatchStatus(BatchStatus::COMPLETED),
         null,
-        new Summary($hash)
-    )
+        new Summary($hash),
+    ),
 );
 $prepareChildExecution->setStartTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T00:00:01+0200'));
 $prepareChildExecution->setEndTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T00:59:59+0200'));
@@ -59,8 +59,8 @@ $jobExecution->addChildExecution(
         'export',
         new BatchStatus(BatchStatus::FAILED),
         null,
-        new Summary($hash)
-    )
+        new Summary($hash),
+    ),
 );
 $exportChildExecution->setStartTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T01:00:00+0200'));
 $exportChildExecution->setEndTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T01:59:59+0200'));

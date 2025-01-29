@@ -87,7 +87,7 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
     {
         $candidates = [];
         $glob = new \GlobIterator(
-            \implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->serializer->extension()
+            \implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->serializer->extension(),
         );
         /** @var \SplFileInfo $file */
         foreach ($glob as $file) {

@@ -12,7 +12,7 @@ class CannotRemoveJobExecutionException extends RuntimeException
     {
         parent::__construct(
             \sprintf('Cannot remove job execution "%s" of job "%s"', $executionId, $jobName),
-            $previous
+            $previous,
         );
     }
 }

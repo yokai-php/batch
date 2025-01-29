@@ -17,9 +17,9 @@ class AddMetadataReaderTest extends TestCase
     {
         $reader = new AddMetadataReader(
             $decorated = new TestDebugReader(
-                new StaticIterableReader([['name' => 'John'], ['name' => 'Jane']])
+                new StaticIterableReader([['name' => 'John'], ['name' => 'Jane']]),
             ),
-            ['_type' => 'user']
+            ['_type' => 'user'],
         );
 
         $reader->setJobExecution(JobExecution::createRoot('123456', 'test'));
@@ -29,7 +29,7 @@ class AddMetadataReaderTest extends TestCase
 
         self::assertSame(
             [['_type' => 'user', 'name' => 'John'], ['_type' => 'user', 'name' => 'Jane']],
-            $read
+            $read,
         );
 
         $decorated->assertWasConfigured();
@@ -42,7 +42,7 @@ class AddMetadataReaderTest extends TestCase
 
         $reader = new AddMetadataReader(
             new StaticIterableReader(['string']),
-            ['_type' => 'user']
+            ['_type' => 'user'],
         );
 
         $reader->setJobExecution(JobExecution::createRoot('123456', 'test'));

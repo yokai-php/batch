@@ -48,7 +48,7 @@ final class TransformingWriter implements
             } catch (SkipItemException $exception) {
                 $this->jobExecution->getLogger()->debug(
                     \sprintf('Skipping item in writer transformation %s.', $index),
-                    $exception->getContext() + ['item' => $exception->getItem()]
+                    $exception->getContext() + ['item' => $exception->getItem()],
                 );
 
                 $cause = $exception->getCause();

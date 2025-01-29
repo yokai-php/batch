@@ -21,7 +21,7 @@ class TransformingWriterTest extends TestCase
     {
         $writer = new TransformingWriter(
             $debugProcessor = new TestDebugProcessor(new CallbackProcessor(fn($string) => \strtoupper($string))),
-            $debugWriter = new TestDebugWriter($innerWriter = new InMemoryWriter())
+            $debugWriter = new TestDebugWriter($innerWriter = new InMemoryWriter()),
         );
 
         $writer->setJobExecution(JobExecution::createRoot('123', 'test.transforming_writer'));
@@ -41,10 +41,10 @@ class TransformingWriterTest extends TestCase
         $writer = new TransformingWriter(
             $debugProcessor = new TestDebugProcessor(
                 new CallbackProcessor(
-                    fn($item) => throw SkipItemException::withWarning($item, 'Skipped for test purpose')
-                )
+                    fn($item) => throw SkipItemException::withWarning($item, 'Skipped for test purpose'),
+                ),
             ),
-            $debugWriter = new TestDebugWriter($innerWriter = new InMemoryWriter())
+            $debugWriter = new TestDebugWriter($innerWriter = new InMemoryWriter()),
         );
 
         $writer->setJobExecution($execution = JobExecution::createRoot('123', 'test.transforming_writer'));

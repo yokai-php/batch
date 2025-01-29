@@ -37,8 +37,8 @@ final class ChainParameterAccessor implements JobParameterAccessorInterface
             \sprintf(
                 'Cannot access parameter, tried using %d accessor(s), all failed : "%s".',
                 \count($tries),
-                \implode('". "', $tries)
-            )
+                \implode('". "', $tries),
+            ),
         );
     }
 }

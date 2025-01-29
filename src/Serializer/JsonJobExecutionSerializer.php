@@ -101,7 +101,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
                 $status,
                 $parameters,
                 $summary,
-                new JobExecutionLogs($jobExecutionData['logs'] ?? '')
+                new JobExecutionLogs($jobExecutionData['logs'] ?? ''),
             );
         }
 
@@ -122,7 +122,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
         return $jobExecution;
     }
 
-    private function dateToString(?DateTimeInterface $date): ?string
+    private function dateToString(DateTimeInterface|null $date): string|null
     {
         if ($date === null) {
             return null;
@@ -131,7 +131,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
         return $date->format(DateTimeInterface::ISO8601);
     }
 
-    private function stringToDate(?string $date): ?DateTimeInterface
+    private function stringToDate(string|null $date): DateTimeInterface|null
     {
         if ($date === null) {
             return null;
@@ -169,7 +169,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
             $array['message'],
             $array['code'],
             $array['parameters'],
-            $array['trace']
+            $array['trace'],
         );
     }
 

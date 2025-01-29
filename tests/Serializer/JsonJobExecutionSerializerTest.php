@@ -28,7 +28,7 @@ class JsonJobExecutionSerializerTest extends TestCase
         $serializer = new JsonJobExecutionSerializer();
         self::assertEquals(
             $expectedjobExecution,
-            $serializer->unserialize($serializedJobExecution)
+            $serializer->unserialize($serializedJobExecution),
         );
     }
 

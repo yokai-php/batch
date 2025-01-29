@@ -52,7 +52,7 @@ class JsonLinesWriterTest extends TestCase
             null
             0
             JSONL,
-            \trim(\file_get_contents($filename))
+            \trim(\file_get_contents($filename)),
         );
     }
 

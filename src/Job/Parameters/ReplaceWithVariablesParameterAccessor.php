@@ -18,7 +18,7 @@ class ReplaceWithVariablesParameterAccessor implements JobParameterAccessorInter
         /**
          * @var array<string, string>
          */
-        private array $variables = []
+        private array $variables = [],
     ) {
     }
 

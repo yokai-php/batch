@@ -25,13 +25,13 @@ class JobWithChildJobsTest extends TestCase
     public function test(): void
     {
         $execution = $this->execute([
-            'import' => new class() implements JobInterface {
+            'import' => new class implements JobInterface {
                 public function execute(JobExecution $jobExecution): void
                 {
                     $jobExecution->getSummary()->set('executed', true);
                 }
             },
-            'report' => new class() implements JobInterface {
+            'report' => new class implements JobInterface {
                 public function execute(JobExecution $jobExecution): void
                 {
                     $jobExecution->getSummary()->set('executed', true);
@@ -67,13 +67,13 @@ class JobWithChildJobsTest extends TestCase
     public function testFirstChildFailing(): void
     {
         $execution = $this->execute([
-            'import' => new class() implements JobInterface {
+            'import' => new class implements JobInterface {
                 public function execute(JobExecution $jobExecution): void
                 {
                     throw new \RuntimeException('Expected failure');
                 }
             },
-            'report' => new class() implements JobInterface {
+            'report' => new class implements JobInterface {
                 public function execute(JobExecution $jobExecution): void
                 {
                     throw new \LogicException('Should never be executed');

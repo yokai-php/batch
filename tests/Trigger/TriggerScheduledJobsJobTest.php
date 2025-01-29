@@ -29,7 +29,7 @@ class TriggerScheduledJobsJobTest extends TestCase
                     [new DateTimeImmutable('tomorrow'), 'not_triggered'],
                 ]),
             ],
-            $launcher = new BufferingJobLauncher(new SequenceJobExecutionIdGenerator(['123']))
+            $launcher = new BufferingJobLauncher(new SequenceJobExecutionIdGenerator(['123'])),
         );
 
         $job->execute($jobExecution = JobExecution::createRoot('123456', 'testing'));
@@ -39,13 +39,13 @@ class TriggerScheduledJobsJobTest extends TestCase
         self::assertSame('123', $launcher->getExecutions()[0]->getId());
         self::assertSame(
             ['_id' => '123'],
-            $launcher->getExecutions()[0]->getParameters()->all()
+            $launcher->getExecutions()[0]->getParameters()->all(),
         );
         self::assertSame('triggered', $launcher->getExecutions()[1]->getJobName());
         self::assertSame('triggered_job_id', $launcher->getExecutions()[1]->getId());
         self::assertSame(
             ['config' => 'value', '_id' => 'triggered_job_id'],
-            $launcher->getExecutions()[1]->getParameters()->all()
+            $launcher->getExecutions()[1]->getParameters()->all(),
         );
         self::assertSame([
             [
@@ -63,12 +63,12 @@ class TriggerScheduledJobsJobTest extends TestCase
         self::assertStringContainsString(
             'INFO: Launched scheduled job. ' .
             '{"scheduler":"' . \preg_quote(CallbackScheduler::class) . '","job":"triggered_with_defaults","id":"123"}',
-            $logs
+            $logs,
         );
         self::assertStringContainsString(
             'INFO: Launched scheduled job. ' .
             '{"scheduler":"' . \preg_quote(TimeScheduler::class) . '","job":"triggered","id":"triggered_job_id"}',
-            $logs
+            $logs,
         );
     }
 
@@ -76,7 +76,7 @@ class TriggerScheduledJobsJobTest extends TestCase
     {
         $job = new TriggerScheduledJobsJob(
             [],
-            $launcher = new BufferingJobLauncher(new UniqidJobExecutionIdGenerator())
+            $launcher = new BufferingJobLauncher(new UniqidJobExecutionIdGenerator()),
         );
 
         $job->execute($jobExecution = JobExecution::createRoot('123456', 'testing'));

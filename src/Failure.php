@@ -33,7 +33,7 @@ final class Failure implements \Stringable
         /**
          * The exception trace {@see Throwable::getTraceAsString}
          */
-        private ?string $trace = null,
+        private string|null $trace = null,
     ) {
     }
 
@@ -49,7 +49,7 @@ final class Failure implements \Stringable
             $exception->getMessage(),
             $exception->getCode(),
             $parameters,
-            self::buildTrace($exception)
+            self::buildTrace($exception),
         );
     }
 
@@ -81,7 +81,7 @@ final class Failure implements \Stringable
         return $this->parameters;
     }
 
-    public function getTrace(): ?string
+    public function getTrace(): string|null
     {
         return $this->trace;
     }

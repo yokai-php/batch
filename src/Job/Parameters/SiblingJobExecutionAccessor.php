@@ -28,7 +28,7 @@ final class SiblingJobExecutionAccessor implements JobParameterAccessorInterface
         $sibling = $parent->getChildExecution($this->sibling);
         if ($sibling === null) {
             throw new CannotAccessParameterException(
-                \sprintf('Cannot access parameter, job execution has no sibling named "%s".', $this->sibling)
+                \sprintf('Cannot access parameter, job execution has no sibling named "%s".', $this->sibling),
             );
         }
 

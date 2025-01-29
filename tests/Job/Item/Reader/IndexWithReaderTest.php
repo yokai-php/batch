@@ -45,7 +45,7 @@ class IndexWithReaderTest extends TestCase
         yield 'Index with array key' => [
             fn() => [IndexWithReader::withArrayKey(
                 $decorated = new TestDebugReader(new StaticIterableReader([$john, $marie])),
-                'name'
+                'name',
             ), $decorated],
             ['John' => $john, 'Marie' => $marie],
         ];
@@ -55,7 +55,7 @@ class IndexWithReaderTest extends TestCase
         yield 'Index with object property' => [
             fn() => [IndexWithReader::withProperty(
                 $decorated = new TestDebugReader(new StaticIterableReader([$john, $marie])),
-                'name'
+                'name',
             ), $decorated],
             ['John' => $john, 'Marie' => $marie],
         ];
@@ -65,7 +65,7 @@ class IndexWithReaderTest extends TestCase
         yield 'Index with object method' => [
             fn() => [IndexWithReader::withGetter(
                 $decorated = new TestDebugReader(new StaticIterableReader([$three, $six])),
-                'count'
+                'count',
             ), $decorated],
             [3 => $three, 6 => $six],
         ];
@@ -73,7 +73,7 @@ class IndexWithReaderTest extends TestCase
         yield 'Index with arbitrary closure' => [
             fn() => [new IndexWithReader(
                 $decorated = new TestDebugReader(new StaticIterableReader([1, 2, 3])),
-                fn(int $value) => $value * $value
+                fn(int $value) => $value * $value,
             ), $decorated],
             [1 => 1, 4 => 2, 9 => 3],
         ];

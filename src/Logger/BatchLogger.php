@@ -17,7 +17,7 @@ use Yokai\Batch\Event\PreExecuteEvent;
  */
 class BatchLogger extends AbstractLogger
 {
-    private ?LoggerInterface $batchLogger = null;
+    private LoggerInterface|null $batchLogger = null;
 
     /**
      * Access and remember the logger

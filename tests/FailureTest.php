@@ -22,7 +22,7 @@ class FailureTest extends TestCase
         string $message,
         array $trace,
         array $parameters,
-        string $string
+        string $string,
     ): void {
         /** @var Failure $failure */
         $failure = $load();
@@ -41,7 +41,7 @@ class FailureTest extends TestCase
         yield [
             fn() => Failure::fromException(
                 new LogicException('I will fail because of {var}'),
-                ['{var}' => 'test var']
+                ['{var}' => 'test var'],
             ),
             'LogicException',
             0,
@@ -54,7 +54,7 @@ class FailureTest extends TestCase
         ];
         yield [
             fn() => Failure::fromException(
-                new RuntimeException('This is a test', 123, new LogicException('Previous exception'))
+                new RuntimeException('This is a test', 123, new LogicException('Previous exception')),
             ),
             'RuntimeException',
             123,

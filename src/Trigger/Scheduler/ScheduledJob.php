@@ -15,7 +15,7 @@ final class ScheduledJob
          * @var array<string, mixed>
          */
         private array $parameters = [],
-        private ?string $id = null,
+        private string|null $id = null,
     ) {
     }
 
@@ -40,7 +40,7 @@ final class ScheduledJob
     /**
      * An optional job execution id for the job to trigger.
      */
-    public function getId(): ?string
+    public function getId(): string|null
     {
         return $this->id;
     }

@@ -29,7 +29,7 @@ final class JobExecutionLogger extends AbstractLogger
     /**
      * Current timezone used for date formatting.
      */
-    private static ?DateTimeZone $timezone = null;
+    private static DateTimeZone|null $timezone = null;
 
     public function __construct(
         /**
@@ -52,8 +52,8 @@ final class JobExecutionLogger extends AbstractLogger
                 $this->date(),
                 self::LEVELS[$level] ?? '',
                 $message,
-                \json_encode($context, JSON_THROW_ON_ERROR)
-            )
+                \json_encode($context, JSON_THROW_ON_ERROR),
+            ),
         );
     }
 

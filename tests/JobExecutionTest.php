@@ -23,7 +23,7 @@ class JobExecutionTest extends TestCase
             'export',
             $status = new BatchStatus(BatchStatus::STOPPED),
             $parameters = new JobParameters(),
-            $summary = new Summary()
+            $summary = new Summary(),
         );
         $fullJobExecution->setStartTime($startTime = new \DateTimeImmutable());
         $fullJobExecution->setEndTime($endTime = new \DateTime());
@@ -62,8 +62,8 @@ class JobExecutionTest extends TestCase
             'export',
             null,
             new JobParameters(
-                ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000]
-            )
+                ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000],
+            ),
         );
 
         self::assertSame(null, $jobExecution->getParameter('null'));
@@ -83,8 +83,8 @@ class JobExecutionTest extends TestCase
             'export',
             null,
             new JobParameters(
-                ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000]
-            )
+                ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000],
+            ),
         );
 
         $jobExecution->getParameter('notset');
@@ -152,11 +152,11 @@ class JobExecutionTest extends TestCase
         self::assertSame(['Job Failure'], \array_map($failureMessage, $jobExecution->getFailures()));
         self::assertSame(
             ['Job Failure', 'Prepare Job Failure', 'Export Job Failure'],
-            \array_map($failureMessage, $jobExecution->getAllFailures())
+            \array_map($failureMessage, $jobExecution->getAllFailures()),
         );
         self::assertSame(
             ['Job Failure', 'Prepare Job Failure', 'Export Job Failure'],
-            \array_map($failureToString, $jobExecution->getAllFailures())
+            \array_map($failureToString, $jobExecution->getAllFailures()),
         );
 
         $logs = (string)$jobExecution->getLogs();
@@ -185,11 +185,11 @@ class JobExecutionTest extends TestCase
         self::assertSame(['Job Warning'], \array_map($warningMessage, $jobExecution->getWarnings()));
         self::assertSame(
             ['Job Warning', 'Prepare Job Warning', 'Export Job Warning'],
-            \array_map($warningMessage, $jobExecution->getAllWarnings())
+            \array_map($warningMessage, $jobExecution->getAllWarnings()),
         );
         self::assertSame(
             ['Job Warning', 'Prepare Job Warning', 'Export Job Warning'],
-            \array_map($warningToString, $jobExecution->getAllWarnings())
+            \array_map($warningToString, $jobExecution->getAllWarnings()),
         );
 
         $logs = (string)$jobExecution->getLogs();
@@ -206,7 +206,7 @@ class JobExecutionTest extends TestCase
 
         self::assertSame(
             '07h 30m 15s',
-            $jobExecution->getDuration()->format('%Hh %Im %Ss')
+            $jobExecution->getDuration()->format('%Hh %Im %Ss'),
         );
     }
 }

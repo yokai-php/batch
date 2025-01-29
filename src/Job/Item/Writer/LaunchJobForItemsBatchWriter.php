@@ -35,7 +35,7 @@ final class LaunchJobForItemsBatchWriter implements ItemWriterInterface, JobExec
         $execution = $this->launcher->launch($this->jobName, $parameters);
         $this->jobExecution->getLogger()->notice(
             'Triggered job for items batch.',
-            ['jobName' => $execution->getJobName(), 'executionId' => $execution->getId()]
+            ['jobName' => $execution->getJobName(), 'executionId' => $execution->getId()],
         );
     }
 }

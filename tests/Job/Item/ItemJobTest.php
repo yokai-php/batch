@@ -24,7 +24,7 @@ class ItemJobTest extends TestCase
     public function testExecute(): void
     {
         $reader = new TestDebugReader(
-            new StaticIterableReader([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+            new StaticIterableReader([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
         );
         $processor = new TestDebugProcessor(
             new CallbackProcessor(function ($item) {
@@ -32,19 +32,19 @@ class ItemJobTest extends TestCase
                     throw SkipItemException::withWarning(
                         $item,
                         'Item is greater than 9 got ' . $item,
-                        ['context' => 'phpunit']
+                        ['context' => 'phpunit'],
                     );
                 }
 
                 return $item * 10;
-            })
+            }),
         );
 
         $debugWriter = new TestDebugWriter($writer = new InMemoryWriter());
 
         $job = new ItemJob(4, $reader, $processor, $debugWriter, new NullJobExecutionStorage());
         $job->execute(
-            $execution = JobExecution::createRoot('123456789', 'export')
+            $execution = JobExecution::createRoot('123456789', 'export'),
         );
 
         self::assertSame([10, 20, 30, 40, 50, 60, 70, 80, 90], $writer->getItems());
@@ -87,7 +87,7 @@ class ItemJobTest extends TestCase
             new StaticIterableReader(['eggplant', 'tomato', 'avocado']),
             new CallbackProcessor($callback),
             $writer = new InMemoryWriter(),
-            new NullJobExecutionStorage()
+            new NullJobExecutionStorage(),
         );
 
         $job->execute($execution = JobExecution::createRoot('123456', 'testing'));
@@ -101,7 +101,7 @@ class ItemJobTest extends TestCase
                 'fruit:avocado',
                 'vegetable:avocado',
             ],
-            $writer->getItems()
+            $writer->getItems(),
         );
         self::assertSame(3, $execution->getSummary()->get('read'));
         self::assertSame(3, $execution->getSummary()->get('processed'));

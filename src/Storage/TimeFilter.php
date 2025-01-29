@@ -13,20 +13,20 @@ use Yokai\Batch\Exception\UnexpectedValueException;
 final class TimeFilter
 {
     public function __construct(
-        private ?DateTimeInterface $from,
-        private ?DateTimeInterface $to,
+        private DateTimeInterface|null $from,
+        private DateTimeInterface|null $to,
     ) {
         if ($from !== null && $to !== null && $from > $to) {
             throw new UnexpectedValueException('TimeFilter expect "from" boundary to be lower than "to" boundary.');
         }
     }
 
-    public function getFrom(): ?DateTimeInterface
+    public function getFrom(): DateTimeInterface|null
     {
         return $this->from;
     }
 
-    public function getTo(): ?DateTimeInterface
+    public function getTo(): DateTimeInterface|null
     {
         return $this->to;
     }

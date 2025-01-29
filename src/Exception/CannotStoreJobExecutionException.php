@@ -12,7 +12,7 @@ class CannotStoreJobExecutionException extends RuntimeException
     {
         parent::__construct(
             \sprintf('Cannot store job execution "%s" of job "%s"', $executionId, $jobName),
-            $previous
+            $previous,
         );
     }
 }
