@@ -124,10 +124,10 @@ final class JobExecution
     public static function createRoot(
         string $id,
         string $jobName,
-        BatchStatus $status = null,
-        JobParameters $parameters = null,
-        Summary $summary = null,
-        JobExecutionLogs $logs = null,
+        BatchStatus|null $status = null,
+        JobParameters|null $parameters = null,
+        Summary|null $summary = null,
+        JobExecutionLogs|null $logs = null,
     ): self {
         return new self(null, $id, $jobName, $status, $parameters, $summary, $logs);
     }
@@ -138,9 +138,9 @@ final class JobExecution
     public static function createChild(
         JobExecution $parent,
         string $jobName,
-        BatchStatus $status = null,
-        JobParameters $parameters = null,
-        Summary $summary = null,
+        BatchStatus|null $status = null,
+        JobParameters|null $parameters = null,
+        Summary|null $summary = null,
     ): self {
         return new self($parent, $parent->getId(), $jobName, $status, $parameters, $summary, null);
     }
@@ -387,7 +387,7 @@ final class JobExecution
      * @param string|null $message The message to use while logging
      * @param LogLevel::* $level The level to use while logging
      */
-    public function logError(Throwable $error, string $message = null, string $level = LogLevel::ERROR): void
+    public function logError(Throwable $error, string|null $message = null, string $level = LogLevel::ERROR): void
     {
         $this->logger->log($level, $message ?? 'An error occurred', ['error' => (string)$error]);
     }

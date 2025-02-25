@@ -8,12 +8,12 @@ use Throwable;
 
 class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
 {
-    public function __construct(string $base = null, string $message = '', Throwable $previous = null)
+    public function __construct(string|null $base = null, string $message = '', Throwable|null $previous = null)
     {
         parent::__construct(($base ? \rtrim($base, '. ') . '. ' : '') . $message, 0, $previous);
     }
 
-    public static function type(string $expected, mixed $argument, string $message = null): self
+    public static function type(string $expected, mixed $argument, string|null $message = null): self
     {
         return new self(
             $message,
@@ -24,7 +24,7 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
     /**
      * @param mixed[] $expected
      */
-    public static function enum(array $expected, mixed $argument, string $message = null): self
+    public static function enum(array $expected, mixed $argument, string|null $message = null): self
     {
         return new self(
             $message,
@@ -36,12 +36,12 @@ class UnexpectedValueException extends \UnexpectedValueException implements Exce
         );
     }
 
-    public static function min(float|int|null $min, float|int|null $argument, string $message = null): self
+    public static function min(float|int|null $min, float|int|null $argument, string|null $message = null): self
     {
         return new self($message, \sprintf('Expecting argument to be %s or more, got %s.', $min, $argument));
     }
 
-    public static function date(string $expected, mixed $argument, string $message = null): self
+    public static function date(string $expected, mixed $argument, string|null $message = null): self
     {
         return new self(
             $message,

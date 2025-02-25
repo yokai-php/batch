@@ -50,7 +50,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
 
     private function createStorage(
         string $dir = self::STORAGE_DIR,
-        JobExecutionSerializerInterface $serializer = null,
+        JobExecutionSerializerInterface|null $serializer = null,
     ): FilesystemJobExecutionStorage {
         return new FilesystemJobExecutionStorage(
             $serializer ?? $this->serializer->reveal(),

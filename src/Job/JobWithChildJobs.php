@@ -37,7 +37,7 @@ class JobWithChildJobs implements JobInterface
     public static function withAnonymousChildren(
         array $children,
         JobExecutionStorageInterface $executionStorage,
-        EventDispatcherInterface $eventDispatcher = null,
+        EventDispatcherInterface|null $eventDispatcher = null,
     ): self {
         return new self(
             $executionStorage,

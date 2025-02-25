@@ -8,7 +8,7 @@ use Throwable;
 
 class JobExecutionNotFoundException extends \InvalidArgumentException implements ExceptionInterface
 {
-    public function __construct(string $jobName, string $executionId, Throwable $previous = null)
+    public function __construct(string $jobName, string $executionId, Throwable|null $previous = null)
     {
         parent::__construct(
             \sprintf('Job execution "%s" of job "%s" cannot be found', $executionId, $jobName),

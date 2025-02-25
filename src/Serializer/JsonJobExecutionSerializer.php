@@ -84,7 +84,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     /**
      * @param array<string, mixed> $jobExecutionData
      */
-    private function fromArray(array $jobExecutionData, JobExecution $parentExecution = null): JobExecution
+    private function fromArray(array $jobExecutionData, JobExecution|null $parentExecution = null): JobExecution
     {
         $name = $jobExecutionData['jobName'];
         $status = new BatchStatus($jobExecutionData['status']);

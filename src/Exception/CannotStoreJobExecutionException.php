@@ -8,7 +8,7 @@ use Throwable;
 
 class CannotStoreJobExecutionException extends RuntimeException
 {
-    public function __construct(string $jobName, string $executionId, Throwable $previous = null)
+    public function __construct(string $jobName, string $executionId, Throwable|null $previous = null)
     {
         parent::__construct(
             \sprintf('Cannot store job execution "%s" of job "%s"', $executionId, $jobName),

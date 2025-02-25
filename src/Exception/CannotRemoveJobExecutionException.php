@@ -8,7 +8,7 @@ use Throwable;
 
 class CannotRemoveJobExecutionException extends RuntimeException
 {
-    public function __construct(string $jobName, string $executionId, Throwable $previous = null)
+    public function __construct(string $jobName, string $executionId, Throwable|null $previous = null)
     {
         parent::__construct(
             \sprintf('Cannot remove job execution "%s" of job "%s"', $executionId, $jobName),
