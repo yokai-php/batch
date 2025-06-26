@@ -6,14 +6,16 @@ namespace Yokai\Batch\Tests\Job\Item\Processor;
 
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Processor\CallbackProcessor;
+use Yokai\Batch\JobExecution;
 
 class CallbackProcessorTest extends TestCase
 {
     public function testProcess(): void
     {
-        $processor = new CallbackProcessor(fn($item) => \mb_strtolower($item));
-
-        self::assertSame('john', $processor->process('John'));
-        self::assertSame('doe', $processor->process('DOE'));
+        $processor = new CallbackProcessor(fn($item, JobExecution $jobExecution)
+            => \mb_strtolower($item . '-' . $jobExecution->getJobName()));
+        $processor->setJobExecution(JobExecution::createRoot(id: '123', jobName: 'test'));
+        self::assertSame('john-test', $processor->process('John'));
+        self::assertSame('doe-test', $processor->process('DOE'));
     }
 }
