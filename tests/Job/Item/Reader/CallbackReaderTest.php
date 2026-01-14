@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item\Reader;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Reader\CallbackReader;
 
 class CallbackReaderTest extends TestCase
 {
-    /**
-     * @dataProvider provider
-     */
+    #[DataProvider('provider')]
     public function test(array $expected, \Closure $closure): void
     {
         $items = [];

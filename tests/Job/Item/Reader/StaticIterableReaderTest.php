@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item\Reader;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
 
 class StaticIterableReaderTest extends TestCase
 {
-    /**
-     * @dataProvider items
-     */
+    #[DataProvider('items')]
     public function testRead(iterable $items, array $expected): void
     {
         $reader = new StaticIterableReader($items);
@@ -24,7 +23,7 @@ class StaticIterableReaderTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function items(): \Iterator
+    public static function items(): \Iterator
     {
         $items = [1, 2, 3];
 

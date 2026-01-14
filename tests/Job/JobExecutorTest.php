@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests\Job;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -69,9 +70,7 @@ class JobExecutorTest extends TestCase
         self::assertInstanceOf(PostExecuteEvent::class, $events[1] ?? null);
     }
 
-    /**
-     * @dataProvider errors
-     */
+    #[DataProvider('errors')]
     public function testLaunchJobCatchErrors(Throwable $error): void
     {
         $execution = JobExecution::createRoot('123', 'test.job_executor');
@@ -139,7 +138,7 @@ class JobExecutorTest extends TestCase
         self::assertCount(0, $events);
     }
 
-    public function errors(): \Generator
+    public static function errors(): \Generator
     {
         yield [new \Exception('Triggered for test purpose')];
         yield [new \DivisionByZeroError('Triggered for test purpose')];

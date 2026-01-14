@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests\Storage;
 
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Exception\UnexpectedValueException;
@@ -14,9 +15,7 @@ use Yokai\Batch\Storage\TimeFilter;
 
 class QueryBuilderTest extends TestCase
 {
-    /**
-     * @dataProvider valid
-     */
+    #[DataProvider('valid')]
     public function testValid(callable $factory, Query $expected): void
     {
         /** @var QueryBuilder $builder */
@@ -34,7 +33,7 @@ class QueryBuilderTest extends TestCase
         self::assertSame($expected->offset(), $actual->offset());
     }
 
-    public function valid(): \Generator
+    public static function valid(): \Generator
     {
         /** default values for {@see Query::__construct} */
         $jobNames = [];
@@ -171,16 +170,14 @@ class QueryBuilderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalid
-     */
+    #[DataProvider('invalid')]
     public function testInvalid(callable $factory, Exception $expected): void
     {
         $this->expectExceptionObject($expected);
         $factory();
     }
 
-    public function invalid(): \Generator
+    public static function invalid(): \Generator
     {
         yield 'QueryBuilder::jobs expect string array' => [
             fn() => (new QueryBuilder())->jobs(['string', 666]),

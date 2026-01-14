@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Job\Item\Exception;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Throwable;
@@ -14,9 +15,7 @@ use Yokai\Batch\JobExecution;
 
 class SkipItemOnErrorTest extends TestCase
 {
-    /**
-     * @dataProvider provider
-     */
+    #[DataProvider('provider')]
     public function test(Throwable $error): void
     {
         $execution = JobExecution::createRoot('123', 'testing');
@@ -40,7 +39,7 @@ class SkipItemOnErrorTest extends TestCase
         );
     }
 
-    public function provider(): \Generator
+    public static function provider(): \Generator
     {
         yield [new RuntimeException('RuntimeException from SPL')];
         yield [new LogicException('LogicException from library')];

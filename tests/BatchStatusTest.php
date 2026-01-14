@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\BatchStatus;
 
 class BatchStatusTest extends TestCase
 {
-    /**
-     * @dataProvider statuses
-     */
+    #[DataProvider('statuses')]
     public function testStatus(int $value, string $label, bool $unsucessful)
     {
         $status = new BatchStatus($value);
@@ -22,7 +21,7 @@ class BatchStatusTest extends TestCase
         self::assertSame($unsucessful, $status->isUnsuccessful());
     }
 
-    public function statuses(): \Generator
+    public static function statuses(): \Generator
     {
         yield 'completed' => [BatchStatus::COMPLETED, 'COMPLETED', false];
         yield 'pending' => [BatchStatus::PENDING, 'PENDING', false];

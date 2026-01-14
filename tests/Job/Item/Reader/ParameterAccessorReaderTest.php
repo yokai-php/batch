@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests\Job\Item\Reader;
 
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Reader\ParameterAccessorReader;
 use Yokai\Batch\Job\Parameters\JobParameterAccessorInterface;
@@ -13,9 +14,7 @@ use Yokai\Batch\JobExecution;
 
 class ParameterAccessorReaderTest extends TestCase
 {
-    /**
-     * @dataProvider provider
-     */
+    #[DataProvider('provider')]
     public function test(JobParameterAccessorInterface $accessor, array $expected): void
     {
         $reader = new ParameterAccessorReader($accessor);
@@ -29,7 +28,7 @@ class ParameterAccessorReaderTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function provider(): Generator
+    public static function provider(): Generator
     {
         yield 'Read from preserved iterable' => [
             new StaticValueParameterAccessor([1 => 'One', 2 => 'Two', 3 => 'Three']),

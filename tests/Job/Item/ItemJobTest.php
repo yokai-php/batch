@@ -6,6 +6,7 @@ namespace Yokai\Batch\Tests\Job\Item;
 
 use ArrayIterator;
 use Closure;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\Job\Item\ExpandProcessedItem;
@@ -77,9 +78,7 @@ class ItemJobTest extends TestCase
         $debugWriter->assertWasUsed();
     }
 
-    /**
-     * @dataProvider expand
-     */
+    #[DataProvider('expand')]
     public function testWithExpandItem(Closure $callback): void
     {
         $job = new ItemJob(
@@ -108,7 +107,7 @@ class ItemJobTest extends TestCase
         self::assertSame(6, $execution->getSummary()->get('write'));
     }
 
-    public function expand(): \Generator
+    public static function expand(): \Generator
     {
         yield [
             fn($item) => new ExpandProcessedItem(['fruit:' . $item, 'vegetable:' . $item]),

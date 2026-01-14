@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Unit\Serializer;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\RuntimeException;
 use Yokai\Batch\JobExecution;
@@ -11,18 +12,14 @@ use Yokai\Batch\Serializer\JsonJobExecutionSerializer;
 
 class JsonJobExecutionSerializerTest extends TestCase
 {
-    /**
-     * @dataProvider sets
-     */
+    #[DataProvider('sets')]
     public function testSerialize(JobExecution $jobExecutionToSerialize, string $expectedSerializedJobExecution): void
     {
         $serializer = new JsonJobExecutionSerializer();
         self::assertSame($expectedSerializedJobExecution, $serializer->serialize($jobExecutionToSerialize));
     }
 
-    /**
-     * @dataProvider sets
-     */
+    #[DataProvider('sets')]
     public function testDenormalize(JobExecution $expectedjobExecution, string $serializedJobExecution): void
     {
         $serializer = new JsonJobExecutionSerializer();
@@ -32,7 +29,7 @@ class JsonJobExecutionSerializerTest extends TestCase
         );
     }
 
-    public function sets(): \Generator
+    public static function sets(): \Generator
     {
         yield [
             require __DIR__ . '/fixtures/minimal.object.php',
@@ -44,9 +41,7 @@ class JsonJobExecutionSerializerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalidJobExecutions
-     */
+    #[DataProvider('invalidJobExecutions')]
     public function testSerializeThrowExceptionOnFailure(JobExecution $jobExecutionToSerialize): void
     {
         $this->expectException(RuntimeException::class);
@@ -55,16 +50,14 @@ class JsonJobExecutionSerializerTest extends TestCase
         $serializer->serialize($jobExecutionToSerialize);
     }
 
-    public function invalidJobExecutions(): \Generator
+    public static function invalidJobExecutions(): \Generator
     {
         $jobExecutionWithResource = JobExecution::createRoot('123', 'test');
         $jobExecutionWithResource->getSummary()->set('fail', \fopen(__FILE__, 'r'));
         yield [$jobExecutionWithResource];
     }
 
-    /**
-     * @dataProvider invalidJSON
-     */
+    #[DataProvider('invalidJSON')]
     public function testUnSerializeThrowExceptionOnFailure(string $json): void
     {
         $this->expectException(RuntimeException::class);
@@ -73,7 +66,7 @@ class JsonJobExecutionSerializerTest extends TestCase
         $serializer->unserialize($json);
     }
 
-    public function invalidJSON(): \Generator
+    public static function invalidJSON(): \Generator
     {
         yield ['malformed JSON'];
         yield ['"json string"'];

@@ -21,7 +21,9 @@ class ParentJobExecutionAccessorTest extends TestCase
         $one->addChildExecution($two);
 
         $inner = $this->createMock(JobParameterAccessorInterface::class);
-        $inner->method('get')->willReturnCallback(fn(JobExecution $execution) => $execution->getJobName());
+        $inner->expects($this->atLeastOnce())
+            ->method('get')
+            ->willReturnCallback(fn(JobExecution $execution) => $execution->getJobName());
         $accessor = new ParentJobExecutionAccessor($inner);
 
         self::assertSame('root', $accessor->get($one));
@@ -37,7 +39,8 @@ class ParentJobExecutionAccessorTest extends TestCase
         $root->addChildExecution($do);
 
         $inner = $this->createMock(JobParameterAccessorInterface::class);
-        $inner->method('get')->willReturnCallback(fn(JobExecution $execution) => $execution->getJobName());
+        $inner->expects($this->never())
+            ->method('get');
         $accessor = new ParentJobExecutionAccessor($inner);
 
         $accessor->get($root);

@@ -16,7 +16,9 @@ class DefaultParameterAccessorTest extends TestCase
     public function testDefaultWhenInnerFails(): void
     {
         $inner = $this->createMock(JobParameterAccessorInterface::class);
-        $inner->method('get')->willThrowException(new CannotAccessParameterException());
+        $inner->expects($this->once())
+            ->method('get')
+            ->willThrowException(new CannotAccessParameterException());
         $accessor = new DefaultParameterAccessor($inner, 'default value');
 
         self::assertSame('default value', $accessor->get(JobExecution::createRoot('123', 'testing')));

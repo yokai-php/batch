@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests\Job\Item\Reader\Filesystem;
 
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\RuntimeException;
 use Yokai\Batch\Exception\UnexpectedValueException;
@@ -14,9 +15,7 @@ use Yokai\Batch\JobExecution;
 
 class FixedColumnSizeFileReaderTest extends TestCase
 {
-    /**
-     * @dataProvider config
-     */
+    #[DataProvider('config')]
     public function test(array $columns, string $headersMode, array $expected): void
     {
         $execution = JobExecution::createRoot('123456', 'testing');
@@ -47,7 +46,7 @@ class FixedColumnSizeFileReaderTest extends TestCase
         \iterator_to_array($reader->read());
     }
 
-    public function config(): Generator
+    public static function config(): Generator
     {
         $columnsWithoutNames = [10, 9, 8, -1];
         $columnsWithNames = ['firstName' => 10, 'lastName' => 9, 'country' => 8, 'city' => -1];

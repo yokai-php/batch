@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Storage;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -107,9 +108,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         self::assertSame($jobExecution, $this->createStorage()->retrieve('export', '123456789'));
     }
 
-    /**
-     * @dataProvider list
-     */
+    #[DataProvider('list')]
     public function testList(string $jobName, array $expectedCouples): void
     {
         $storage = $this->createStorage(
@@ -120,7 +119,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         self::assertExecutions($expectedCouples, $storage->list($jobName));
     }
 
-    public function list(): \Generator
+    public static function list(): \Generator
     {
         yield [
             'export',
@@ -139,9 +138,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider query
-     */
+    #[DataProvider('query')]
     public function testQueryWithProvider(QueryBuilder $query, array $expectedCouples): void
     {
         $storage = $this->createStorage(
@@ -153,7 +150,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         self::assertEquals(\count($expectedCouples), $storage->count($query->getQuery()));
     }
 
-    public function query(): \Generator
+    public static function query(): \Generator
     {
         yield 'No filter' => [
             new QueryBuilder(),

@@ -6,15 +6,14 @@ namespace Yokai\Batch\Tests\Job\Item\Processor;
 
 use ArrayIterator;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\Job\Item\Processor\FilterUniqueProcessor;
 
 class FilterUniqueProcessorTest extends TestCase
 {
-    /**
-     * @dataProvider provider
-     */
+    #[DataProvider('provider')]
     public function test(callable $factory, array $items, array $expected): void
     {
         /** @var FilterUniqueProcessor $processor */
@@ -32,7 +31,7 @@ class FilterUniqueProcessorTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function provider(): Generator
+    public static function provider(): Generator
     {
         $john = ['name' => 'John', 'location' => 'Washington'];
         $johnFiltered = ['name' => 'John', 'location' => 'New-York'];

@@ -6,6 +6,7 @@ namespace Yokai\Batch\Tests\Job\Item\Reader;
 
 use ArrayIterator;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Reader\IndexWithReader;
 use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
@@ -14,9 +15,7 @@ use Yokai\Batch\Test\Job\Item\Reader\TestDebugReader;
 
 class IndexWithReaderTest extends TestCase
 {
-    /**
-     * @dataProvider provider
-     */
+    #[DataProvider('provider')]
     public function test(callable $factory, array $expected): void
     {
         /** @var IndexWithReader $reader */
@@ -38,7 +37,7 @@ class IndexWithReaderTest extends TestCase
         $decorated->assertWasUsed();
     }
 
-    public function provider(): Generator
+    public static function provider(): Generator
     {
         $john = ['name' => 'John', 'location' => 'Washington'];
         $marie = ['name' => 'Marie', 'location' => 'London'];

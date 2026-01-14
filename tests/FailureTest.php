@@ -6,15 +6,14 @@ namespace Yokai\Batch\Tests;
 
 use Generator;
 use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Yokai\Batch\Failure;
 
 class FailureTest extends TestCase
 {
-    /**
-     * @dataProvider failures
-     */
+    #[DataProvider('failures')]
     public function test(
         callable $load,
         string $class,
@@ -36,7 +35,7 @@ class FailureTest extends TestCase
         self::assertSame($string, (string)$failure);
     }
 
-    public function failures(): Generator
+    public static function failures(): Generator
     {
         yield [
             fn() => Failure::fromException(
