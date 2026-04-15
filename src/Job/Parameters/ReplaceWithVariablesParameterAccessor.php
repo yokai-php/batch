@@ -14,11 +14,11 @@ use Yokai\Batch\JobExecution;
 class ReplaceWithVariablesParameterAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
-        private JobParameterAccessorInterface $accessor,
+        private readonly JobParameterAccessorInterface $accessor,
         /**
          * @var array<string, string>
          */
-        private array $variables = [],
+        private readonly array $variables = [],
     ) {
     }
 

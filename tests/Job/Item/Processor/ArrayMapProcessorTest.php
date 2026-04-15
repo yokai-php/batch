@@ -12,7 +12,7 @@ class ArrayMapProcessorTest extends TestCase
 {
     public function test(): void
     {
-        $processor = new ArrayMapProcessor(fn($string) => \mb_strtoupper($string));
+        $processor = new ArrayMapProcessor(fn(string $string) => \mb_strtoupper($string));
         self::assertSame(
             ['firstName' => 'JOHN', 'lastName' => 'DOE'],
             $processor->process(['firstName' => 'John', 'lastName' => 'Doe']),

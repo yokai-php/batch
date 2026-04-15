@@ -23,7 +23,7 @@ class FilterUniqueProcessorTest extends TestCase
         foreach ($items as $item) {
             try {
                 $actual[] = $processor->process($item);
-            } catch (SkipItemException $exception) {
+            } catch (SkipItemException) {
                 //the item have be filtered and not won't be added to $actual
             }
         }

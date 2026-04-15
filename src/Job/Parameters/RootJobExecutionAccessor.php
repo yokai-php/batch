@@ -10,7 +10,7 @@ use Yokai\Batch\JobExecution;
  * This job parameter accessor implementation decorates an other implementation
  * but passes root job execution instead of provided execution.
  */
-final class RootJobExecutionAccessor implements JobParameterAccessorInterface
+final readonly class RootJobExecutionAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         private JobParameterAccessorInterface $accessor,

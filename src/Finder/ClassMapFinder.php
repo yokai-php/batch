@@ -11,7 +11,7 @@ namespace Yokai\Batch\Finder;
  * @psalm-template T of object
  * @template-extends CallbackFinder<T>
  */
-class ClassMapFinder extends CallbackFinder
+readonly class ClassMapFinder extends CallbackFinder
 {
     /**
      * @param array<class-string, T> $classMap
@@ -21,7 +21,7 @@ class ClassMapFinder extends CallbackFinder
     {
         $strategies = [];
         foreach ($classMap as $class => $component) {
-            $strategies[] = [fn($item) => \is_object($item) && $item instanceof $class, $component];
+            $strategies[] = [fn($item) => $item instanceof $class, $component];
         }
         parent::__construct($strategies, $default);
     }

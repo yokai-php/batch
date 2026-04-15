@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
  * This job parameter accessor implementation decorates an other implementation
  * but tries every job execution from the one provided to the root, returning the first that matches.
  */
-final class ClosestJobExecutionAccessor implements JobParameterAccessorInterface
+final readonly class ClosestJobExecutionAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         private JobParameterAccessorInterface $accessor,

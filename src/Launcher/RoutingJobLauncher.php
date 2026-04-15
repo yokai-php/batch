@@ -20,8 +20,8 @@ use Yokai\Batch\JobExecution;
 final class RoutingJobLauncher implements JobLauncherInterface
 {
     public function __construct(
-        private ContainerInterface $launchers,
-        private JobLauncherInterface $default,
+        private readonly ContainerInterface $launchers,
+        private readonly JobLauncherInterface $default,
         /**
          * @var array<string, string>
          */

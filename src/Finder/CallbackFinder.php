@@ -11,7 +11,7 @@ namespace Yokai\Batch\Finder;
  * @psalm-template T of object
  * @template-implements FinderInterface<T>
  */
-class CallbackFinder implements FinderInterface
+readonly class CallbackFinder implements FinderInterface
 {
     public function __construct(
         /**

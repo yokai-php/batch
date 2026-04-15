@@ -20,7 +20,7 @@ class TransformingWriterTest extends TestCase
     public function test(): void
     {
         $writer = new TransformingWriter(
-            $debugProcessor = new TestDebugProcessor(new CallbackProcessor(fn($string) => \strtoupper($string))),
+            $debugProcessor = new TestDebugProcessor(new CallbackProcessor(fn(string $string) => \strtoupper($string))),
             $debugWriter = new TestDebugWriter($innerWriter = new InMemoryWriter()),
         );
 

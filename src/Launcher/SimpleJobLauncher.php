@@ -15,8 +15,8 @@ use Yokai\Batch\JobExecution;
 class SimpleJobLauncher implements JobLauncherInterface
 {
     public function __construct(
-        private JobExecutionAccessor $jobExecutionAccessor,
-        private JobExecutor $jobExecutor,
+        private readonly JobExecutionAccessor $jobExecutionAccessor,
+        private readonly JobExecutor $jobExecutor,
     ) {
     }
 

@@ -18,8 +18,8 @@ use Yokai\Batch\Job\Item\ItemReaderInterface;
 final class IndexWithReader extends AbstractElementDecorator implements ItemReaderInterface
 {
     public function __construct(
-        private ItemReaderInterface $reader,
-        private Closure $extractItemIndex,
+        private readonly ItemReaderInterface $reader,
+        private readonly Closure $extractItemIndex,
     ) {
     }
 

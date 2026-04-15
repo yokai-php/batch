@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
  * This job parameter accessor implementation decorates an other implementation
  * but passes a named sibling job execution instead of provided execution.
  */
-final class SiblingJobExecutionAccessor implements JobParameterAccessorInterface
+final readonly class SiblingJobExecutionAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         private JobParameterAccessorInterface $accessor,

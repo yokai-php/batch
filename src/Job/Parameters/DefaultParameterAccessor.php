@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
  * This job parameter accessor implementation return a static value
  * if the decorated job parameter accessor fails accessing parameter.
  */
-final class DefaultParameterAccessor implements JobParameterAccessorInterface
+final readonly class DefaultParameterAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         private JobParameterAccessorInterface $accessor,

@@ -11,13 +11,11 @@ use Yokai\Batch\Job\Item\ItemProcessorInterface;
 /**
  * This {@see ItemProcessorInterface} calls {@see array_map} on each item.
  */
-final class ArrayMapProcessor implements ItemProcessorInterface
+final readonly class ArrayMapProcessor implements ItemProcessorInterface
 {
-    private Closure $callback;
-
-    public function __construct(Closure $callback)
-    {
-        $this->callback = $callback;
+    public function __construct(
+        private Closure $callback,
+    ) {
     }
 
     /**

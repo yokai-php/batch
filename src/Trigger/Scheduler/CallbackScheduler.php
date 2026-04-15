@@ -25,14 +25,13 @@ class CallbackScheduler implements SchedulerInterface
     /**
      * @var list<array{0: callable, 1: string, 2: array<string, mixed>, 3: string|null}>
      */
-    private array $config;
+    private array $config = [];
 
     /**
      * @param list<array{0: callable, 1: string, 2: array<string, mixed>|null, 3: string|null}> $config
      */
     public function __construct(array $config)
     {
-        $this->config = [];
         foreach ($config as $entry) {
             $this->config[] = [
                 $entry[0],

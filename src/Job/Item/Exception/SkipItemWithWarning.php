@@ -10,7 +10,7 @@ use Yokai\Batch\Warning;
 /**
  * Skip item and leave an arbitrary warning to the {@see JobExecution}.
  */
-final class SkipItemWithWarning implements SkipItemCauseInterface
+final readonly class SkipItemWithWarning implements SkipItemCauseInterface
 {
     public function __construct(
         private string $message,

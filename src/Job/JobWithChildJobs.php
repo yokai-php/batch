@@ -19,12 +19,12 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
 class JobWithChildJobs implements JobInterface
 {
     public function __construct(
-        private JobExecutionStorageInterface $executionStorage,
-        private JobExecutor $jobExecutor,
+        private readonly JobExecutionStorageInterface $executionStorage,
+        private readonly JobExecutor $jobExecutor,
         /**
          * @var iterable<string>
          */
-        private iterable $childJobs,
+        private readonly iterable $childJobs,
     ) {
     }
 

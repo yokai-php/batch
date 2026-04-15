@@ -64,7 +64,7 @@ class ItemJob implements JobInterface
                 );
 
                 $cause = $exception->getCause();
-                if ($cause) {
+                if ($cause !== null) {
                     $cause->report($jobExecution, $readIndex, $exception->getItem());
                 }
 

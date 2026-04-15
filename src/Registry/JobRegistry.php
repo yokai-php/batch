@@ -15,7 +15,7 @@ use Yokai\Batch\Job\JobInterface;
  * It can be registered as a global registry,
  * but it can be also created with a subset of jobs if required.
  */
-final class JobRegistry
+final readonly class JobRegistry
 {
     public function __construct(
         private ContainerInterface $jobs,

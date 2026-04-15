@@ -9,7 +9,7 @@ use Yokai\Batch\JobExecution;
 /**
  * This job parameter accessor implementation returns a static value from constructor.
  */
-final class StaticValueParameterAccessor implements JobParameterAccessorInterface
+final readonly class StaticValueParameterAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         private mixed $value,

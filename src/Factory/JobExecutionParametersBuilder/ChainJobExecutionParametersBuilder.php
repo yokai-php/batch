@@ -11,13 +11,13 @@ use Yokai\Batch\Factory\JobExecutionParametersBuilderInterface;
  * implementations, calls each and merge the results into a single array.
  * The later the {@see JobExecutionParametersBuilderInterface} is in the list, the more chance it's values will be kept.
  */
-final class ChainJobExecutionParametersBuilder implements JobExecutionParametersBuilderInterface
+final readonly class ChainJobExecutionParametersBuilder implements JobExecutionParametersBuilderInterface
 {
     public function __construct(
         /**
          * @var iterable<JobExecutionParametersBuilderInterface>
          */
-        private readonly iterable $builders,
+        private iterable $builders,
     ) {
     }
 

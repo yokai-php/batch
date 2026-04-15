@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
  * This job parameter accessor implementation iterates over a list of other accessors
  * and return the value from the first successful of the list.
  */
-final class ChainParameterAccessor implements JobParameterAccessorInterface
+final readonly class ChainParameterAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         /**

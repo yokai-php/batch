@@ -12,7 +12,7 @@ use Yokai\Batch\JobExecution;
  * This job parameter accessor implementation access parameters
  * through the contextual JobExecution parameter.
  */
-final class JobExecutionParameterAccessor implements JobParameterAccessorInterface
+final readonly class JobExecutionParameterAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         private string $name,

@@ -22,7 +22,7 @@ final class BufferingJobLauncher implements JobLauncherInterface
     private array $executions = [];
 
     public function __construct(
-        private JobExecutionIdGeneratorInterface $idGenerator,
+        private readonly JobExecutionIdGeneratorInterface $idGenerator,
     ) {
     }
 

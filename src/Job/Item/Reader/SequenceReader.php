@@ -16,7 +16,7 @@ final class SequenceReader extends AbstractElementDecorator implements ItemReade
         /**
          * @var iterable<ItemReaderInterface> $readers
          */
-        private iterable $readers,
+        private readonly iterable $readers,
     ) {
     }
 

@@ -14,7 +14,7 @@ use Yokai\Batch\Test\Job\Item\TestDebugComponent;
  */
 final class TestDebugProcessor extends TestDebugComponent implements ItemProcessorInterface
 {
-    private ItemProcessorInterface $decorated;
+    private readonly ItemProcessorInterface $decorated;
     private bool $processed = false;
 
     public function __construct(ItemProcessorInterface $decorated)

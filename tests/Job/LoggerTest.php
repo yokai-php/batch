@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
 
 class LoggerTest extends TestCase
 {
-    public function testLogError()
+    public function testLogError(): void
     {
         $idGenerator = new UniqidJobExecutionIdGenerator();
         $errorToLog = 'test assert logErrorMethod';

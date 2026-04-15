@@ -10,7 +10,7 @@ use Throwable;
  * This class represent an exception that occurred during a {@see JobExecution}.
  * Failure can be added to the execution via {@see JobExecution::addFailureException}.
  */
-final class Failure implements \Stringable
+final readonly class Failure implements \Stringable
 {
     public function __construct(
         /**
@@ -88,11 +88,11 @@ final class Failure implements \Stringable
 
     private static function buildTrace(Throwable $exception, bool $deep = false): string
     {
-        $trace = ($deep ? 'Caused by: ' : '') . \get_class($exception) . ': ' . $exception->getMessage() .
+        $trace = ($deep ? 'Caused by: ' : '') . $exception::class . ': ' . $exception->getMessage() .
             ' (at ' . $exception->getFile() . '(' . $exception->getLine() . '))' . PHP_EOL .
             \str_replace("\n", \PHP_EOL, $exception->getTraceAsString());
 
-        if ($exception->getPrevious()) {
+        if ($exception->getPrevious() !== null) {
             $trace .= \PHP_EOL . self::buildTrace($exception->getPrevious(), true);
         }
 

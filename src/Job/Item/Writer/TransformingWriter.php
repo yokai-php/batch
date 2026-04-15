@@ -52,7 +52,7 @@ final class TransformingWriter implements
                 );
 
                 $cause = $exception->getCause();
-                if ($cause) {
+                if ($cause !== null) {
                     $cause->report($this->jobExecution, $index, $exception->getItem());
                 }
 
@@ -60,7 +60,7 @@ final class TransformingWriter implements
             }
         }
 
-        if (\count($transformedItems) > 0) {
+        if ($transformedItems !== []) {
             $this->writer->write($transformedItems);
         }
     }

@@ -10,7 +10,7 @@ use Yokai\Batch\Exception\UnexpectedValueException;
 /**
  * DTO with optional time boundaries.
  */
-final class TimeFilter
+final readonly class TimeFilter
 {
     public function __construct(
         private DateTimeInterface|null $from,

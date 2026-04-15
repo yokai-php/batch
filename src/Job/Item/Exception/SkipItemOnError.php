@@ -11,7 +11,7 @@ use Yokai\Batch\Warning;
 /**
  * Skip item when an exception occurs and leave a warning with exception to the {@see JobExecution}.
  */
-final class SkipItemOnError implements SkipItemCauseInterface
+final readonly class SkipItemOnError implements SkipItemCauseInterface
 {
     public function __construct(
         private Throwable $error,

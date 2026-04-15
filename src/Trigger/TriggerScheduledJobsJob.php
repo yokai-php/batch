@@ -15,7 +15,7 @@ use Yokai\Batch\Trigger\Scheduler\SchedulerInterface;
  *
  * This job can be launched using a crontab, so the jobs you scheduled will be evaluated at each crontab rotation.
  */
-final class TriggerScheduledJobsJob implements JobInterface
+final readonly class TriggerScheduledJobsJob implements JobInterface
 {
     /**
      * @param iterable<SchedulerInterface> $schedulers

@@ -10,7 +10,7 @@ use Yokai\Batch\Launcher\JobLauncherInterface;
 /**
  * The status of a job execution.
  */
-final class BatchStatus implements \Stringable
+final readonly class BatchStatus implements \Stringable
 {
     /**
      * The job execution has not started yet.

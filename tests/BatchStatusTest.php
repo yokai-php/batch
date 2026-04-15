@@ -11,7 +11,7 @@ use Yokai\Batch\BatchStatus;
 class BatchStatusTest extends TestCase
 {
     #[DataProvider('statuses')]
-    public function testStatus(int $value, string $label, bool $unsucessful)
+    public function testStatus(int $value, string $label, bool $unsucessful): void
     {
         $status = new BatchStatus($value);
         self::assertSame($label, (string)$status);

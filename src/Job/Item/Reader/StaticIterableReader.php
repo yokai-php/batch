@@ -9,7 +9,7 @@ use Yokai\Batch\Job\Item\ItemReaderInterface;
 /**
  * This {@see ItemReaderInterface} reads from items provided as constructor argument.
  */
-final class StaticIterableReader implements ItemReaderInterface
+final readonly class StaticIterableReader implements ItemReaderInterface
 {
     public function __construct(
         /**

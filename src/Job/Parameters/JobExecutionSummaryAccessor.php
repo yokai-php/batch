@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
  * This job parameter accessor implementation access summary
  * through the contextual JobExecution parameter.
  */
-final class JobExecutionSummaryAccessor implements JobParameterAccessorInterface
+final readonly class JobExecutionSummaryAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         private string $name,

@@ -68,7 +68,7 @@ class SummaryTest extends TestCase
 
         self::assertSame('foo', $summary->get('string'));
         self::assertSame([], $summary->get('array'));
-        self::assertSame(true, $summary->get('bool'));
+        self::assertTrue($summary->get('bool'));
         self::assertSame(1, $summary->get('int'));
         self::assertSame(0.999, $summary->get('float'));
     }

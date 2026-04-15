@@ -17,8 +17,8 @@ use Yokai\Batch\Job\Item\ItemWriterInterface;
 final class DispatchEventsWriter extends AbstractElementDecorator implements ItemWriterInterface
 {
     public function __construct(
-        private EventDispatcherInterface $eventDispatcher,
-        private ItemWriterInterface $writer,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly ItemWriterInterface $writer,
     ) {
     }
 

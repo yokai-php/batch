@@ -14,7 +14,7 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
  * It will either find it from {@see JobExecutionStorageInterface}.
  * Or create and store new one using {@see JobExecutionFactory}.
  */
-final class JobExecutionAccessor
+final readonly class JobExecutionAccessor
 {
     public function __construct(
         private JobExecutionFactory $jobExecutionFactory,

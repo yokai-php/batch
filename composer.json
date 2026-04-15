@@ -22,7 +22,6 @@
         }
     },
     "require-dev": {
-        "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
         "symfony/filesystem": "^7.4|^8.0"
     },

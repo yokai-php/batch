@@ -7,7 +7,7 @@ namespace Yokai\Batch\Trigger\Scheduler;
 /**
  * This model class is used by schedulers to hold information about a job that should be triggered.
  */
-final class ScheduledJob
+final readonly class ScheduledJob
 {
     public function __construct(
         private string $jobName,

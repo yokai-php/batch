@@ -10,7 +10,7 @@ use Yokai\Batch\JobExecution;
  * Query {@see JobExecution} list.
  * Passed as only argument of {@see QueryableJobExecutionStorageInterface::query} method.
  */
-final class Query
+final readonly class Query
 {
     public const SORT_BY_START_ASC = 'start_asc';
     public const SORT_BY_START_DESC = 'start_desc';

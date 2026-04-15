@@ -27,7 +27,7 @@ use Yokai\Batch\Serializer\JobExecutionSerializerInterface;
  *     │   └── 61519f8e0f4a7.json
  *     │   └── 61519f8e46fb3.json
  */
-final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorageInterface
+final readonly class FilesystemJobExecutionStorage implements QueryableJobExecutionStorageInterface
 {
     public function __construct(
         private JobExecutionSerializerInterface $serializer,
@@ -99,17 +99,17 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
             }
 
             $names = $query->jobs();
-            if (\count($names) > 0 && !\in_array($execution->getJobName(), $names, true)) {
+            if ($names !== [] && !\in_array($execution->getJobName(), $names, true)) {
                 continue;
             }
 
             $ids = $query->ids();
-            if (\count($ids) > 0 && !\in_array($execution->getId(), $ids, true)) {
+            if ($ids !== [] && !\in_array($execution->getId(), $ids, true)) {
                 continue;
             }
 
             $statuses = $query->statuses();
-            if (\count($statuses) > 0 && !$execution->getStatus()->isOneOf($statuses)) {
+            if ($statuses !== [] && !$execution->getStatus()->isOneOf($statuses)) {
                 continue;
             }
 
@@ -137,18 +137,10 @@ final class FilesystemJobExecutionStorage implements QueryableJobExecutionStorag
         }
 
         $order = match ($query->sort()) {
-            Query::SORT_BY_START_ASC => static function (JobExecution $left, JobExecution $right): int {
-                return $left->getStartTime() <=> $right->getStartTime();
-            },
-            Query::SORT_BY_START_DESC => static function (JobExecution $left, JobExecution $right): int {
-                return $right->getStartTime() <=> $left->getStartTime();
-            },
-            Query::SORT_BY_END_ASC => static function (JobExecution $left, JobExecution $right): int {
-                return $left->getEndTime() <=> $right->getEndTime();
-            },
-            Query::SORT_BY_END_DESC => static function (JobExecution $left, JobExecution $right): int {
-                return $right->getEndTime() <=> $left->getEndTime();
-            },
+            Query::SORT_BY_START_ASC => static fn(JobExecution $left, JobExecution $right): int => $left->getStartTime() <=> $right->getStartTime(),
+            Query::SORT_BY_START_DESC => static fn(JobExecution $left, JobExecution $right): int => $right->getStartTime() <=> $left->getStartTime(),
+            Query::SORT_BY_END_ASC => static fn(JobExecution $left, JobExecution $right): int => $left->getEndTime() <=> $right->getEndTime(),
+            Query::SORT_BY_END_DESC => static fn(JobExecution $left, JobExecution $right): int => $right->getEndTime() <=> $left->getEndTime(),
             default => null,
         };
 

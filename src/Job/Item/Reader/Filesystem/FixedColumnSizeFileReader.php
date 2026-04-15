@@ -80,9 +80,7 @@ final class FixedColumnSizeFileReader implements
                 }
             }
 
-            if (\is_array($headers)) {
-                $row = \array_combine($headers, $row);
-            }
+            $row = \array_combine($headers, $row);
 
             yield $row;
         }

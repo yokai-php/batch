@@ -5,26 +5,20 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests\Registry;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Yokai\Batch\Exception\UndefinedJobException;
 use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\Registry\JobRegistry;
 
 class JobRegistryTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testRegistry(): void
     {
-        /** @var ObjectProphecy|JobInterface $export */
-        $export = $this->prophesize(JobInterface::class);
-        /** @var ObjectProphecy|JobInterface $import */
-        $import = $this->prophesize(JobInterface::class);
+        $export = $this->createStub(JobInterface::class);
+        $import = $this->createStub(JobInterface::class);
 
-        $registry = JobRegistry::fromJobArray(['export' => $export->reveal(), 'import' => $import->reveal()]);
-        self::assertSame($export->reveal(), $registry->get('export'));
-        self::assertSame($import->reveal(), $registry->get('import'));
+        $registry = JobRegistry::fromJobArray(['export' => $export, 'import' => $import]);
+        self::assertSame($export, $registry->get('export'));
+        self::assertSame($import, $registry->get('import'));
     }
 
     public function testGetNotFound(): void

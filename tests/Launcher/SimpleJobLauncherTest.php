@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests\Launcher;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\Factory\JobExecutionParametersBuilder\NullJobExecutionParametersBuilder;
@@ -19,11 +18,9 @@ use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
 
 class SimpleJobLauncherTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function test(): void
     {
-        $job = $this->prophesize(JobInterface::class);
+        $job = $this->createStub(JobInterface::class);
 
         $launcher = new SimpleJobLauncher(
             new JobExecutionAccessor(
@@ -34,7 +31,7 @@ class SimpleJobLauncherTest extends TestCase
                 $jobExecutionStorage = new InMemoryJobExecutionStorage(),
             ),
             new JobExecutor(
-                JobRegistry::fromJobArray(['phpunit' => $job->reveal()]),
+                JobRegistry::fromJobArray(['phpunit' => $job]),
                 $jobExecutionStorage,
                 null,
             ),

@@ -30,8 +30,8 @@ class ArrayContainerTest extends TestCase
     {
         $container = new ArrayContainer(['foo' => 'FOO', 'bar' => 'BAR']);
 
-        self::assertSame(true, $container->has('foo'));
-        self::assertSame(true, $container->has('bar'));
-        self::assertSame(false, $container->has('baz'));
+        self::assertTrue($container->has('foo'));
+        self::assertTrue($container->has('bar'));
+        self::assertFalse($container->has('baz'));
     }
 }

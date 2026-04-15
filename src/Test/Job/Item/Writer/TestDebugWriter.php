@@ -14,7 +14,7 @@ use Yokai\Batch\Test\Job\Item\TestDebugComponent;
  */
 final class TestDebugWriter extends TestDebugComponent implements ItemWriterInterface
 {
-    private ItemWriterInterface $decorated;
+    private readonly ItemWriterInterface $decorated;
     private bool $written = false;
 
     public function __construct(ItemWriterInterface $decorated)

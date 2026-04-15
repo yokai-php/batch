@@ -24,7 +24,7 @@ use Yokai\Batch\Storage\JobExecutionStorageInterface;
  * - lifecycle events during execution
  * - JobExecution storage before and after execution
  */
-final class JobExecutor
+final readonly class JobExecutor
 {
     public function __construct(
         private JobRegistry $jobRegistry,
@@ -81,7 +81,7 @@ final class JobExecutor
         }
 
         $summary = $jobExecution->getSummary()->all();
-        if (\count($summary) > 0) {
+        if ($summary !== []) {
             $logger->debug('Job produced summary', \array_merge(['job' => $name], $summary));
         }
 

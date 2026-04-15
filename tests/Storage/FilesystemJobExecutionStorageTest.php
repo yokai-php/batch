@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests\Storage;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
 use Yokai\Batch\Exception\CannotStoreJobExecutionException;
@@ -22,16 +21,12 @@ use Yokai\Batch\Test\Storage\JobExecutionStorageTestTrait;
 
 class FilesystemJobExecutionStorageTest extends TestCase
 {
-    use ProphecyTrait;
     use JobExecutionStorageTestTrait;
 
     private const STORAGE_DIR = ARTIFACT_DIR . '/filesystem-storage';
     private const READONLY_STORAGE_DIR = ARTIFACT_DIR . '/filesystem-storage-readonly';
 
-    /**
-     * @var JobExecutionSerializerInterface|ObjectProphecy
-     */
-    private $serializer;
+    private Stub&JobExecutionSerializerInterface $serializer;
 
     public static function setUpBeforeClass(): void
     {
@@ -44,8 +39,8 @@ class FilesystemJobExecutionStorageTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->serializer = $this->prophesize(JobExecutionSerializerInterface::class);
-        $this->serializer->extension()
+        $this->serializer = $this->createStub(JobExecutionSerializerInterface::class);
+        $this->serializer->method('extension')
             ->willReturn('txt');
     }
 
@@ -54,7 +49,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         JobExecutionSerializerInterface|null $serializer = null,
     ): FilesystemJobExecutionStorage {
         return new FilesystemJobExecutionStorage(
-            $serializer ?? $this->serializer->reveal(),
+            $serializer ?? $this->serializer,
             $dir,
         );
     }
@@ -63,8 +58,8 @@ class FilesystemJobExecutionStorageTest extends TestCase
     {
         $jobExecution = JobExecution::createRoot('123456789', 'export');
 
-        $this->serializer->serialize($jobExecution)
-            ->shouldBeCalledTimes(1)
+        $this->serializer->method('serialize')
+            ->with($jobExecution)
             ->willReturn('serialized job execution');
 
         $this->createStorage()->store($jobExecution);
@@ -72,7 +67,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         $file = self::STORAGE_DIR . '/export/123456789.txt';
         self::assertFileExists($file);
         self::assertIsReadable($file);
-        self::assertEquals('serialized job execution', \file_get_contents($file));
+        self::assertSame('serialized job execution', \file_get_contents($file));
     }
 
     public function testStoreFileNotWritable(): void
@@ -80,8 +75,8 @@ class FilesystemJobExecutionStorageTest extends TestCase
         $this->expectException(CannotStoreJobExecutionException::class);
 
         $jobExecution = JobExecution::createRoot('123456789', 'export');
-        $this->serializer->serialize($jobExecution)
-            ->shouldBeCalledTimes(1)
+        $this->serializer->method('serialize')
+            ->with($jobExecution)
             ->willReturn('serialized job execution');
 
         $this->createStorage(self::READONLY_STORAGE_DIR)->store($jobExecution);
@@ -101,8 +96,8 @@ class FilesystemJobExecutionStorageTest extends TestCase
         $jobExecution = JobExecution::createRoot('123456789', 'export');
         \file_put_contents(self::STORAGE_DIR . '/export/123456789.txt', 'serialized and stored job execution');
 
-        $this->serializer->unserialize('serialized and stored job execution')
-            ->shouldBeCalledTimes(1)
+        $this->serializer->method('unserialize')
+            ->with('serialized and stored job execution')
             ->willReturn($jobExecution);
 
         self::assertSame($jobExecution, $this->createStorage()->retrieve('export', '123456789'));
@@ -147,7 +142,7 @@ class FilesystemJobExecutionStorageTest extends TestCase
         );
 
         self::assertExecutions($expectedCouples, $storage->query($query->getQuery()));
-        self::assertEquals(\count($expectedCouples), $storage->count($query->getQuery()));
+        self::assertCount($storage->count($query->getQuery()), $expectedCouples);
     }
 
     public static function query(): \Generator
@@ -307,8 +302,8 @@ class FilesystemJobExecutionStorageTest extends TestCase
     {
         $jobExecution = JobExecution::createRoot('will_be_removed', 'export');
 
-        $this->serializer->serialize($jobExecution)
-            ->shouldBeCalledTimes(1)
+        $this->serializer->method('serialize')
+            ->with($jobExecution)
             ->willReturn('serialized job execution');
 
         $path = self::STORAGE_DIR . '/export/will_be_removed.txt';

@@ -9,13 +9,13 @@ use Yokai\Batch\Factory\JobExecutionParametersBuilderInterface;
 /**
  * This {@see JobExecutionParametersBuilderInterface} has same default values for all jobs provided at construction.
  */
-final class StaticJobExecutionParametersBuilder implements JobExecutionParametersBuilderInterface
+final readonly class StaticJobExecutionParametersBuilder implements JobExecutionParametersBuilderInterface
 {
     public function __construct(
         /**
          * @var array<string, mixed>
          */
-        private readonly array $parameters,
+        private array $parameters,
     ) {
     }
 

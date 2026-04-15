@@ -12,7 +12,7 @@ use Yokai\Batch\Finder\FinderInterface;
  * @psalm-template T of object
  * @template-implements FinderInterface<T>
  */
-final class DummyFinder implements FinderInterface
+final readonly class DummyFinder implements FinderInterface
 {
     public function __construct(
         /**

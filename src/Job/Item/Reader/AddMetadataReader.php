@@ -17,11 +17,11 @@ use Yokai\Batch\Job\Item\ItemReaderInterface;
 final class AddMetadataReader extends AbstractElementDecorator implements ItemReaderInterface
 {
     public function __construct(
-        private ItemReaderInterface $reader,
+        private readonly ItemReaderInterface $reader,
         /**
          * @var array<string, mixed>
          */
-        private array $metadata,
+        private readonly array $metadata,
     ) {
     }
 

@@ -17,16 +17,14 @@ use Yokai\Batch\Job\Item\ItemProcessorInterface;
  */
 final class FilterUniqueProcessor implements ItemProcessorInterface
 {
-    private Closure $extractUnique;
-
     /**
      * @var array<string, bool>
      */
     private array $encountered = [];
 
-    public function __construct(Closure $extractUnique)
-    {
-        $this->extractUnique = $extractUnique;
+    public function __construct(
+        private readonly Closure $extractUnique,
+    ) {
     }
 
     /**

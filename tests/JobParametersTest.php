@@ -31,10 +31,10 @@ class JobParametersTest extends TestCase
             ['null' => null, 'string' => 'foo', 'array' => [], 'bool' => false, 'int' => 0, 'float' => 0.000],
         );
 
-        self::assertSame(null, $parameters->get('null'));
+        self::assertNull($parameters->get('null'));
         self::assertSame('foo', $parameters->get('string'));
         self::assertSame([], $parameters->get('array'));
-        self::assertSame(false, $parameters->get('bool'));
+        self::assertFalse($parameters->get('bool'));
         self::assertSame(0, $parameters->get('int'));
         self::assertSame(0.000, $parameters->get('float'));
     }

@@ -12,7 +12,7 @@ use Yokai\Batch\JobExecution;
 class JobEvent
 {
     public function __construct(
-        private JobExecution $execution,
+        private readonly JobExecution $execution,
     ) {
     }
 

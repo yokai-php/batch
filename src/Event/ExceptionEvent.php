@@ -22,7 +22,7 @@ final class ExceptionEvent extends JobEvent
 
     public function __construct(
         JobExecution $execution,
-        private Throwable $exception,
+        private readonly Throwable $exception,
     ) {
         parent::__construct($execution);
     }

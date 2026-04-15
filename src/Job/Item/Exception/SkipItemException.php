@@ -17,12 +17,12 @@ use Yokai\Batch\JobExecution;
 final class SkipItemException extends RuntimeException
 {
     public function __construct(
-        private mixed $item,
-        private SkipItemCauseInterface|null $cause,
+        private readonly mixed $item,
+        private readonly SkipItemCauseInterface|null $cause,
         /**
          * @var array<string, mixed>
          */
-        private array $context = [],
+        private readonly array $context = [],
     ) {
         parent::__construct();
     }

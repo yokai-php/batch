@@ -14,7 +14,7 @@ use Yokai\Batch\Test\Job\Item\TestDebugComponent;
  */
 final class TestDebugReader extends TestDebugComponent implements ItemReaderInterface
 {
-    private ItemReaderInterface $decorated;
+    private readonly ItemReaderInterface $decorated;
     private bool $read = false;
 
     public function __construct(ItemReaderInterface $decorated)

@@ -16,7 +16,7 @@ final class ChainWriter extends AbstractElementDecorator implements ItemWriterIn
         /**
          * @var iterable<ItemWriterInterface> $writers
          */
-        private iterable $writers,
+        private readonly iterable $writers,
     ) {
     }
 

@@ -55,7 +55,7 @@ class JobExecutionTest extends TestCase
         self::assertNull($minimalJobExecution->getEndTime());
     }
 
-    public function testGetParameter()
+    public function testGetParameter(): void
     {
         $jobExecution = JobExecution::createRoot(
             '123456789',
@@ -66,15 +66,15 @@ class JobExecutionTest extends TestCase
             ),
         );
 
-        self::assertSame(null, $jobExecution->getParameter('null'));
+        self::assertNull($jobExecution->getParameter('null'));
         self::assertSame('foo', $jobExecution->getParameter('string'));
         self::assertSame([], $jobExecution->getParameter('array'));
-        self::assertSame(false, $jobExecution->getParameter('bool'));
+        self::assertFalse($jobExecution->getParameter('bool'));
         self::assertSame(0, $jobExecution->getParameter('int'));
         self::assertSame(0.000, $jobExecution->getParameter('float'));
     }
 
-    public function testGetUndefinedParameter()
+    public function testGetUndefinedParameter(): void
     {
         $this->expectException(UndefinedJobParameterException::class);
 
@@ -132,7 +132,7 @@ class JobExecutionTest extends TestCase
         self::assertTrue($jobExecution->getStatus()->is(BatchStatus::COMPLETED));
     }
 
-    public function testManipulatesFailures()
+    public function testManipulatesFailures(): void
     {
         $failureMessage = fn(Failure $failure): string => $failure->getMessage();
         $failureToString = fn(Failure $failure): string => (string)$failure;
@@ -165,7 +165,7 @@ class JobExecutionTest extends TestCase
         self::assertStringContainsString('ERROR: Export Job Failure', $logs);
     }
 
-    public function testManipulatesWarnings()
+    public function testManipulatesWarnings(): void
     {
         $warningMessage = fn(Warning $warning): string => $warning->getMessage();
         $warningToString = fn(Warning $warning): string => (string)$warning;
@@ -198,7 +198,7 @@ class JobExecutionTest extends TestCase
         self::assertStringContainsString('WARNING: Export Job Warning {"bar":"BAR"}', $logs);
     }
 
-    public function testComputesDuration()
+    public function testComputesDuration(): void
     {
         $jobExecution = JobExecution::createRoot('123456789', 'export');
         $jobExecution->setStartTime(\DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2019-01-01 10:00:00'));

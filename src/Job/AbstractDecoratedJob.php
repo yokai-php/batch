@@ -14,7 +14,7 @@ use Yokai\Batch\JobExecution;
 abstract class AbstractDecoratedJob implements JobInterface
 {
     public function __construct(
-        private JobInterface $job,
+        private readonly JobInterface $job,
     ) {
     }
 

@@ -6,10 +6,8 @@ namespace Yokai\Batch\Tests\Job;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Throwable;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Event\ExceptionEvent;
@@ -25,18 +23,16 @@ use Yokai\Batch\Warning;
 
 class JobExecutorTest extends TestCase
 {
-    use ProphecyTrait;
-
-    private JobInterface|ObjectProphecy $job;
+    private Stub&JobInterface $job;
     private DebugEventDispatcher $dispatcher;
     private JobExecutor $executor;
 
     protected function setUp(): void
     {
-        $this->job = $this->prophesize(JobInterface::class);
+        $this->job = $this->createMock(JobInterface::class);
         $this->dispatcher = new DebugEventDispatcher();
         $this->executor = new JobExecutor(
-            JobRegistry::fromJobArray(['test.job_executor' => $this->job->reveal()]),
+            JobRegistry::fromJobArray(['test.job_executor' => $this->job]),
             new InMemoryJobExecutionStorage(),
             $this->dispatcher,
         );
@@ -45,11 +41,10 @@ class JobExecutorTest extends TestCase
     public function testLaunch(): void
     {
         $execution = JobExecution::createRoot('123', 'test.job_executor');
-        $this->job->execute($execution)
-            ->shouldBeCalledTimes(1)
-            ->will(function (array $args): void {
-                /** @var JobExecution $execution */
-                $execution = $args[0];
+        $this->job->expects($this->once())
+            ->method('execute')
+            ->with($execution)
+            ->willReturnCallback(function (JobExecution $execution): void {
                 $execution->getSummary()->set('foo', 'FOO');
                 $execution->addWarning(new Warning('Test warning on purpose'));
             });
@@ -74,15 +69,17 @@ class JobExecutorTest extends TestCase
     public function testLaunchJobCatchErrors(Throwable $error): void
     {
         $execution = JobExecution::createRoot('123', 'test.job_executor');
-        $this->job->execute($execution)
-            ->willThrow($error);
+        $this->job->expects($this->once())
+            ->method('execute')
+            ->with($execution)
+            ->willThrowException($error);
 
         $this->executor->execute($execution);
 
         self::assertNotNull($execution->getStartTime());
         self::assertNotNull($execution->getEndTime());
         self::assertSame(BatchStatus::FAILED, $execution->getStatus()->getValue());
-        self::assertSame(\get_class($error), $execution->getFailures()[0]->getClass());
+        self::assertSame($error::class, $execution->getFailures()[0]->getClass());
         self::assertSame($error->getMessage(), $execution->getFailures()[0]->getMessage());
         $logs = (string)$execution->getLogs();
         self::assertStringContainsString('DEBUG: Starting job', $logs);
@@ -97,8 +94,10 @@ class JobExecutorTest extends TestCase
     public function testLaunchErrorWithStatusListener(): void
     {
         $execution = JobExecution::createRoot('123', 'test.job_executor');
-        $this->job->execute($execution)
-            ->willThrow($exception = new \RuntimeException());
+        $this->job->expects($this->once())
+            ->method('execute')
+            ->with($execution)
+            ->willThrowException($exception = new \RuntimeException());
 
         $this->dispatcher->addListener(
             ExceptionEvent::class,
@@ -125,8 +124,8 @@ class JobExecutorTest extends TestCase
 
     public function testLaunchJobNotExecutable(): void
     {
-        $this->job->execute(Argument::any())
-            ->shouldNotBeCalled();
+        $this->job->expects($this->never())
+            ->method('execute');
 
         $execution = JobExecution::createRoot('123', 'test.job_executor', new BatchStatus(BatchStatus::COMPLETED));
         $this->executor->execute($execution);

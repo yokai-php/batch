@@ -35,7 +35,7 @@ final class JobExecutionLogger extends AbstractLogger
         /**
          * Logs container : where logs are actually written.
          */
-        private JobExecutionLogs $logs,
+        private readonly JobExecutionLogs $logs,
     ) {
     }
 

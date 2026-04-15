@@ -18,7 +18,7 @@ final class ChainProcessor extends AbstractElementDecorator implements ItemProce
         /**
          * @var iterable<ItemProcessorInterface> $processors
          */
-        private iterable $processors,
+        private readonly iterable $processors,
     ) {
     }
 

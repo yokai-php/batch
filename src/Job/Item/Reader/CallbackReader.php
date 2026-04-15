@@ -11,13 +11,13 @@ use Yokai\Batch\Job\Item\ItemReaderInterface;
  *
  * Provided {@see Closure} must accept no argument and must return an iterable of read items.
  */
-final class CallbackReader implements ItemReaderInterface
+final readonly class CallbackReader implements ItemReaderInterface
 {
     public function __construct(
         /**
          * @var \Closure(): iterable<mixed>
          */
-        private readonly \Closure $callback,
+        private \Closure $callback,
     ) {
     }
 

@@ -21,7 +21,7 @@ class DispatchEventsWriterTest extends TestCase
             $dispatcher = new DebugEventDispatcher(),
             $decorated = new TestDebugWriter(new NullWriter()),
         );
-        $dispatcher->addListener(PostWriteEvent::class, function () {
+        $dispatcher->addListener(PostWriteEvent::class, function (): never {
             throw new \RuntimeException('Test exception');
         });
 

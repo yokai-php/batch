@@ -9,7 +9,7 @@ namespace Yokai\Batch;
  * It is usually something about sanity/validation.
  * Warning can be added to the execution via {@see JobExecution::addWarning}.
  */
-final class Warning implements \Stringable
+final readonly class Warning implements \Stringable
 {
     public function __construct(
         /**

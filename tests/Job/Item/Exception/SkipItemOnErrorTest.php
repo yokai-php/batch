@@ -30,7 +30,7 @@ class SkipItemOnErrorTest extends TestCase
             [
                 'itemIndex' => 'itemIndex',
                 'item' => 'item',
-                'class' => \get_class($error),
+                'class' => $error::class,
                 'message' => $error->getMessage(),
                 'code' => $error->getCode(),
                 'trace' => $error->getTraceAsString(),

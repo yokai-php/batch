@@ -28,7 +28,7 @@ class ItemJobTest extends TestCase
             new StaticIterableReader([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
         );
         $processor = new TestDebugProcessor(
-            new CallbackProcessor(function ($item) {
+            new CallbackProcessor(function (null|int $item) {
                 if ($item > 9) {
                     throw SkipItemException::withWarning(
                         $item,

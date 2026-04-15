@@ -16,7 +16,7 @@ class SummaryWriterTest extends TestCase
         $writer = new SummaryWriter(new StaticValueParameterAccessor('target'));
         $writer->setJobExecution($jobExecution = JobExecution::createRoot('123456', 'testing'));
 
-        self::assertSame(null, $jobExecution->getSummary()->get('target'));
+        self::assertNull($jobExecution->getSummary()->get('target'));
         $writer->write(['One']);
         self::assertSame(['One'], $jobExecution->getSummary()->get('target'));
         $writer->write(['Two', 'Three']);

@@ -18,8 +18,8 @@ class BatchLoggerTest extends TestCase
         $dispatcher = new DebugEventDispatcher();
         $logger = new BatchLogger();
 
-        $dispatcher->addListener(PreExecuteEvent::class, [$logger, 'onPreExecute']);
-        $dispatcher->addListener(PostExecuteEvent::class, [$logger, 'onPostExecute']);
+        $dispatcher->addListener(PreExecuteEvent::class, $logger->onPreExecute(...));
+        $dispatcher->addListener(PostExecuteEvent::class, $logger->onPostExecute(...));
 
         $execution = JobExecution::createRoot('123', 'test.job_executor');
 
