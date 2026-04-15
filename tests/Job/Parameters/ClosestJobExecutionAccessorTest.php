@@ -11,7 +11,7 @@ use Yokai\Batch\Job\Parameters\JobExecutionParameterAccessor;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobParameters;
 
-class ClosestJobExecutionAccessorTest extends TestCase
+final class ClosestJobExecutionAccessorTest extends TestCase
 {
     public function test(): void
     {

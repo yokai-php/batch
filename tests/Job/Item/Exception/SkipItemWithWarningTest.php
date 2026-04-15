@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Exception\SkipItemWithWarning;
 use Yokai\Batch\JobExecution;
 
-class SkipItemWithWarningTest extends TestCase
+final class SkipItemWithWarningTest extends TestCase
 {
     public function test(): void
     {

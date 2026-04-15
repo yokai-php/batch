@@ -15,7 +15,7 @@ use Yokai\Batch\Test\Job\Item\Processor\TestDebugProcessor;
 use Yokai\Batch\Test\Job\Item\Writer\InMemoryWriter;
 use Yokai\Batch\Test\Job\Item\Writer\TestDebugWriter;
 
-class TransformingWriterTest extends TestCase
+final class TransformingWriterTest extends TestCase
 {
     public function test(): void
     {

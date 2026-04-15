@@ -10,7 +10,7 @@ use Yokai\Batch\Job\Parameters\RootJobExecutionAccessor;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobParameters;
 
-class RootJobExecutionAccessorTest extends TestCase
+final class RootJobExecutionAccessorTest extends TestCase
 {
     public function test(): void
     {

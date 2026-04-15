@@ -10,7 +10,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobParameters;
 use Yokai\Batch\Summary;
 
-class ConfigurableElementTest extends TestCase
+final class ConfigurableElementTest extends TestCase
 {
     public function testJobExecutionCanBeInitialized(): void
     {

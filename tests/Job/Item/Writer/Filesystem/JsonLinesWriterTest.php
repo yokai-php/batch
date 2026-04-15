@@ -10,7 +10,7 @@ use Yokai\Batch\Job\Item\Writer\Filesystem\JsonLinesWriter;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class JsonLinesWriterTest extends TestCase
+final class JsonLinesWriterTest extends TestCase
 {
     private const WRITE_DIR = ARTIFACT_DIR . '/json-lines-writer';
     private const READONLY_WRITE_DIR = ARTIFACT_DIR . '/json-lines-writer-readonly';

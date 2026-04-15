@@ -13,7 +13,7 @@ use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Job\Item\Reader\TestDebugReader;
 
-class IndexWithReaderTest extends TestCase
+final class IndexWithReaderTest extends TestCase
 {
     #[DataProvider('provider')]
     public function test(callable $factory, array $expected): void

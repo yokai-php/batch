@@ -9,7 +9,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Trigger\Scheduler\CallbackScheduler;
 use Yokai\Batch\Trigger\Scheduler\ScheduledJob;
 
-class CallbackSchedulerTest extends TestCase
+final class CallbackSchedulerTest extends TestCase
 {
     public function test(): void
     {

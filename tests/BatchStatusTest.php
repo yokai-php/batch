@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\BatchStatus;
 
-class BatchStatusTest extends TestCase
+final class BatchStatusTest extends TestCase
 {
     #[DataProvider('statuses')]
     public function testStatus(int $value, string $label, bool $unsucessful): void

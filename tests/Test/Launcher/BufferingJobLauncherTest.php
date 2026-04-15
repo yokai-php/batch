@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 use Yokai\Batch\Test\Launcher\BufferingJobLauncher;
 
-class BufferingJobLauncherTest extends TestCase
+final class BufferingJobLauncherTest extends TestCase
 {
     public function test(): void
     {

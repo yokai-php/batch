@@ -10,7 +10,7 @@ use Yokai\Batch\Job\Item\Reader\Filesystem\JsonLinesReader;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class JsonLinesReaderTest extends TestCase
+final class JsonLinesReaderTest extends TestCase
 {
     public function testRead(): void
     {

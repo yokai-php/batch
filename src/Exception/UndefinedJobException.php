@@ -6,7 +6,7 @@ namespace Yokai\Batch\Exception;
 
 use Throwable;
 
-class UndefinedJobException extends InvalidArgumentException
+final class UndefinedJobException extends InvalidArgumentException
 {
     public function __construct(string $name, Throwable|null $previous = null)
     {

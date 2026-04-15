@@ -14,7 +14,7 @@ use Yokai\Batch\Trigger\Scheduler\CallbackScheduler;
 use Yokai\Batch\Trigger\Scheduler\TimeScheduler;
 use Yokai\Batch\Trigger\TriggerScheduledJobsJob;
 
-class TriggerScheduledJobsJobTest extends TestCase
+final class TriggerScheduledJobsJobTest extends TestCase
 {
     public function test(): void
     {

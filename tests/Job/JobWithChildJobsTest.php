@@ -13,7 +13,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
 
-class JobWithChildJobsTest extends TestCase
+final class JobWithChildJobsTest extends TestCase
 {
     private InMemoryJobExecutionStorage $storage;
 

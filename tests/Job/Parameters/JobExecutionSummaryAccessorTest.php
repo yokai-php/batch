@@ -9,7 +9,7 @@ use Yokai\Batch\Exception\CannotAccessParameterException;
 use Yokai\Batch\Job\Parameters\JobExecutionSummaryAccessor;
 use Yokai\Batch\JobExecution;
 
-class JobExecutionSummaryAccessorTest extends TestCase
+final class JobExecutionSummaryAccessorTest extends TestCase
 {
     public function test(): void
     {

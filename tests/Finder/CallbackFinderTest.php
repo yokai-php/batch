@@ -7,7 +7,7 @@ namespace Yokai\Batch\Tests\Finder;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Finder\CallbackFinder;
 
-class CallbackFinderTest extends TestCase
+final class CallbackFinderTest extends TestCase
 {
     public function test(): void
     {

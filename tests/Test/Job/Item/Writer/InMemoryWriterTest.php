@@ -7,7 +7,7 @@ namespace Yokai\Batch\Tests\Test\Job\Item\Writer;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Test\Job\Item\Writer\InMemoryWriter;
 
-class InMemoryWriterTest extends TestCase
+final class InMemoryWriterTest extends TestCase
 {
     public function test(): void
     {

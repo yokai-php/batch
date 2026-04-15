@@ -10,7 +10,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Job\Item\Writer\InMemoryWriter;
 use Yokai\Batch\Test\Job\Item\Writer\TestDebugWriter;
 
-class ConditionalWriterTest extends TestCase
+final class ConditionalWriterTest extends TestCase
 {
     public function testWriteSomething(): void
     {

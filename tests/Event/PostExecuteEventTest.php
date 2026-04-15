@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Event\PostExecuteEvent;
 use Yokai\Batch\JobExecution;
 
-class PostExecuteEventTest extends TestCase
+final class PostExecuteEventTest extends TestCase
 {
     public function test(): void
     {

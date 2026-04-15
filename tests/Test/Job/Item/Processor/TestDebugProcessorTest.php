@@ -9,7 +9,7 @@ use Yokai\Batch\Job\Item\Processor\CallbackProcessor;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Job\Item\Processor\TestDebugProcessor;
 
-class TestDebugProcessorTest extends TestCase
+final class TestDebugProcessorTest extends TestCase
 {
     public function test(): void
     {

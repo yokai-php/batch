@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\UndefinedJobParameterException;
 use Yokai\Batch\JobParameters;
 
-class JobParametersTest extends TestCase
+final class JobParametersTest extends TestCase
 {
     public function testHas(): void
     {

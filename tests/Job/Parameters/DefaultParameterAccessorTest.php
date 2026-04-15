@@ -11,7 +11,7 @@ use Yokai\Batch\Job\Parameters\JobParameterAccessorInterface;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class DefaultParameterAccessorTest extends TestCase
+final class DefaultParameterAccessorTest extends TestCase
 {
     public function testDefaultWhenInnerFails(): void
     {

@@ -15,7 +15,7 @@ use Yokai\Batch\Event\PreExecuteEvent;
 /**
  * BatchLogger allow to log with the jobExecutionLogger
  */
-class BatchLogger extends AbstractLogger
+final class BatchLogger extends AbstractLogger
 {
     private LoggerInterface|null $batchLogger = null;
 

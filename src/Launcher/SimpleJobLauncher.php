@@ -12,7 +12,7 @@ use Yokai\Batch\JobExecution;
  * This {@see JobLauncherInterface} executes all job directly in the same PHP process.
  * This is the simplest (and thus default) implementation.
  */
-class SimpleJobLauncher implements JobLauncherInterface
+final class SimpleJobLauncher implements JobLauncherInterface
 {
     public function __construct(
         private readonly JobExecutionAccessor $jobExecutionAccessor,

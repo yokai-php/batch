@@ -7,7 +7,7 @@ namespace Yokai\Batch\Tests\Test\Factory;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 
-class SequenceJobExecutionIdGeneratorTest extends TestCase
+final class SequenceJobExecutionIdGeneratorTest extends TestCase
 {
     public function test(): void
     {

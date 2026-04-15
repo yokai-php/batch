@@ -12,7 +12,7 @@ use Yokai\Batch\Job\Parameters\JobParameterAccessorInterface;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class ParameterAccessorReaderTest extends TestCase
+final class ParameterAccessorReaderTest extends TestCase
 {
     #[DataProvider('provider')]
     public function test(JobParameterAccessorInterface $accessor, array $expected): void

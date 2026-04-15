@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Job\Item\Processor\ArrayMapProcessor;
 
-class ArrayMapProcessorTest extends TestCase
+final class ArrayMapProcessorTest extends TestCase
 {
     public function test(): void
     {

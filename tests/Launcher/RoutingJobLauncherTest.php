@@ -12,7 +12,7 @@ use Yokai\Batch\Test\ArrayContainer;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 use Yokai\Batch\Test\Launcher\BufferingJobLauncher;
 
-class RoutingJobLauncherTest extends TestCase
+final class RoutingJobLauncherTest extends TestCase
 {
     public function test(): void
     {

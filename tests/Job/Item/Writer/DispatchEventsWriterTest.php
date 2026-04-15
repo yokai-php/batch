@@ -13,7 +13,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Job\Item\Writer\TestDebugWriter;
 use Yokai\Batch\Tests\Dummy\DebugEventDispatcher;
 
-class DispatchEventsWriterTest extends TestCase
+final class DispatchEventsWriterTest extends TestCase
 {
     public function test(): void
     {

@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Trigger\Scheduler\ScheduledJob;
 use Yokai\Batch\Trigger\Scheduler\TimeScheduler;
 
-class TimeSchedulerTest extends TestCase
+final class TimeSchedulerTest extends TestCase
 {
     public function test(): void
     {

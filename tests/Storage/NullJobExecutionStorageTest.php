@@ -9,7 +9,7 @@ use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Storage\NullJobExecutionStorage;
 
-class NullJobExecutionStorageTest extends TestCase
+final class NullJobExecutionStorageTest extends TestCase
 {
     public function testNoStorage(): void
     {

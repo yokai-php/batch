@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Logger\BatchLogger;
 use Yokai\Batch\Tests\Dummy\DebugEventDispatcher;
 
-class BatchLoggerTest extends TestCase
+final class BatchLoggerTest extends TestCase
 {
     public function testLaunch(): void
     {

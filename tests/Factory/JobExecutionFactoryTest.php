@@ -11,7 +11,7 @@ use Yokai\Batch\Factory\JobExecutionParametersBuilder\NullJobExecutionParameters
 use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
 use Yokai\Batch\JobExecution;
 
-class JobExecutionFactoryTest extends TestCase
+final class JobExecutionFactoryTest extends TestCase
 {
     public function testCreate(): void
     {

@@ -6,7 +6,7 @@ namespace Yokai\Batch\Exception;
 
 use Throwable;
 
-class JobExecutionNotFoundException extends \InvalidArgumentException implements ExceptionInterface
+final class JobExecutionNotFoundException extends \InvalidArgumentException implements ExceptionInterface
 {
     public function __construct(string $jobName, string $executionId, Throwable|null $previous = null)
     {

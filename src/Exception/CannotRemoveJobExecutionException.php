@@ -6,7 +6,7 @@ namespace Yokai\Batch\Exception;
 
 use Throwable;
 
-class CannotRemoveJobExecutionException extends RuntimeException
+final class CannotRemoveJobExecutionException extends RuntimeException
 {
     public function __construct(string $jobName, string $executionId, Throwable|null $previous = null)
     {

@@ -13,7 +13,7 @@ use Yokai\Batch\Storage\Query;
 use Yokai\Batch\Storage\QueryBuilder;
 use Yokai\Batch\Storage\TimeFilter;
 
-class QueryBuilderTest extends TestCase
+final class QueryBuilderTest extends TestCase
 {
     #[DataProvider('valid')]
     public function testValid(callable $factory, Query $expected): void

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\Job\Item\Processor\FilterUniqueProcessor;
 
-class FilterUniqueProcessorTest extends TestCase
+final class FilterUniqueProcessorTest extends TestCase
 {
     #[DataProvider('provider')]
     public function test(callable $factory, array $items, array $expected): void

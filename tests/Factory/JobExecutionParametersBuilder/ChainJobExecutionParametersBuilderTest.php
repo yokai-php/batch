@@ -9,7 +9,7 @@ use Yokai\Batch\Factory\JobExecutionParametersBuilder\ChainJobExecutionParameter
 use Yokai\Batch\Factory\JobExecutionParametersBuilder\PerJobJobExecutionParametersBuilder;
 use Yokai\Batch\Factory\JobExecutionParametersBuilder\StaticJobExecutionParametersBuilder;
 
-class ChainJobExecutionParametersBuilderTest extends TestCase
+final class ChainJobExecutionParametersBuilderTest extends TestCase
 {
     public function test(): void
     {

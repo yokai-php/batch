@@ -19,7 +19,7 @@ use Yokai\Batch\Storage\Query;
 use Yokai\Batch\Storage\QueryBuilder;
 use Yokai\Batch\Test\Storage\JobExecutionStorageTestTrait;
 
-class FilesystemJobExecutionStorageTest extends TestCase
+final class FilesystemJobExecutionStorageTest extends TestCase
 {
     use JobExecutionStorageTestTrait;
 

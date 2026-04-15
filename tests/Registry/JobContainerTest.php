@@ -9,7 +9,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\Registry\JobContainer;
 
-class JobContainerTest extends TestCase
+final class JobContainerTest extends TestCase
 {
     public function testGet(): void
     {

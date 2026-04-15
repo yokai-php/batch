@@ -21,7 +21,7 @@ use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
 use Yokai\Batch\Tests\Dummy\DebugEventDispatcher;
 use Yokai\Batch\Warning;
 
-class JobExecutorTest extends TestCase
+final class JobExecutorTest extends TestCase
 {
     private Stub&JobInterface $job;
     private DebugEventDispatcher $dispatcher;

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\NotFoundExceptionInterface;
 use Yokai\Batch\Test\ArrayContainer;
 
-class ArrayContainerTest extends TestCase
+final class ArrayContainerTest extends TestCase
 {
     public function testGet(): void
     {

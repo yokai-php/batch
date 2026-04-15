@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
 
-class StaticIterableReaderTest extends TestCase
+final class StaticIterableReaderTest extends TestCase
 {
     #[DataProvider('items')]
     public function testRead(iterable $items, array $expected): void

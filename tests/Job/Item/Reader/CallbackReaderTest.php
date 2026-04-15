@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Reader\CallbackReader;
 
-class CallbackReaderTest extends TestCase
+final class CallbackReaderTest extends TestCase
 {
     #[DataProvider('provider')]
     public function test(array $expected, \Closure $closure): void

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Storage;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Throwable;
 use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
 use Yokai\Batch\Exception\CannotStoreJobExecutionException;
@@ -32,6 +34,7 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
     public function __construct(
         private JobExecutionSerializerInterface $serializer,
         private string $directory,
+        private LoggerInterface $logger = new NullLogger(),
     ) {
     }
 
@@ -77,8 +80,11 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
         foreach ($glob as $file) {
             try {
                 yield $this->fileToExecution($file->getPathname());
-            } catch (Throwable) {
-                // todo should we do something
+            } catch (Throwable $exception) {
+                $this->logger->warning(
+                    'Failed to read job execution file, skipping.',
+                    ['file' => $file->getPathname(), 'exception' => $exception],
+                );
             }
         }
     }
@@ -93,8 +99,12 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
         foreach ($glob as $file) {
             try {
                 $execution = $this->fileToExecution($file->getPathname());
-            } catch (Throwable) {
-                // todo should we do something
+            } catch (Throwable $exception) {
+                $this->logger->warning(
+                    'Failed to read job execution file, skipping.',
+                    ['file' => $file->getPathname(), 'exception' => $exception],
+                );
+
                 continue;
             }
 

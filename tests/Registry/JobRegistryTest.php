@@ -9,7 +9,7 @@ use Yokai\Batch\Exception\UndefinedJobException;
 use Yokai\Batch\Job\JobInterface;
 use Yokai\Batch\Registry\JobRegistry;
 
-class JobRegistryTest extends TestCase
+final class JobRegistryTest extends TestCase
 {
     public function testRegistry(): void
     {

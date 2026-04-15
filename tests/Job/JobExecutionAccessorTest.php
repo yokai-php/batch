@@ -12,7 +12,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
 
-class JobExecutionAccessorTest extends TestCase
+final class JobExecutionAccessorTest extends TestCase
 {
     public function test(): void
     {

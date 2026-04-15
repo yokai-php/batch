@@ -7,7 +7,7 @@ namespace Yokai\Batch\Tests\Factory\JobExecutionParametersBuilder;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Factory\JobExecutionParametersBuilder\StaticJobExecutionParametersBuilder;
 
-class StaticJobExecutionParametersBuilderTest extends TestCase
+final class StaticJobExecutionParametersBuilderTest extends TestCase
 {
     public function test(): void
     {

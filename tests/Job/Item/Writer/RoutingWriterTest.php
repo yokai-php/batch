@@ -19,7 +19,7 @@ use Yokai\Batch\Test\Finder\DummyFinder;
 use Yokai\Batch\Test\Job\Item\Writer\InMemoryWriter;
 use Yokai\Batch\Test\Job\Item\Writer\TestDebugWriter;
 
-class RoutingWriterTest extends TestCase
+final class RoutingWriterTest extends TestCase
 {
     public function test(): void
     {

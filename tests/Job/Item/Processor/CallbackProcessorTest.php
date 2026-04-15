@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Processor\CallbackProcessor;
 use Yokai\Batch\JobExecution;
 
-class CallbackProcessorTest extends TestCase
+final class CallbackProcessorTest extends TestCase
 {
     public function testProcess(): void
     {

@@ -22,6 +22,33 @@ use Yokai\Batch\Warning;
 /**
  * This {@see JobExecutionStorageInterface} will (un)serialise any {@see JobExecution} to/from json,
  * using internal (de)normalisation and PHP {@see json_encode} and {@see json_decode} functions.
+ *
+ * @phpstan-type FailureData array{
+ *     class: string,
+ *     message: string,
+ *     code: int,
+ *     parameters: array<string, string>,
+ *     trace: string|null,
+ * }
+ * @phpstan-type WarningData array{
+ *     message: string,
+ *     parameters: array<string, string>,
+ *     context: array<string, mixed>,
+ * }
+ * @phpstan-type ExecutionData array{
+ *     id: string,
+ *     jobName: string,
+ *     status: int,
+ *     parameters: array<string, mixed>,
+ *     startTime: string|null,
+ *     endTime: string|null,
+ *     launchedAt: string|null,
+ *     summary: array<string, mixed>,
+ *     failures: list<FailureData>,
+ *     warnings: list<WarningData>,
+ *     childExecutions: array<string, mixed>,
+ *     logs: string,
+ * }
  */
 final class JsonJobExecutionSerializer implements JobExecutionSerializerInterface
 {
@@ -50,6 +77,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
                 throw UnexpectedValueException::type('array', $data);
             }
 
+            /** @var ExecutionData $data */
             return $this->fromArray($data);
         } catch (Throwable $exception) {
             throw RuntimeException::error($exception, 'Cannot unserialize job execution from JSON.');
@@ -62,7 +90,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @return array<string, mixed>
+     * @return ExecutionData
      */
     private function toArray(JobExecution $jobExecution): array
     {
@@ -83,7 +111,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @param array<string, mixed> $jobExecutionData
+     * @param ExecutionData $jobExecutionData
      */
     private function fromArray(array $jobExecutionData, JobExecution|null $parentExecution = null): JobExecution
     {
@@ -102,13 +130,13 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
                 $status,
                 $parameters,
                 $summary,
-                new JobExecutionLogs($jobExecutionData['logs'] ?? ''),
+                new JobExecutionLogs($jobExecutionData['logs']),
             );
         }
 
         $jobExecution->setStartTime($this->stringToDate($jobExecutionData['startTime']));
         $jobExecution->setEndTime($this->stringToDate($jobExecutionData['endTime']));
-        $jobExecution->setLaunchedAt($this->stringToDate($jobExecutionData['launchedAt'] ?? null));
+        $jobExecution->setLaunchedAt($this->stringToDate($jobExecutionData['launchedAt']));
 
         foreach ($jobExecutionData['failures'] as $failureData) {
             $jobExecution->addFailure($this->failureFromArray($failureData), false);
@@ -117,6 +145,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
             $jobExecution->addWarning($this->warningFromArray($warningData), false);
         }
 
+        /** @var ExecutionData $childExecutionData */
         foreach ($jobExecutionData['childExecutions'] as $childExecutionData) {
             $jobExecution->addChildExecution($this->fromArray($childExecutionData, $jobExecution));
         }
@@ -148,7 +177,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @return array<string, mixed>
+     * @return FailureData
      */
     private function failureToArray(Failure $failure): array
     {
@@ -162,7 +191,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @param array<string, mixed> $array
+     * @param FailureData $array
      */
     private function failureFromArray(array $array): Failure
     {
@@ -176,7 +205,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @return array<string, mixed>
+     * @return WarningData
      */
     private function warningToArray(Warning $warning): array
     {
@@ -188,7 +217,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     }
 
     /**
-     * @param array<string, mixed> $array
+     * @param WarningData $array
      */
     private function warningFromArray(array $array): Warning
     {

@@ -10,7 +10,7 @@ use Yokai\Batch\Job\Item\Processor\ChainProcessor;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Job\Item\Processor\TestDebugProcessor;
 
-class ChainProcessorTest extends TestCase
+final class ChainProcessorTest extends TestCase
 {
     public function testProcess(): void
     {

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Writer\CallbackWriter;
 use Yokai\Batch\JobExecution;
 
-class CallbackWriterTest extends TestCase
+final class CallbackWriterTest extends TestCase
 {
     public function testWrite(): void
     {

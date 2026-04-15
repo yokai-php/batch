@@ -9,7 +9,7 @@ use Yokai\Batch\Job\Item\Writer\SummaryWriter;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class SummaryWriterTest extends TestCase
+final class SummaryWriterTest extends TestCase
 {
     public function test(): void
     {

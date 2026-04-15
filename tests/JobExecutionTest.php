@@ -14,7 +14,7 @@ use Yokai\Batch\JobParameters;
 use Yokai\Batch\Summary;
 use Yokai\Batch\Warning;
 
-class JobExecutionTest extends TestCase
+final class JobExecutionTest extends TestCase
 {
     public function testConstruct(): void
     {

@@ -11,7 +11,7 @@ use Yokai\Batch\JobExecution;
  * This job parameter accessor implementation is decorating another accessor
  * and replaces some variables from returned value (if it is a string).
  */
-class ReplaceWithVariablesParameterAccessor implements JobParameterAccessorInterface
+final class ReplaceWithVariablesParameterAccessor implements JobParameterAccessorInterface
 {
     public function __construct(
         private readonly JobParameterAccessorInterface $accessor,

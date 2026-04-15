@@ -10,7 +10,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 use Yokai\Batch\Test\Launcher\BufferingJobLauncher;
 
-class LaunchJobForItemsBatchWriterTest extends TestCase
+final class LaunchJobForItemsBatchWriterTest extends TestCase
 {
     public function testStaticParameter(): void
     {

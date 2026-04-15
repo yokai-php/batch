@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
 use Yokai\Batch\JobExecution;
 
-class LoggerTest extends TestCase
+final class LoggerTest extends TestCase
 {
     public function testLogError(): void
     {

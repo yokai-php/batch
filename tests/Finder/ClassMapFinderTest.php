@@ -13,7 +13,7 @@ use Throwable;
 use TypeError;
 use Yokai\Batch\Finder\ClassMapFinder;
 
-class ClassMapFinderTest extends TestCase
+final class ClassMapFinderTest extends TestCase
 {
     public function test(): void
     {

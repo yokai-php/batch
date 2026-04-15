@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Summary;
 
-class SummaryTest extends TestCase
+final class SummaryTest extends TestCase
 {
     public function testConstruct(): void
     {

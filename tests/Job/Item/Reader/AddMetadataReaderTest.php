@@ -11,7 +11,7 @@ use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Job\Item\Reader\TestDebugReader;
 
-class AddMetadataReaderTest extends TestCase
+final class AddMetadataReaderTest extends TestCase
 {
     public function testRead(): void
     {

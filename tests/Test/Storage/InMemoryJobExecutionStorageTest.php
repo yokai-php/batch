@@ -10,7 +10,7 @@ use Yokai\Batch\Exception\JobExecutionNotFoundException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
 
-class InMemoryJobExecutionStorageTest extends TestCase
+final class InMemoryJobExecutionStorageTest extends TestCase
 {
     public function testRetrieve(): void
     {

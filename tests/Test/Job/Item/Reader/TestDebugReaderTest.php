@@ -9,7 +9,7 @@ use Yokai\Batch\Job\Item\Reader\StaticIterableReader;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Job\Item\Reader\TestDebugReader;
 
-class TestDebugReaderTest extends TestCase
+final class TestDebugReaderTest extends TestCase
 {
     public function test(): void
     {

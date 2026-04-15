@@ -7,7 +7,7 @@ namespace Yokai\Batch\Tests\Test\Finder;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Test\Finder\DummyFinder;
 
-class DummyFinderTest extends TestCase
+final class DummyFinderTest extends TestCase
 {
     public function test(): void
     {

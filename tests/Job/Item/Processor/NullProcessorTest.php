@@ -7,7 +7,7 @@ namespace Yokai\Batch\Tests\Job\Item\Processor;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Item\Processor\NullProcessor;
 
-class NullProcessorTest extends TestCase
+final class NullProcessorTest extends TestCase
 {
     public function testProcess(): void
     {

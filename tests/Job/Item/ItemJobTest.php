@@ -20,7 +20,7 @@ use Yokai\Batch\Test\Job\Item\Reader\TestDebugReader;
 use Yokai\Batch\Test\Job\Item\Writer\InMemoryWriter;
 use Yokai\Batch\Test\Job\Item\Writer\TestDebugWriter;
 
-class ItemJobTest extends TestCase
+final class ItemJobTest extends TestCase
 {
     public function testExecute(): void
     {

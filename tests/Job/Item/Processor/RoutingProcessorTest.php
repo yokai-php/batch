@@ -14,7 +14,7 @@ use Yokai\Batch\JobExecution;
 use Yokai\Batch\Test\Finder\DummyFinder;
 use Yokai\Batch\Test\Job\Item\Processor\TestDebugProcessor;
 
-class RoutingProcessorTest extends TestCase
+final class RoutingProcessorTest extends TestCase
 {
     public function test(): void
     {

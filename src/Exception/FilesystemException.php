@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Exception;
 
-class FilesystemException extends RuntimeException
+final class FilesystemException extends RuntimeException
 {
     public static function cannotCreateDir(string $path): self
     {

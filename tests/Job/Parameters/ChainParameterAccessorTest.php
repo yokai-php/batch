@@ -11,7 +11,7 @@ use Yokai\Batch\Job\Parameters\JobParameterAccessorInterface;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class ChainParameterAccessorTest extends TestCase
+final class ChainParameterAccessorTest extends TestCase
 {
     public function test(): void
     {

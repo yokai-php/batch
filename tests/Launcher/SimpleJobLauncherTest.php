@@ -16,7 +16,7 @@ use Yokai\Batch\Registry\JobRegistry;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 use Yokai\Batch\Test\Storage\InMemoryJobExecutionStorage;
 
-class SimpleJobLauncherTest extends TestCase
+final class SimpleJobLauncherTest extends TestCase
 {
     public function test(): void
     {

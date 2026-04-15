@@ -10,7 +10,7 @@ use Yokai\Batch\Job\Parameters\ReplaceWithVariablesParameterAccessor;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class ReplaceWithVariablesParameterAccessorTest extends TestCase
+final class ReplaceWithVariablesParameterAccessorTest extends TestCase
 {
     public function test(): void
     {

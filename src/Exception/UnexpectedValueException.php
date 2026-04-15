@@ -6,7 +6,7 @@ namespace Yokai\Batch\Exception;
 
 use Throwable;
 
-class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
+final class UnexpectedValueException extends \UnexpectedValueException implements ExceptionInterface
 {
     public function __construct(string|null $base = null, string $message = '', Throwable|null $previous = null)
     {

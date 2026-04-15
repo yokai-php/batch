@@ -13,7 +13,7 @@ use Yokai\Batch\Exception\LogicException;
 use Yokai\Batch\Job\Item\Exception\SkipItemOnError;
 use Yokai\Batch\JobExecution;
 
-class SkipItemOnErrorTest extends TestCase
+final class SkipItemOnErrorTest extends TestCase
 {
     #[DataProvider('provider')]
     public function test(Throwable $error): void

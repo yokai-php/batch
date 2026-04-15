@@ -10,7 +10,7 @@ use Yokai\Batch\Exception\RuntimeException;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Serializer\JsonJobExecutionSerializer;
 
-class JsonJobExecutionSerializerTest extends TestCase
+final class JsonJobExecutionSerializerTest extends TestCase
 {
     #[DataProvider('sets')]
     public function testSerialize(JobExecution $jobExecutionToSerialize, string $expectedSerializedJobExecution): void

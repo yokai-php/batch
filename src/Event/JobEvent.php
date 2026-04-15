@@ -9,7 +9,7 @@ use Yokai\Batch\JobExecution;
 /**
  * Base class for all job execution related events.
  */
-class JobEvent
+abstract class JobEvent
 {
     public function __construct(
         private readonly JobExecution $execution,

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Yokai\Batch\Failure;
 
-class FailureTest extends TestCase
+final class FailureTest extends TestCase
 {
     #[DataProvider('failures')]
     public function test(

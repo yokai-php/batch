@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class StaticValueParameterAccessorTest extends TestCase
+final class StaticValueParameterAccessorTest extends TestCase
 {
     public function test(): void
     {

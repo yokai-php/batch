@@ -7,7 +7,7 @@ namespace Yokai\Batch\Exception;
 use Throwable;
 use Yokai\Batch\Job\Item\InitializableInterface;
 
-class BadMethodCallException extends \BadMethodCallException implements ExceptionInterface
+final class BadMethodCallException extends \BadMethodCallException implements ExceptionInterface
 {
     public function __construct(string $message = '', Throwable|null $previous = null)
     {

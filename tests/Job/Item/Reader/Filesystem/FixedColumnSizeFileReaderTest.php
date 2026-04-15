@@ -13,7 +13,7 @@ use Yokai\Batch\Job\Item\Reader\Filesystem\FixedColumnSizeFileReader;
 use Yokai\Batch\Job\Parameters\StaticValueParameterAccessor;
 use Yokai\Batch\JobExecution;
 
-class FixedColumnSizeFileReaderTest extends TestCase
+final class FixedColumnSizeFileReaderTest extends TestCase
 {
     #[DataProvider('config')]
     public function test(array $columns, string $headersMode, array $expected): void
