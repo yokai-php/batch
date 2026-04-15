@@ -51,6 +51,12 @@ final class JobExecution
     private DateTimeInterface|null $endTime = null;
 
     /**
+     * The date and time when the job was launched (ie : when {@see JobLauncherInterface::launch()} was called).
+     * If null, the job has not been launched yet.
+     */
+    private DateTimeInterface|null $launchedAt = null;
+
+    /**
      * List of failures that occurred in the execution.
      * @var Failure[]
      */
@@ -212,6 +218,23 @@ final class JobExecution
         }
 
         $this->endTime = $endTime;
+    }
+
+    public function getLaunchedAt(): DateTimeInterface|null
+    {
+        return $this->launchedAt;
+    }
+
+    /**
+     * @throws ImmutablePropertyException If {@see JobExecution::$launchedAt} is not null.
+     */
+    public function setLaunchedAt(DateTimeInterface|null $launchedAt): void
+    {
+        if ($this->launchedAt !== null) {
+            throw new ImmutablePropertyException(self::class, 'launchedAt');
+        }
+
+        $this->launchedAt = $launchedAt;
     }
 
     public function getSummary(): Summary

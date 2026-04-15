@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Factory;
 
+use DateTimeImmutable;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobParameters;
 
@@ -29,6 +30,9 @@ final readonly class JobExecutionFactory
         /** @var string $id */
         $id = $configuration['_id'] ??= $this->idGenerator->generate();
 
-        return JobExecution::createRoot($id, $name, null, new JobParameters($configuration));
+        $jobExecution = JobExecution::createRoot($id, $name, null, new JobParameters($configuration));
+        $jobExecution->setLaunchedAt(new DateTimeImmutable());
+
+        return $jobExecution;
     }
 }

@@ -124,6 +124,23 @@ class JobExecutionTest extends TestCase
         $jobExecution->setEndTime(new \DateTime());
     }
 
+    public function testInitLaunchedAt(): void
+    {
+        $jobExecution = JobExecution::createRoot('123456789', 'export');
+        self::assertNull($jobExecution->getLaunchedAt());
+        $jobExecution->setLaunchedAt($time = new \DateTimeImmutable());
+        self::assertSame($time, $jobExecution->getLaunchedAt());
+    }
+
+    public function testLaunchedAtIsImmutable(): void
+    {
+        $this->expectException(ImmutablePropertyException::class);
+
+        $jobExecution = JobExecution::createRoot('123456789', 'export');
+        $jobExecution->setLaunchedAt(new \DateTimeImmutable());
+        $jobExecution->setLaunchedAt(new \DateTimeImmutable());
+    }
+
     public function testChangeStatus(): void
     {
         $jobExecution = JobExecution::createRoot('123456789', 'export');

@@ -73,6 +73,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
             'parameters' => \iterator_to_array($jobExecution->getParameters()),
             'startTime' => $this->dateToString($jobExecution->getStartTime()),
             'endTime' => $this->dateToString($jobExecution->getEndTime()),
+            'launchedAt' => $this->dateToString($jobExecution->getLaunchedAt()),
             'summary' => $jobExecution->getSummary()->all(),
             'failures' => \array_map([$this, 'failureToArray'], $jobExecution->getFailures()),
             'warnings' => \array_map([$this, 'warningToArray'], $jobExecution->getWarnings()),
@@ -107,6 +108,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
 
         $jobExecution->setStartTime($this->stringToDate($jobExecutionData['startTime']));
         $jobExecution->setEndTime($this->stringToDate($jobExecutionData['endTime']));
+        $jobExecution->setLaunchedAt($this->stringToDate($jobExecutionData['launchedAt'] ?? null));
 
         foreach ($jobExecutionData['failures'] as $failureData) {
             $jobExecution->addFailure($this->failureFromArray($failureData), false);

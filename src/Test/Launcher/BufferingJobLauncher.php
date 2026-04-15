@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Test\Launcher;
 
+use DateTimeImmutable;
 use Yokai\Batch\Factory\JobExecutionIdGeneratorInterface;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\JobParameters;
@@ -31,6 +32,7 @@ final class BufferingJobLauncher implements JobLauncherInterface
         /** @var string $id */
         $id = $configuration['_id'] ??= $this->idGenerator->generate();
         $execution = JobExecution::createRoot($id, $name, null, new JobParameters($configuration));
+        $execution->setLaunchedAt(new DateTimeImmutable());
         $this->executions[] = $execution;
 
         return $execution;

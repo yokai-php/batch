@@ -9,6 +9,7 @@ return [
     'parameters' => [],
     'startTime' => null,
     'endTime' => null,
+    'launchedAt' => null,
     'summary' => [],
     'failures' => [],
     'warnings' => [],

@@ -74,5 +74,6 @@ class JsonJobExecutionSerializerTest extends TestCase
         $minimal = require __DIR__ . '/fixtures/minimal.array.php';
         yield [\json_encode(\array_merge($minimal, ['startTime' => 'not a date']))];
         yield [\json_encode(\array_merge($minimal, ['endTime' => 'not a date']))];
+        yield [\json_encode(\array_merge($minimal, ['launchedAt' => 'not a date']))];
     }
 }

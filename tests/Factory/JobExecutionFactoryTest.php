@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Factory;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Factory\JobExecutionFactory;
 use Yokai\Batch\Factory\JobExecutionParametersBuilder\NullJobExecutionParametersBuilder;
@@ -51,5 +52,6 @@ class JobExecutionFactoryTest extends TestCase
         self::assertSame([], $jobExecution->getChildExecutions());
         self::assertNull($jobExecution->getStartTime());
         self::assertNull($jobExecution->getEndTime());
+        self::assertInstanceOf(DateTimeImmutable::class, $jobExecution->getLaunchedAt());
     }
 }

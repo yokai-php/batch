@@ -39,6 +39,7 @@ LOG,
 );
 $jobExecution->setStartTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T00:00:01+0200'));
 $jobExecution->setEndTime(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T01:59:59+0200'));
+$jobExecution->setLaunchedAt(\DateTimeImmutable::createFromFormat(DATE_ISO8601, '2018-01-01T00:00:00+0200'));
 $jobExecution->addFailure($failure, false);
 $jobExecution->addWarning($warning, false);
 $jobExecution->addChildExecution(

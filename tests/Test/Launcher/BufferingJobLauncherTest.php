@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yokai\Batch\Tests\Test\Launcher;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Test\Factory\SequenceJobExecutionIdGenerator;
 use Yokai\Batch\Test\Launcher\BufferingJobLauncher;
@@ -19,6 +20,7 @@ class BufferingJobLauncherTest extends TestCase
         self::assertCount(1, $launcher->getExecutions());
         self::assertSame('testing.foo', $launcher->getExecutions()[0]->getJobName());
         self::assertSame('123', $launcher->getExecutions()[0]->getId());
+        self::assertInstanceOf(DateTimeImmutable::class, $launcher->getExecutions()[0]->getLaunchedAt());
         self::assertSame(
             ['_id' => '123'],
             $launcher->getExecutions()[0]->getParameters()->all(),
