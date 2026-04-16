@@ -14,13 +14,6 @@ Batch architecture library inspired by Spring Batch.
 - :factory: bridges with popular libraries and frameworks
 
 
-## :warning: BETA
-
-This library is following [semver](https://semver.org/).
-However before we reach the first stable version (`v1.0.0`), we may decide to introduce **API changes in minor versions**.
-This is why you should stick to a `v0.[minor].*` requirement !
-
-
 # Installation
 
 ```
@@ -30,7 +23,7 @@ composer require yokai/batch
 
 ## Documentation
 
-Please read the [getting started documentation page](https://yokai-batch.readthedocs.io/en/0.x/getting-started/standalone-library.html).
+Please read the [getting started documentation page](https://yokai-batch.readthedocs.io/en/1.x/getting-started/standalone-library.html).
 
 Looking for something more specific ?
 
