@@ -289,7 +289,7 @@ final class FilesystemJobExecutionStorageTest extends TestCase
     {
         $storage = $this->createStorage(
             __DIR__ . '/fixtures/filesystem-job-execution',
-            new JsonJobExecutionSerializer(),
+            new JsonJobExecutionSerializer(new InMemoryJobExecutionLoggerFactory()),
         );
 
         // Fixtures contain 5 executions in total.
