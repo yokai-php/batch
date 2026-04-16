@@ -23,4 +23,10 @@ interface QueryableJobExecutionStorageInterface extends ListableJobExecutionStor
      * Note: limit and offset from the query are ignored — all matching executions are counted.
      */
     public function count(Query $query): int;
+
+    /**
+     * Delete all job executions matching the given query.
+     * Note: limit and offset from the query are ignored — all matching executions are deleted.
+     */
+    public function purge(Query $query): void;
 }

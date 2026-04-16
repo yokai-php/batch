@@ -115,6 +115,13 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
         return \count($jobExecutions);
     }
 
+    public function purge(Query $query): void
+    {
+        foreach ($this->rawQuery($query) as $execution) {
+            $this->remove($execution);
+        }
+    }
+
     /**
      * @return list<JobExecution>
      */

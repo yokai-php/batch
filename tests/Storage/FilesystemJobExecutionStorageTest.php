@@ -343,4 +343,30 @@ final class FilesystemJobExecutionStorageTest extends TestCase
         $jobExecution = JobExecution::createRoot('123456789', 'export');
         $this->createStorage(self::READONLY_STORAGE_DIR)->remove($jobExecution);
     }
+
+    public function testPurge(): void
+    {
+        $storage = $this->createStorage(
+            self::STORAGE_DIR . '/purge',
+            new JsonJobExecutionSerializer(new InMemoryJobExecutionLoggerFactory()),
+        );
+
+        foreach (['20210920', '20210922'] as $id) {
+            $storage->store(JobExecution::createRoot($id, 'export'));
+        }
+        foreach (['20210910', '20210915', '20210920'] as $id) {
+            $storage->store(JobExecution::createRoot($id, 'list'));
+        }
+
+        // limit is ignored by purge — all 3 "list" executions must be deleted
+        $storage->purge((new QueryBuilder())->jobs(['list'])->limit(1, 0)->getQuery());
+
+        self::assertExecutions(
+            [
+                ['export', '20210920'],
+                ['export', '20210922'],
+            ],
+            $storage->query((new QueryBuilder())->getQuery()),
+        );
+    }
 }
