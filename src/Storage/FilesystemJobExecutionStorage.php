@@ -91,7 +91,36 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
 
     public function query(Query $query): iterable
     {
-        $candidates = [];
+        $jobExecutions = $this->rawQuery($query);
+
+        $order = match ($query->sort()) {
+            Query::SORT_BY_START_ASC => static fn(JobExecution $left, JobExecution $right): int => $left->getStartTime() <=> $right->getStartTime(),
+            Query::SORT_BY_START_DESC => static fn(JobExecution $left, JobExecution $right): int => $right->getStartTime() <=> $left->getStartTime(),
+            Query::SORT_BY_END_ASC => static fn(JobExecution $left, JobExecution $right): int => $left->getEndTime() <=> $right->getEndTime(),
+            Query::SORT_BY_END_DESC => static fn(JobExecution $left, JobExecution $right): int => $right->getEndTime() <=> $left->getEndTime(),
+            default => null,
+        };
+
+        if ($order) {
+            \uasort($jobExecutions, $order);
+        }
+
+        return \array_slice($jobExecutions, $query->offset(), $query->limit());
+    }
+
+    public function count(Query $query): int
+    {
+        $jobExecutions = $this->rawQuery($query);
+
+        return \count($jobExecutions);
+    }
+
+    /**
+     * @return list<JobExecution>
+     */
+    private function rawQuery(Query $query): array
+    {
+        $jobExecutions = [];
         $glob = new \GlobIterator(
             \implode(DIRECTORY_SEPARATOR, [$this->directory, '**', '*']) . '.' . $this->serializer->extension(),
         );
@@ -143,30 +172,10 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
                 continue;
             }
 
-            $candidates[] = $execution;
+            $jobExecutions[] = $execution;
         }
 
-        $order = match ($query->sort()) {
-            Query::SORT_BY_START_ASC => static fn(JobExecution $left, JobExecution $right): int => $left->getStartTime() <=> $right->getStartTime(),
-            Query::SORT_BY_START_DESC => static fn(JobExecution $left, JobExecution $right): int => $right->getStartTime() <=> $left->getStartTime(),
-            Query::SORT_BY_END_ASC => static fn(JobExecution $left, JobExecution $right): int => $left->getEndTime() <=> $right->getEndTime(),
-            Query::SORT_BY_END_DESC => static fn(JobExecution $left, JobExecution $right): int => $right->getEndTime() <=> $left->getEndTime(),
-            default => null,
-        };
-
-        if ($order) {
-            \uasort($candidates, $order);
-        }
-
-        return \array_slice($candidates, $query->offset(), $query->limit());
-    }
-
-    public function count(Query $query): int
-    {
-        /** @var JobExecution[] $result */
-        $result = $this->query($query);
-
-        return \count($result);
+        return $jobExecutions;
     }
 
     private function buildFilePath(string $jobName, string $executionId): string

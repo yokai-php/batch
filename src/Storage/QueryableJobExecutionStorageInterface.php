@@ -20,6 +20,7 @@ interface QueryableJobExecutionStorageInterface extends ListableJobExecutionStor
 
     /**
      * Execute query against stored job executions, and return count result.
+     * Note: limit and offset from the query are ignored — all matching executions are counted.
      */
     public function count(Query $query): int;
 }

@@ -284,6 +284,25 @@ final class FilesystemJobExecutionStorageTest extends TestCase
         ];
     }
 
+    public function testCountIgnoresLimit(): void
+    {
+        $storage = $this->createStorage(
+            __DIR__ . '/fixtures/filesystem-job-execution',
+            new JsonJobExecutionSerializer(),
+        );
+
+        // Fixtures contain 5 executions in total.
+        // With limit(2, 0), query() must return 2 results while count() must return 5.
+        $query = (new QueryBuilder())->limit(2, 0)->getQuery();
+
+        $results = [];
+        foreach ($storage->query($query) as $execution) {
+            $results[] = $execution;
+        }
+        self::assertCount(2, $results);
+        self::assertSame(5, $storage->count($query));
+    }
+
     public function testRetrieveFilePathNotFound(): void
     {
         $this->expectException(JobExecutionNotFoundException::class);
