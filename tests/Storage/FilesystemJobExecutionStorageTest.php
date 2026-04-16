@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Yokai\Batch\Tests\Storage;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
@@ -27,7 +27,7 @@ final class FilesystemJobExecutionStorageTest extends TestCase
     private const STORAGE_DIR = ARTIFACT_DIR . '/filesystem-storage';
     private const READONLY_STORAGE_DIR = ARTIFACT_DIR . '/filesystem-storage-readonly';
 
-    private Stub&JobExecutionSerializerInterface $serializer;
+    private MockObject&JobExecutionSerializerInterface $serializer;
 
     public static function setUpBeforeClass(): void
     {
@@ -40,8 +40,9 @@ final class FilesystemJobExecutionStorageTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->serializer = $this->createStub(JobExecutionSerializerInterface::class);
+        $this->serializer = $this->createMock(JobExecutionSerializerInterface::class);
         $this->serializer->method('extension')
+            ->with()
             ->willReturn('txt');
     }
 
