@@ -64,9 +64,10 @@ final class TransformingWriterTest extends TestCase
         self::assertSame(['itemIndex' => 1, 'item' => 'two'], $warnings[1]->getContext());
         self::assertSame('Skipped for test purpose', $warnings[2]->getMessage());
         self::assertSame(['itemIndex' => 2, 'item' => 'three'], $warnings[2]->getContext());
-        self::assertStringContainsString('Skipping item in writer transformation 0.', (string)$execution->getLogs());
-        self::assertStringContainsString('Skipping item in writer transformation 1.', (string)$execution->getLogs());
-        self::assertStringContainsString('Skipping item in writer transformation 2.', (string)$execution->getLogs());
+        $logs = $execution->getLogger()->getLogsContent();
+        self::assertStringContainsString('Skipping item in writer transformation 0.', $logs);
+        self::assertStringContainsString('Skipping item in writer transformation 1.', $logs);
+        self::assertStringContainsString('Skipping item in writer transformation 2.', $logs);
     }
 
     public function testInvalidIndexType(): void

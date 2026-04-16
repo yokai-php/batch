@@ -112,11 +112,11 @@ final class JobWithChildJobsTest extends TestCase
 
     private static function assertLogsContains(string $expected, JobExecution $execution): void
     {
-        self::assertStringContainsString($expected, (string)$execution->getLogs());
+        self::assertStringContainsString($expected, $execution->getLogger()->getLogsContent());
     }
 
     private static function assertLogsNotContains(string $expected, JobExecution $execution): void
     {
-        self::assertStringNotContainsString($expected, (string)$execution->getLogs());
+        self::assertStringNotContainsString($expected, $execution->getLogger()->getLogsContent());
     }
 }

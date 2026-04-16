@@ -7,6 +7,7 @@ namespace Yokai\Batch\Tests\Launcher;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Factory\JobExecutionFactory;
+use Yokai\Batch\Factory\JobExecutionLoggerFactory\InMemoryJobExecutionLoggerFactory;
 use Yokai\Batch\Factory\JobExecutionParametersBuilder\NullJobExecutionParametersBuilder;
 use Yokai\Batch\Job\JobExecutionAccessor;
 use Yokai\Batch\Job\JobExecutor;
@@ -27,6 +28,7 @@ final class SimpleJobLauncherTest extends TestCase
                 new JobExecutionFactory(
                     new SequenceJobExecutionIdGenerator(['123']),
                     new NullJobExecutionParametersBuilder(),
+                    new InMemoryJobExecutionLoggerFactory(),
                 ),
                 $jobExecutionStorage = new InMemoryJobExecutionStorage(),
             ),

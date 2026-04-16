@@ -38,7 +38,7 @@ final class LaunchJobForEachItemWriterTest extends TestCase
         self::assertSame('klm', $executions[3]->getId());
         self::assertSame('test.launched_job', $executions[3]->getJobName());
         self::assertSame(4, $executions[3]->getParameters()->get('itemInLaunchedJob'));
-        self::assertStringContainsString('Triggered job for item.', (string)$execution->getLogs());
+        self::assertStringContainsString('Triggered job for item.', $execution->getLogger()->getLogsContent());
     }
 
     public function testClosureParameter(): void
@@ -71,6 +71,6 @@ final class LaunchJobForEachItemWriterTest extends TestCase
         self::assertSame('test.launched_job', $executions[3]->getJobName());
         self::assertSame(4, $executions[3]->getParameters()->get('itemInLaunchedJob'));
         self::assertSame('foo', $executions[3]->getParameters()->get('extraParameter'));
-        self::assertStringContainsString('Triggered job for item.', (string)$execution->getLogs());
+        self::assertStringContainsString('Triggered job for item.', $execution->getLogger()->getLogsContent());
     }
 }

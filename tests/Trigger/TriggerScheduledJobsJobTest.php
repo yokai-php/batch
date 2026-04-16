@@ -59,7 +59,7 @@ final class TriggerScheduledJobsJobTest extends TestCase
                 'id' => 'triggered_job_id',
             ],
         ], $jobExecution->getSummary()->get('jobs'));
-        $logs = (string)$jobExecution->getLogs();
+        $logs = $jobExecution->getLogger()->getLogsContent();
         self::assertStringContainsString(
             'INFO: Launched scheduled job. ' .
             '{"scheduler":"' . \preg_quote(CallbackScheduler::class) . '","job":"triggered_with_defaults","id":"123"}',
@@ -82,6 +82,6 @@ final class TriggerScheduledJobsJobTest extends TestCase
         $job->execute($jobExecution = JobExecution::createRoot('123456', 'testing'));
         self::assertSame([], $launcher->getExecutions());
         self::assertSame([], $jobExecution->getSummary()->get('jobs'));
-        self::assertStringNotContainsString('Launched scheduled job', (string)$jobExecution->getLogs());
+        self::assertNotContains('Launched scheduled job', \iterator_to_array($jobExecution->getLogger()->getLogs()));
     }
 }

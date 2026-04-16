@@ -11,9 +11,9 @@ use Throwable;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Exception\RuntimeException;
 use Yokai\Batch\Exception\UnexpectedValueException;
+use Yokai\Batch\Factory\JobExecutionLoggerFactoryInterface;
 use Yokai\Batch\Failure;
 use Yokai\Batch\JobExecution;
-use Yokai\Batch\JobExecutionLogs;
 use Yokai\Batch\JobParameters;
 use Yokai\Batch\Storage\JobExecutionStorageInterface;
 use Yokai\Batch\Summary;
@@ -52,6 +52,11 @@ use Yokai\Batch\Warning;
  */
 final class JsonJobExecutionSerializer implements JobExecutionSerializerInterface
 {
+    public function __construct(
+        private JobExecutionLoggerFactoryInterface $loggerFactory,
+    ) {
+    }
+
     public function serialize(JobExecution $jobExecution): string
     {
         try {
@@ -106,7 +111,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
             'failures' => \array_map([$this, 'failureToArray'], $jobExecution->getFailures()),
             'warnings' => \array_map([$this, 'warningToArray'], $jobExecution->getWarnings()),
             'childExecutions' => \array_map([$this, 'toArray'], $jobExecution->getChildExecutions()),
-            'logs' => $jobExecution->getParentExecution() === null ? (string)$jobExecution->getLogs() : '',
+            'logs' => $jobExecution->getParentExecution() === null ? $jobExecution->getLogger()->getReference() : '',
         ];
     }
 
@@ -130,7 +135,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
                 $status,
                 $parameters,
                 $summary,
-                new JobExecutionLogs($jobExecutionData['logs']),
+                $this->loggerFactory->restore($jobExecutionData['logs']),
             );
         }
 

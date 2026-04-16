@@ -55,7 +55,7 @@ final class JobExecutorTest extends TestCase
         self::assertNotNull($execution->getEndTime());
         self::assertSame(BatchStatus::COMPLETED, $execution->getStatus()->getValue());
         self::assertSame('FOO', $execution->getSummary()->get('foo'));
-        $logs = (string)$execution->getLogs();
+        $logs = $execution->getLogger()->getLogsContent();
         self::assertStringContainsString('DEBUG: Starting job', $logs);
         self::assertStringContainsString('INFO: Job executed successfully', $logs);
         self::assertStringContainsString('DEBUG: Job produced summary', $logs);
@@ -81,7 +81,7 @@ final class JobExecutorTest extends TestCase
         self::assertSame(BatchStatus::FAILED, $execution->getStatus()->getValue());
         self::assertSame($error::class, $execution->getFailures()[0]->getClass());
         self::assertSame($error->getMessage(), $execution->getFailures()[0]->getMessage());
-        $logs = (string)$execution->getLogs();
+        $logs = $execution->getLogger()->getLogsContent();
         self::assertStringContainsString('DEBUG: Starting job', $logs);
         self::assertStringContainsString('ERROR: Job did not executed successfully', $logs);
         $events = $this->dispatcher->getEvents();
@@ -112,7 +112,7 @@ final class JobExecutorTest extends TestCase
         self::assertNotNull($execution->getStartTime());
         self::assertNotNull($execution->getEndTime());
         self::assertSame(BatchStatus::COMPLETED, $execution->getStatus()->getValue());
-        $logs = (string)$execution->getLogs();
+        $logs = $execution->getLogger()->getLogsContent();
         self::assertStringContainsString('DEBUG: Starting job', $logs);
         self::assertStringContainsString('INFO: Job executed successfully', $logs);
         $events = $this->dispatcher->getEvents();
@@ -130,7 +130,7 @@ final class JobExecutorTest extends TestCase
         $execution = JobExecution::createRoot('123', 'test.job_executor', new BatchStatus(BatchStatus::COMPLETED));
         $this->executor->execute($execution);
 
-        $logs = (string)$execution->getLogs();
+        $logs = $execution->getLogger()->getLogsContent();
         self::assertStringContainsString('WARNING: Job execution not allowed to be executed', $logs);
         self::assertStringNotContainsString('DEBUG: Starting job', $logs);
         $events = $this->dispatcher->getEvents();

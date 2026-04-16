@@ -5,8 +5,8 @@ declare(strict_types=1);
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Failure;
 use Yokai\Batch\JobExecution;
-use Yokai\Batch\JobExecutionLogs;
 use Yokai\Batch\JobParameters;
+use Yokai\Batch\Logger\InMemoryJobExecutionLogger;
 use Yokai\Batch\Summary;
 use Yokai\Batch\Warning;
 
@@ -28,7 +28,7 @@ $jobExecution = JobExecution::createRoot(
     new BatchStatus(BatchStatus::FAILED),
     new JobParameters($hash),
     new Summary($hash),
-    new JobExecutionLogs(
+    new InMemoryJobExecutionLogger(
         <<<LOG
 2020 [DEBUG]: Begin export
 2020 [INFO]: Exported one row

@@ -176,7 +176,7 @@ final class JobExecutionTest extends TestCase
             \array_map($failureToString, $jobExecution->getAllFailures()),
         );
 
-        $logs = (string)$jobExecution->getLogs();
+        $logs = $jobExecution->getLogger()->getLogsContent();
         self::assertStringContainsString('ERROR: Job Failure', $logs);
         self::assertStringContainsString('ERROR: Prepare Job Failure', $logs);
         self::assertStringContainsString('ERROR: Export Job Failure', $logs);
@@ -209,7 +209,7 @@ final class JobExecutionTest extends TestCase
             \array_map($warningToString, $jobExecution->getAllWarnings()),
         );
 
-        $logs = (string)$jobExecution->getLogs();
+        $logs = $jobExecution->getLogger()->getLogsContent();
         self::assertStringContainsString('WARNING: Job Warning {"foo":"FOO"}', $logs);
         self::assertStringContainsString('WARNING: Prepare Job Warning', $logs);
         self::assertStringContainsString('WARNING: Export Job Warning {"bar":"BAR"}', $logs);

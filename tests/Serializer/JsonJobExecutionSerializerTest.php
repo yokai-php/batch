@@ -7,6 +7,7 @@ namespace Yokai\Batch\Tests\Unit\Serializer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Exception\RuntimeException;
+use Yokai\Batch\Factory\JobExecutionLoggerFactory\InMemoryJobExecutionLoggerFactory;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Serializer\JsonJobExecutionSerializer;
 
@@ -15,14 +16,14 @@ final class JsonJobExecutionSerializerTest extends TestCase
     #[DataProvider('sets')]
     public function testSerialize(JobExecution $jobExecutionToSerialize, string $expectedSerializedJobExecution): void
     {
-        $serializer = new JsonJobExecutionSerializer();
+        $serializer = new JsonJobExecutionSerializer(new InMemoryJobExecutionLoggerFactory());
         self::assertSame($expectedSerializedJobExecution, $serializer->serialize($jobExecutionToSerialize));
     }
 
     #[DataProvider('sets')]
     public function testDenormalize(JobExecution $expectedjobExecution, string $serializedJobExecution): void
     {
-        $serializer = new JsonJobExecutionSerializer();
+        $serializer = new JsonJobExecutionSerializer(new InMemoryJobExecutionLoggerFactory());
         self::assertEquals(
             $expectedjobExecution,
             $serializer->unserialize($serializedJobExecution),
@@ -46,7 +47,7 @@ final class JsonJobExecutionSerializerTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $serializer = new JsonJobExecutionSerializer();
+        $serializer = new JsonJobExecutionSerializer(new InMemoryJobExecutionLoggerFactory());
         $serializer->serialize($jobExecutionToSerialize);
     }
 
@@ -62,7 +63,7 @@ final class JsonJobExecutionSerializerTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $serializer = new JsonJobExecutionSerializer();
+        $serializer = new JsonJobExecutionSerializer(new InMemoryJobExecutionLoggerFactory());
         $serializer->unserialize($json);
     }
 

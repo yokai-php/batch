@@ -7,13 +7,14 @@ namespace Yokai\Batch;
 use DateInterval;
 use DateTime;
 use DateTimeInterface;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Throwable;
 use Yokai\Batch\Exception\ImmutablePropertyException;
 use Yokai\Batch\Factory\JobExecutionIdGeneratorInterface;
 use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobWithChildJobs;
+use Yokai\Batch\Logger\InMemoryJobExecutionLogger;
+use Yokai\Batch\Logger\JobExecutionLoggerInterface;
 
 /**
  * This object contains all information related to a job execution.
@@ -94,16 +95,12 @@ final class JobExecution
     private array $childExecutions = [];
 
     /**
-     * Logs collected during job execution.
-     * Filled via {@see JobExecution::$logger}.
+     * Logger for this job execution.
+     * Responsible for collecting log messages and providing a reference for storage.
+     *
+     * @see JobExecutionLoggerInterface
      */
-    private readonly JobExecutionLogs $logs;
-
-    /**
-     * Private job execution logger.
-     * Will fill {@see JobExecution::$logs}.
-     */
-    private readonly LoggerInterface $logger;
+    private readonly JobExecutionLoggerInterface $logger;
 
     private function __construct(
         JobExecution|null $parentExecution,
@@ -112,7 +109,7 @@ final class JobExecution
         BatchStatus|null $status,
         JobParameters|null $parameters,
         Summary|null $summary,
-        JobExecutionLogs|null $logs,
+        JobExecutionLoggerInterface|null $logger,
     ) {
         $this->parentExecution = $parentExecution;
         $this->id = $id;
@@ -120,8 +117,7 @@ final class JobExecution
         $this->status = $status ?: new BatchStatus(BatchStatus::PENDING);
         $this->parameters = $parameters ?: new JobParameters();
         $this->summary = $summary ?: new Summary();
-        $this->logs = $parentExecution !== null ? $parentExecution->getLogs() : ($logs ?: new JobExecutionLogs());
-        $this->logger = $parentExecution !== null ? $parentExecution->getLogger() : new JobExecutionLogger($this->logs);
+        $this->logger = $logger ?? $parentExecution?->getLogger() ?? new InMemoryJobExecutionLogger();
     }
 
     /**
@@ -133,9 +129,9 @@ final class JobExecution
         BatchStatus|null $status = null,
         JobParameters|null $parameters = null,
         Summary|null $summary = null,
-        JobExecutionLogs|null $logs = null,
+        JobExecutionLoggerInterface|null $logger = null,
     ): self {
-        return new self(null, $id, $jobName, $status, $parameters, $summary, $logs);
+        return new self(null, $id, $jobName, $status, $parameters, $summary, $logger);
     }
 
     /**
@@ -388,12 +384,7 @@ final class JobExecution
         return $all;
     }
 
-    public function getLogs(): JobExecutionLogs
-    {
-        return $this->logs;
-    }
-
-    public function getLogger(): LoggerInterface
+    public function getLogger(): JobExecutionLoggerInterface
     {
         return $this->logger;
     }

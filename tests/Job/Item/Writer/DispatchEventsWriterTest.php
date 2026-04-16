@@ -38,7 +38,7 @@ final class DispatchEventsWriterTest extends TestCase
         self::assertInstanceOf(PostWriteEvent::class, $events[1] ?? null);
         self::assertStringContainsString(
             'ERROR: An error occurred while dispatching event. {"event":"Yokai\\\\Batch\\\\Event\\\\PostWriteEvent","error":"RuntimeException: Test exception',
-            (string)$execution->getLogs(),
+            $execution->getLogger()->getLogsContent(),
         );
     }
 }

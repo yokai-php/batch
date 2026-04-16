@@ -11,6 +11,7 @@ use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
 use Yokai\Batch\Exception\CannotStoreJobExecutionException;
 use Yokai\Batch\Exception\JobExecutionNotFoundException;
+use Yokai\Batch\Factory\JobExecutionLoggerFactory\InMemoryJobExecutionLoggerFactory;
 use Yokai\Batch\JobExecution;
 use Yokai\Batch\Serializer\JobExecutionSerializerInterface;
 use Yokai\Batch\Serializer\JsonJobExecutionSerializer;
@@ -108,7 +109,7 @@ final class FilesystemJobExecutionStorageTest extends TestCase
     {
         $storage = $this->createStorage(
             __DIR__ . '/fixtures/filesystem-job-execution',
-            new JsonJobExecutionSerializer(),
+            new JsonJobExecutionSerializer(new InMemoryJobExecutionLoggerFactory()),
         );
 
         self::assertExecutions($expectedCouples, $storage->list($jobName));
@@ -138,7 +139,7 @@ final class FilesystemJobExecutionStorageTest extends TestCase
     {
         $storage = $this->createStorage(
             __DIR__ . '/fixtures/filesystem-job-execution',
-            new JsonJobExecutionSerializer(),
+            new JsonJobExecutionSerializer(new InMemoryJobExecutionLoggerFactory()),
         );
 
         self::assertExecutions($expectedCouples, $storage->query($query->getQuery()));

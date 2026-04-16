@@ -8,15 +8,15 @@ use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Event\PostExecuteEvent;
 use Yokai\Batch\Event\PreExecuteEvent;
 use Yokai\Batch\JobExecution;
-use Yokai\Batch\Logger\BatchLogger;
+use Yokai\Batch\Logger\YokaiBatchLogger;
 use Yokai\Batch\Tests\Dummy\DebugEventDispatcher;
 
-final class BatchLoggerTest extends TestCase
+final class YokaiBatchLoggerTest extends TestCase
 {
     public function testLaunch(): void
     {
         $dispatcher = new DebugEventDispatcher();
-        $logger = new BatchLogger();
+        $logger = new YokaiBatchLogger();
 
         $dispatcher->addListener(PreExecuteEvent::class, $logger->onPreExecute(...));
         $dispatcher->addListener(PostExecuteEvent::class, $logger->onPostExecute(...));
@@ -33,8 +33,9 @@ final class BatchLoggerTest extends TestCase
         $dispatcher->dispatch($postExecuteEvent);
         $logger->log('info', 'after');
 
-        self::assertStringNotContainsString('before', $execution->getLogs()->__toString());
-        self::assertStringContainsString('between', $execution->getLogs()->__toString());
-        self::assertStringNotContainsString('after', $execution->getLogs()->__toString());
+        $logs = $execution->getLogger()->getLogsContent();
+        self::assertStringNotContainsString('before', $logs);
+        self::assertStringContainsString('between', $logs);
+        self::assertStringNotContainsString('after', $logs);
     }
 }

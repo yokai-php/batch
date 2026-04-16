@@ -16,6 +16,7 @@ final readonly class JobExecutionFactory
     public function __construct(
         private JobExecutionIdGeneratorInterface $idGenerator,
         private JobExecutionParametersBuilderInterface $parametersBuilder,
+        private JobExecutionLoggerFactoryInterface $loggerFactory,
     ) {
     }
 
@@ -30,7 +31,12 @@ final readonly class JobExecutionFactory
         /** @var string $id */
         $id = $configuration['_id'] ??= $this->idGenerator->generate();
 
-        $jobExecution = JobExecution::createRoot($id, $name, null, new JobParameters($configuration));
+        $jobExecution = JobExecution::createRoot(
+            id: $id,
+            jobName: $name,
+            parameters: new JobParameters($configuration),
+            logger: $this->loggerFactory->create(),
+        );
         $jobExecution->setLaunchedAt(new DateTimeImmutable());
 
         return $jobExecution;

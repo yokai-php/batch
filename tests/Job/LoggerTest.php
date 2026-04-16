@@ -19,7 +19,8 @@ final class LoggerTest extends TestCase
         $jobExecution = JobExecution::createRoot($idGenerator->generate(), 'export');
         $jobExecution->logError(new Exception($errorException), $errorToLog);
 
-        self::assertStringContainsString($errorToLog, $jobExecution->getLogs()->__toString());
-        self::assertStringContainsString($errorException, $jobExecution->getLogs()->__toString());
+        $logs = $jobExecution->getLogger()->getLogsContent();
+        self::assertStringContainsString($errorToLog, $logs);
+        self::assertStringContainsString($errorException, $logs);
     }
 }

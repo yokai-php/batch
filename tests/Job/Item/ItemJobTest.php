@@ -56,7 +56,7 @@ final class ItemJobTest extends TestCase
         self::assertSame(3, $execution->getSummary()->get('skipped'), '3 items were skipped');
         self::assertSame(9, $execution->getSummary()->get('write'), '9 items were write');
 
-        $logs = (string)$execution->getLogs();
+        $logs = $execution->getLogger()->getLogsContent();
         self::assertStringContainsString('DEBUG: Skipping item 9. {"context":"phpunit","item":10}', $logs);
         self::assertStringContainsString('DEBUG: Skipping item 10. {"context":"phpunit","item":11}', $logs);
         self::assertStringContainsString('DEBUG: Skipping item 11. {"context":"phpunit","item":12}', $logs);

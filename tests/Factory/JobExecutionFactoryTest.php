@@ -7,6 +7,7 @@ namespace Yokai\Batch\Tests\Factory;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\Factory\JobExecutionFactory;
+use Yokai\Batch\Factory\JobExecutionLoggerFactory\InMemoryJobExecutionLoggerFactory;
 use Yokai\Batch\Factory\JobExecutionParametersBuilder\NullJobExecutionParametersBuilder;
 use Yokai\Batch\Factory\UniqidJobExecutionIdGenerator;
 use Yokai\Batch\JobExecution;
@@ -18,6 +19,7 @@ final class JobExecutionFactoryTest extends TestCase
         $executionFactory = new JobExecutionFactory(
             new UniqidJobExecutionIdGenerator(),
             new NullJobExecutionParametersBuilder(),
+            new InMemoryJobExecutionLoggerFactory(),
         );
 
         $executionWithoutConfig = $executionFactory->create('export');
