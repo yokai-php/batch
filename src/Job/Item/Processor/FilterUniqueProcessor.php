@@ -6,6 +6,7 @@ namespace Yokai\Batch\Job\Item\Processor;
 
 use Closure;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
+use Yokai\Batch\Job\Item\InitializableInterface;
 use Yokai\Batch\Job\Item\ItemProcessorInterface;
 
 /**
@@ -15,7 +16,7 @@ use Yokai\Batch\Job\Item\ItemProcessorInterface;
  * it will use a {@see Closure} that will be called for each item
  * and that will be responsible for extracting an identifier from the item.
  */
-final class FilterUniqueProcessor implements ItemProcessorInterface
+final class FilterUniqueProcessor implements ItemProcessorInterface, InitializableInterface
 {
     /**
      * @var array<string, bool>
@@ -58,6 +59,11 @@ final class FilterUniqueProcessor implements ItemProcessorInterface
     public static function withGetter(string $getter): self
     {
         return new self(fn(object $item) => $item->$getter());
+    }
+
+    public function initialize(): void
+    {
+        $this->encountered = [];
     }
 
     public function process(mixed $item): mixed

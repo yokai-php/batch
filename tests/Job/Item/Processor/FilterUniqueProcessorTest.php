@@ -19,16 +19,21 @@ final class FilterUniqueProcessorTest extends TestCase
         /** @var FilterUniqueProcessor $processor */
         $processor = $factory();
 
-        $actual = [];
-        foreach ($items as $item) {
-            try {
-                $actual[] = $processor->process($item);
-            } catch (SkipItemException) {
-                //the item have be filtered and not won't be added to $actual
-            }
-        }
+        // test is done twice to prove initialize method resets state
+        foreach ([1, 2] as $unused) {
+            $processor->initialize();
 
-        self::assertSame($expected, $actual);
+            $actual = [];
+            foreach ($items as $item) {
+                try {
+                    $actual[] = $processor->process($item);
+                } catch (SkipItemException) {
+                    //the item have be filtered and not won't be added to $actual
+                }
+            }
+
+            self::assertSame($expected, $actual);
+        }
     }
 
     public static function provider(): Generator
