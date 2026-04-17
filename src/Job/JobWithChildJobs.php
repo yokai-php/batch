@@ -52,7 +52,7 @@ final class JobWithChildJobs implements JobInterface
 
             // If the job was marked as unsuccessful, the child will not be executed, and marked as abandoned
             if ($jobExecution->getStatus()->isUnsuccessful()) {
-                $childExecution->setStatus(BatchStatus::ABANDONED);
+                $childExecution->setStatus(BatchStatus::Abandoned);
                 $logger->warning('Child job will not be executed', ['job' => $jobName]);
 
                 continue;
@@ -63,7 +63,7 @@ final class JobWithChildJobs implements JobInterface
 
             // Check if the child executed successfully, replicate the status to the job otherwise
             if ($childExecution->getStatus()->isUnsuccessful()) {
-                $jobExecution->setStatus($childExecution->getStatus()->getValue());
+                $jobExecution->setStatus($childExecution->getStatus());
                 $logger->error('Child job did not executed successfully', ['job' => $jobName]);
             } else {
                 $logger->info('Child job executed successfully', ['job' => $jobName]);

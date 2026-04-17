@@ -54,12 +54,12 @@ final readonly class JobExecutor
         // JobExecution needs to be stored before job is actually executed,
         // right after setting start time and status.
         $jobExecution->setStartTime(new DateTimeImmutable());
-        $jobExecution->setStatus(BatchStatus::RUNNING);
+        $jobExecution->setStatus(BatchStatus::Running);
         $this->jobExecutionStorage->store($rootExecution);
 
         $this->eventDispatcher?->dispatch(new PreExecuteEvent($jobExecution));
 
-        $status = BatchStatus::COMPLETED;
+        $status = BatchStatus::Completed;
 
         try {
             $this->jobRegistry->get($name)->execute($jobExecution);

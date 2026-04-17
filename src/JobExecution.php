@@ -114,7 +114,7 @@ final class JobExecution
         $this->parentExecution = $parentExecution;
         $this->id = $id;
         $this->jobName = $jobName;
-        $this->status = $status ?: new BatchStatus(BatchStatus::PENDING);
+        $this->status = $status ?? BatchStatus::Pending;
         $this->parameters = $parameters ?: new JobParameters();
         $this->summary = $summary ?: new Summary();
         $this->logger = $logger ?? $parentExecution?->getLogger() ?? new InMemoryJobExecutionLogger();
@@ -162,10 +162,10 @@ final class JobExecution
         return $this->status;
     }
 
-    public function setStatus(int $status): void
+    public function setStatus(BatchStatus $status): void
     {
-        if ($status > $this->status->getValue()) {
-            $this->status = new BatchStatus($status);
+        if ($status->value > $this->status->value) {
+            $this->status = $status;
         }
     }
 

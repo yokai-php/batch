@@ -18,7 +18,7 @@ use Yokai\Batch\JobExecution;
  */
 final class ExceptionEvent extends JobEvent
 {
-    private int $status = BatchStatus::FAILED;
+    private BatchStatus $status = BatchStatus::Failed;
 
     public function __construct(
         JobExecution $execution,
@@ -27,12 +27,12 @@ final class ExceptionEvent extends JobEvent
         parent::__construct($execution);
     }
 
-    public function getStatus(): int
+    public function getStatus(): BatchStatus
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): void
+    public function setStatus(BatchStatus $status): void
     {
         $this->status = $status;
     }

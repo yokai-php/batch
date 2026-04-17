@@ -53,7 +53,7 @@ final class JobExecutorTest extends TestCase
 
         self::assertNotNull($execution->getStartTime());
         self::assertNotNull($execution->getEndTime());
-        self::assertSame(BatchStatus::COMPLETED, $execution->getStatus()->getValue());
+        self::assertSame(BatchStatus::Completed, $execution->getStatus());
         self::assertSame('FOO', $execution->getSummary()->get('foo'));
         $logs = $execution->getLogger()->getLogsContent();
         self::assertStringContainsString('DEBUG: Starting job', $logs);
@@ -78,7 +78,7 @@ final class JobExecutorTest extends TestCase
 
         self::assertNotNull($execution->getStartTime());
         self::assertNotNull($execution->getEndTime());
-        self::assertSame(BatchStatus::FAILED, $execution->getStatus()->getValue());
+        self::assertSame(BatchStatus::Failed, $execution->getStatus());
         self::assertSame($error::class, $execution->getFailures()[0]->getClass());
         self::assertSame($error->getMessage(), $execution->getFailures()[0]->getMessage());
         $logs = $execution->getLogger()->getLogsContent();
@@ -103,7 +103,7 @@ final class JobExecutorTest extends TestCase
             ExceptionEvent::class,
             function (ExceptionEvent $event) use ($exception) {
                 Assert::assertSame($exception, $event->getException());
-                $event->setStatus(BatchStatus::COMPLETED);
+                $event->setStatus(BatchStatus::Completed);
             },
         );
 
@@ -111,7 +111,7 @@ final class JobExecutorTest extends TestCase
 
         self::assertNotNull($execution->getStartTime());
         self::assertNotNull($execution->getEndTime());
-        self::assertSame(BatchStatus::COMPLETED, $execution->getStatus()->getValue());
+        self::assertSame(BatchStatus::Completed, $execution->getStatus());
         $logs = $execution->getLogger()->getLogsContent();
         self::assertStringContainsString('DEBUG: Starting job', $logs);
         self::assertStringContainsString('INFO: Job executed successfully', $logs);
@@ -127,7 +127,7 @@ final class JobExecutorTest extends TestCase
         $this->job->expects($this->never())
             ->method('execute');
 
-        $execution = JobExecution::createRoot('123', 'test.job_executor', new BatchStatus(BatchStatus::COMPLETED));
+        $execution = JobExecution::createRoot('123', 'test.job_executor', BatchStatus::Completed);
         $this->executor->execute($execution);
 
         $logs = $execution->getLogger()->getLogsContent();

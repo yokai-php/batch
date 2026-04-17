@@ -21,7 +21,7 @@ final class JobExecutionTest extends TestCase
         $fullJobExecution = JobExecution::createChild(
             $parent = JobExecution::createRoot('123456789', 'parent'),
             'export',
-            $status = new BatchStatus(BatchStatus::STOPPED),
+            $status = BatchStatus::Stopped,
             $parameters = new JobParameters(),
             $summary = new Summary(),
         );
@@ -44,7 +44,7 @@ final class JobExecutionTest extends TestCase
         self::assertSame($minimalJobExecution, $minimalJobExecution->getRootExecution());
         self::assertSame('987654321', $minimalJobExecution->getId());
         self::assertSame('import', $minimalJobExecution->getJobName());
-        self::assertSame(BatchStatus::PENDING, $minimalJobExecution->getStatus()->getValue());
+        self::assertSame(BatchStatus::Pending, $minimalJobExecution->getStatus());
         self::assertNotSame($parameters, $minimalJobExecution->getParameters());
         self::assertInstanceOf(JobParameters::class, $minimalJobExecution->getParameters());
         self::assertNotSame($summary, $minimalJobExecution->getSummary());
@@ -144,9 +144,9 @@ final class JobExecutionTest extends TestCase
     public function testChangeStatus(): void
     {
         $jobExecution = JobExecution::createRoot('123456789', 'export');
-        self::assertTrue($jobExecution->getStatus()->is(BatchStatus::PENDING));
-        $jobExecution->setStatus(BatchStatus::COMPLETED);
-        self::assertTrue($jobExecution->getStatus()->is(BatchStatus::COMPLETED));
+        self::assertSame(BatchStatus::Pending, $jobExecution->getStatus());
+        $jobExecution->setStatus(BatchStatus::Completed);
+        self::assertSame(BatchStatus::Completed, $jobExecution->getStatus());
     }
 
     public function testManipulatesFailures(): void

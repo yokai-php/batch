@@ -18,6 +18,7 @@ use Yokai\Batch\Serializer\JsonJobExecutionSerializer;
 use Yokai\Batch\Storage\FilesystemJobExecutionStorage;
 use Yokai\Batch\Storage\Query;
 use Yokai\Batch\Storage\QueryBuilder;
+use Yokai\Batch\Storage\SortDirection;
 use Yokai\Batch\Test\Storage\JobExecutionStorageTestTrait;
 
 final class FilesystemJobExecutionStorageTest extends TestCase
@@ -178,14 +179,14 @@ final class FilesystemJobExecutionStorageTest extends TestCase
         ];
         yield 'Filter statuses' => [
             (new QueryBuilder())
-                ->statuses([BatchStatus::FAILED]),
+                ->statuses([BatchStatus::Failed]),
             [
                 ['list', '20210910'],
             ],
         ];
         yield 'Order by start ASC' => [
             (new QueryBuilder())
-                ->sort(Query::SORT_BY_START_ASC),
+                ->sort(SortDirection::StartAsc),
             [
                 ['list', '20210910'],
                 ['list', '20210915'],
@@ -196,7 +197,7 @@ final class FilesystemJobExecutionStorageTest extends TestCase
         ];
         yield 'Order by start DESC' => [
             (new QueryBuilder())
-                ->sort(Query::SORT_BY_START_DESC),
+                ->sort(SortDirection::StartDesc),
             [
                 ['export', '20210922'],
                 ['list', '20210920'],
@@ -207,7 +208,7 @@ final class FilesystemJobExecutionStorageTest extends TestCase
         ];
         yield 'Order by end ASC' => [
             (new QueryBuilder())
-                ->sort(Query::SORT_BY_END_ASC),
+                ->sort(SortDirection::EndAsc),
             [
                 ['list', '20210910'],
                 ['list', '20210915'],
@@ -218,7 +219,7 @@ final class FilesystemJobExecutionStorageTest extends TestCase
         ];
         yield 'Order by end DESC' => [
             (new QueryBuilder())
-                ->sort(Query::SORT_BY_END_DESC),
+                ->sort(SortDirection::EndDesc),
             [
                 ['export', '20210922'],
                 ['list', '20210920'],

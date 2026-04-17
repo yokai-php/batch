@@ -39,15 +39,15 @@ final class JobWithChildJobsTest extends TestCase
             },
         ]);
 
-        self::assertStatusSame(BatchStatus::COMPLETED, $execution);
+        self::assertStatusSame(BatchStatus::Completed, $execution);
         self::assertCount(2, $execution->getChildExecutions());
         self::assertNotNull($import = $execution->getChildExecution('import'));
-        self::assertStatusSame(BatchStatus::COMPLETED, $import);
+        self::assertStatusSame(BatchStatus::Completed, $import);
         self::assertTrue($import->getSummary()->get('executed'));
         self::assertLogsContains('DEBUG: Starting child job {"job":"import"}', $execution);
         self::assertLogsContains('INFO: Child job executed successfully {"job":"import"}', $execution);
         self::assertNotNull($report = $execution->getChildExecution('report'));
-        self::assertStatusSame(BatchStatus::COMPLETED, $report);
+        self::assertStatusSame(BatchStatus::Completed, $report);
         self::assertTrue($report->getSummary()->get('executed'));
         self::assertLogsContains('DEBUG: Starting child job {"job":"report"}', $execution);
         self::assertLogsContains('INFO: Child job executed successfully {"job":"report"}', $execution);
@@ -58,7 +58,7 @@ final class JobWithChildJobsTest extends TestCase
         $execution = $this->execute([
         ]);
 
-        self::assertStatusSame(BatchStatus::COMPLETED, $execution);
+        self::assertStatusSame(BatchStatus::Completed, $execution);
         self::assertCount(0, $execution->getChildExecutions());
         self::assertLogsNotContains('Child job executed successfully', $execution);
         self::assertLogsNotContains('Child job did not executed successfully', $execution);
@@ -81,13 +81,13 @@ final class JobWithChildJobsTest extends TestCase
             },
         ]);
 
-        self::assertStatusSame(BatchStatus::FAILED, $execution);
+        self::assertStatusSame(BatchStatus::Failed, $execution);
         self::assertCount(2, $execution->getChildExecutions());
         self::assertNotNull($import = $execution->getChildExecution('import'));
-        self::assertStatusSame(BatchStatus::FAILED, $import);
+        self::assertStatusSame(BatchStatus::Failed, $import);
         self::assertLogsContains('ERROR: Child job did not executed successfully {"job":"import"', $execution);
         self::assertNotNull($report = $execution->getChildExecution('report'));
-        self::assertStatusSame(BatchStatus::ABANDONED, $report);
+        self::assertStatusSame(BatchStatus::Abandoned, $report);
         self::assertLogsContains('WARNING: Child job will not be executed {"job":"report"}', $execution);
     }
 
@@ -105,9 +105,9 @@ final class JobWithChildJobsTest extends TestCase
         return $execution;
     }
 
-    private static function assertStatusSame(int $expected, JobExecution $execution): void
+    private static function assertStatusSame(BatchStatus $expected, JobExecution $execution): void
     {
-        self::assertSame($expected, $execution->getStatus()->getValue());
+        self::assertSame($expected, $execution->getStatus());
     }
 
     private static function assertLogsContains(string $expected, JobExecution $execution): void

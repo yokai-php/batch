@@ -14,7 +14,7 @@ interface ListableJobExecutionStorageInterface extends JobExecutionStorageInterf
     /**
      * List all job executions that are for the given job.
      *
-     * @return iterable|JobExecution[]
+     * @return iterable<JobExecution>
      */
     public function list(string $jobName): iterable;
 }

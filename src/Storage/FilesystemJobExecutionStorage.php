@@ -94,10 +94,10 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
         $jobExecutions = $this->rawQuery($query);
 
         $order = match ($query->sort()) {
-            Query::SORT_BY_START_ASC => static fn(JobExecution $left, JobExecution $right): int => $left->getStartTime() <=> $right->getStartTime(),
-            Query::SORT_BY_START_DESC => static fn(JobExecution $left, JobExecution $right): int => $right->getStartTime() <=> $left->getStartTime(),
-            Query::SORT_BY_END_ASC => static fn(JobExecution $left, JobExecution $right): int => $left->getEndTime() <=> $right->getEndTime(),
-            Query::SORT_BY_END_DESC => static fn(JobExecution $left, JobExecution $right): int => $right->getEndTime() <=> $left->getEndTime(),
+            SortDirection::StartAsc  => static fn(JobExecution $left, JobExecution $right): int => $left->getStartTime() <=> $right->getStartTime(),
+            SortDirection::StartDesc => static fn(JobExecution $left, JobExecution $right): int => $right->getStartTime() <=> $left->getStartTime(),
+            SortDirection::EndAsc    => static fn(JobExecution $left, JobExecution $right): int => $left->getEndTime() <=> $right->getEndTime(),
+            SortDirection::EndDesc   => static fn(JobExecution $left, JobExecution $right): int => $right->getEndTime() <=> $left->getEndTime(),
             default => null,
         };
 
@@ -155,7 +155,7 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
             }
 
             $statuses = $query->statuses();
-            if ($statuses !== [] && !$execution->getStatus()->isOneOf($statuses)) {
+            if ($statuses !== [] && !\in_array($execution->getStatus(), $statuses, true)) {
                 continue;
             }
 

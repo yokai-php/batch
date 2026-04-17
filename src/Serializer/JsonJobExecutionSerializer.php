@@ -102,7 +102,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
         return [
             'id' => $jobExecution->getId(),
             'jobName' => $jobExecution->getJobName(),
-            'status' => $jobExecution->getStatus()->getValue(),
+            'status' => $jobExecution->getStatus()->value,
             'parameters' => \iterator_to_array($jobExecution->getParameters()),
             'startTime' => $this->dateToString($jobExecution->getStartTime()),
             'endTime' => $this->dateToString($jobExecution->getEndTime()),
@@ -121,7 +121,7 @@ final class JsonJobExecutionSerializer implements JobExecutionSerializerInterfac
     private function fromArray(array $jobExecutionData, JobExecution|null $parentExecution = null): JobExecution
     {
         $name = $jobExecutionData['jobName'];
-        $status = new BatchStatus($jobExecutionData['status']);
+        $status = BatchStatus::from($jobExecutionData['status']);
         $parameters = new JobParameters($jobExecutionData['parameters']);
         $summary = new Summary($jobExecutionData['summary']);
 

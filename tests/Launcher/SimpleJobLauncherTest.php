@@ -42,7 +42,7 @@ final class SimpleJobLauncherTest extends TestCase
         $execution = $launcher->launch('phpunit');
         self::assertSame('phpunit', $execution->getJobName());
         self::assertSame('123', $execution->getId());
-        self::assertSame(BatchStatus::COMPLETED, $execution->getStatus()->getValue());
+        self::assertSame(BatchStatus::Completed, $execution->getStatus());
         self::assertSame($execution, $jobExecutionStorage->retrieve('phpunit', '123'));
     }
 }

@@ -25,7 +25,7 @@ $failure = new Failure(
 $jobExecution = JobExecution::createRoot(
     '123456789',
     'export',
-    new BatchStatus(BatchStatus::FAILED),
+    BatchStatus::Failed,
     new JobParameters($hash),
     new Summary($hash),
     new InMemoryJobExecutionLogger(
@@ -46,7 +46,7 @@ $jobExecution->addChildExecution(
     $prepareChildExecution = JobExecution::createChild(
         $jobExecution,
         'prepare',
-        new BatchStatus(BatchStatus::COMPLETED),
+        BatchStatus::Completed,
         null,
         new Summary($hash),
     ),
@@ -58,7 +58,7 @@ $jobExecution->addChildExecution(
     $exportChildExecution = JobExecution::createChild(
         $jobExecution,
         'export',
-        new BatchStatus(BatchStatus::FAILED),
+        BatchStatus::Failed,
         null,
         new Summary($hash),
     ),

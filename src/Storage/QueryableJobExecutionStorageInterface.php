@@ -14,7 +14,7 @@ interface QueryableJobExecutionStorageInterface extends ListableJobExecutionStor
     /**
      * Execute query against stored job executions, and return the matching list.
      *
-     * @return iterable|JobExecution[]
+     * @return iterable<JobExecution>
      */
     public function query(Query $query): iterable;
 
