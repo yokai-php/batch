@@ -35,7 +35,7 @@ final class ReplaceWithVariablesParameterAccessor implements JobParameterAccesso
     /**
      * @return array<string, string>
      */
-    protected function getVariables(JobExecution $execution): array
+    private function getVariables(JobExecution $execution): array
     {
         return [
             '{job}' => $execution->getJobName(),

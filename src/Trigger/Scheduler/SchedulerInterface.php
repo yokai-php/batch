@@ -14,7 +14,6 @@ interface SchedulerInterface
     /**
      * Get list of job to schedule.
      *
-     * @return ScheduledJob[]
      * @return iterable<ScheduledJob>
      */
     public function get(JobExecution $execution): iterable;

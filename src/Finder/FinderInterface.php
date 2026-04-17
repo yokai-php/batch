@@ -17,8 +17,7 @@ interface FinderInterface
      *
      * @param mixed $subject The subject that should help to find component
      *
-     * @return object The component that matches the subject
-     * @return T
+     * @return T The component that matches the subject
      */
     public function find(mixed $subject): object;
 }

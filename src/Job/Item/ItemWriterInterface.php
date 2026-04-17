@@ -12,8 +12,7 @@ interface ItemWriterInterface
     /**
      * Writes items.
      *
-     * @param iterable $items A batch of items to write
-     * @param iterable<mixed> $items
+     * @param iterable<mixed> $items A batch of items to write
      */
     public function write(iterable $items): void;
 }

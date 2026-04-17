@@ -17,12 +17,9 @@ use Yokai\Batch\Trigger\Scheduler\SchedulerInterface;
  */
 final readonly class TriggerScheduledJobsJob implements JobInterface
 {
-    /**
-     * @param iterable<SchedulerInterface> $schedulers
-     */
     public function __construct(
         /**
-         * @phstan-var iterable<SchedulerInterface>
+         * @var iterable<SchedulerInterface>
          */
         private iterable $schedulers,
         private JobLauncherInterface $jobLauncher,
