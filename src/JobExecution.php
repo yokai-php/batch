@@ -59,13 +59,13 @@ final class JobExecution
 
     /**
      * List of failures that occurred in the execution.
-     * @var Failure[]
+     * @var list<Failure>
      */
     private array $failures = [];
 
     /**
      * List of warnings that where registered during the execution.
-     * @var Warning[]
+     * @var list<Warning>
      */
     private array $warnings = [];
 
@@ -90,7 +90,7 @@ final class JobExecution
      * The children executions.
      * Most of the time empty, filled whenever using a {@see JobWithChildJobs}.
      * Inverse side of {@see JobExecution::$parentExecution}
-     * @var JobExecution[]
+     * @var array<string, JobExecution>
      */
     private array $childExecutions = [];
 
@@ -265,7 +265,7 @@ final class JobExecution
     }
 
     /**
-     * @return JobExecution[]
+     * @return list<JobExecution>
      */
     public function getChildExecutions(): array
     {
@@ -303,7 +303,7 @@ final class JobExecution
     }
 
     /**
-     * @return Failure[]
+     * @return list<Failure>
      */
     public function getFailures(): array
     {
@@ -349,7 +349,7 @@ final class JobExecution
     }
 
     /**
-     * @return Warning[]
+     * @return list<Warning>
      */
     public function getWarnings(): array
     {

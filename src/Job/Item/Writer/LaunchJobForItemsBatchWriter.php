@@ -8,6 +8,7 @@ use Closure;
 use Yokai\Batch\Job\Item\ItemWriterInterface;
 use Yokai\Batch\Job\JobExecutionAwareInterface;
 use Yokai\Batch\Job\JobExecutionAwareTrait;
+use Yokai\Batch\JobExecution;
 use Yokai\Batch\Launcher\JobLauncherInterface;
 
 /**
@@ -20,6 +21,12 @@ final class LaunchJobForItemsBatchWriter implements ItemWriterInterface, JobExec
     public function __construct(
         private JobLauncherInterface $launcher,
         private string $jobName,
+        /**
+         * Either the parameter name receiving the items,
+         * or a closure building job parameters from the items.
+         *
+         * @var string|(Closure(iterable<mixed>, JobExecution): array<string, mixed>)
+         */
         private string|Closure $parameter,
     ) {
     }

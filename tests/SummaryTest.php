@@ -120,4 +120,11 @@ final class SummaryTest extends TestCase
         $summary = new Summary(['init' => 'string']);
         $summary->append('init', 3);
     }
+
+    public function testIncrementNotNumeric(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $summary = new Summary(['init' => 'string']);
+        $summary->increment('init');
+    }
 }

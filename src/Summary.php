@@ -44,7 +44,12 @@ final class Summary implements
      */
     public function increment(string $key, float|int $increment = 1): void
     {
-        $this->values[$key] = ($this->values[$key] ?? 0) + $increment;
+        $value = $this->values[$key] ?? 0;
+        if (!\is_numeric($value)) {
+            throw UnexpectedValueException::type('int|float', $value);
+        }
+
+        $this->values[$key] = $value + $increment;
     }
 
     /**

@@ -51,7 +51,7 @@ class CallbackScheduler implements SchedulerInterface
     {
         /** @var callable $callback */
         /** @var string $job */
-        /** @var array $parameters */
+        /** @var array<string, mixed> $parameters */
         /** @var string|null $id */
         foreach ($this->config as [$callback, $job, $parameters, $id]) {
             if ($callback($execution)) {

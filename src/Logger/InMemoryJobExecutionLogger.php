@@ -45,7 +45,7 @@ final class InMemoryJobExecutionLogger extends AbstractLogger implements JobExec
         $this->logs .= \sprintf(
             '[%s] %s: %s %s',
             $this->date(),
-            self::LEVELS[$level] ?? '',
+            \is_string($level) ? self::LEVELS[$level] ?? '' : '',
             $message,
             \json_encode($context, JSON_THROW_ON_ERROR),
         ) . \PHP_EOL;

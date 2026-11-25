@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yokai\Batch\Job\Item\Processor;
 
 use Closure;
+use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\Job\Item\InitializableInterface;
 use Yokai\Batch\Job\Item\ItemProcessorInterface;
@@ -68,7 +69,11 @@ final class FilterUniqueProcessor implements ItemProcessorInterface, Initializab
 
     public function process(mixed $item): mixed
     {
-        $unique = (string)($this->extractUnique)($item);
+        $unique = ($this->extractUnique)($item);
+        if ($unique !== null && !\is_scalar($unique) && !$unique instanceof \Stringable) {
+            throw UnexpectedValueException::type('scalar|Stringable|null', $unique);
+        }
+        $unique = (string)$unique;
         if (isset($this->encountered[$unique])) {
             throw SkipItemException::justSkip($item, ['unique' => $unique]);
         }

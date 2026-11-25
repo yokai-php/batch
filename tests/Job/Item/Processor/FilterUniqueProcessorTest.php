@@ -8,6 +8,7 @@ use ArrayIterator;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Yokai\Batch\Exception\UnexpectedValueException;
 use Yokai\Batch\Job\Item\Exception\SkipItemException;
 use Yokai\Batch\Job\Item\Processor\FilterUniqueProcessor;
 
@@ -71,5 +72,13 @@ final class FilterUniqueProcessorTest extends TestCase
             [1, 2, 3, 4, 5, 6],
             [1],
         ];
+    }
+
+    public function testUniqueValueCannotBeCastToString(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        $processor = new FilterUniqueProcessor(fn() => []);
+        $processor->initialize();
+        $processor->process('item');
     }
 }

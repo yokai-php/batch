@@ -46,7 +46,7 @@ use Yokai\Batch\Warning;
  *     summary: array<string, mixed>,
  *     failures: list<FailureData>,
  *     warnings: list<WarningData>,
- *     childExecutions: array<string, mixed>,
+ *     childExecutions: list<array<string, mixed>>,
  *     logs: string,
  * }
  */

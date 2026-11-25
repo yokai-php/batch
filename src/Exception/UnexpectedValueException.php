@@ -22,7 +22,7 @@ final class UnexpectedValueException extends \UnexpectedValueException implement
     }
 
     /**
-     * @param mixed[] $expected
+     * @param string[] $expected
      */
     public static function enum(array $expected, mixed $argument, string|null $message = null): self
     {
