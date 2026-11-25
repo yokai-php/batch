@@ -14,7 +14,7 @@ final class NullJobExecutionLoggerFactoryTest extends TestCase
     {
         $factory = new NullJobExecutionLoggerFactory();
 
-        self::assertInstanceOf(NullJobExecutionLogger::class, $factory->create());
+        self::assertInstanceOf(NullJobExecutionLogger::class, $factory->create('job-execution-id'));
     }
 
     public function testRestoreReturnsNullLoggerRegardlessOfReference(): void

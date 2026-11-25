@@ -15,7 +15,7 @@ use Yokai\Batch\Logger\NullJobExecutionLogger;
  */
 final class NullJobExecutionLoggerFactory implements JobExecutionLoggerFactoryInterface
 {
-    public function create(): JobExecutionLoggerInterface
+    public function create(string $jobExecutionId): JobExecutionLoggerInterface
     {
         return new NullJobExecutionLogger();
     }

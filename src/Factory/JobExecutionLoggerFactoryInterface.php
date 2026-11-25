@@ -18,7 +18,7 @@ interface JobExecutionLoggerFactoryInterface
     /**
      * Creates a fresh logger for a new job execution.
      */
-    public function create(): JobExecutionLoggerInterface;
+    public function create(string $jobExecutionId): JobExecutionLoggerInterface;
 
     /**
      * Restores a logger from a previously stored reference.

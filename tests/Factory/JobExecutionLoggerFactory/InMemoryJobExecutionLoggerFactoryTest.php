@@ -14,7 +14,7 @@ final class InMemoryJobExecutionLoggerFactoryTest extends TestCase
     {
         $factory = new InMemoryJobExecutionLoggerFactory();
 
-        $logger = $factory->create();
+        $logger = $factory->create('job-execution-id');
 
         self::assertInstanceOf(InMemoryJobExecutionLogger::class, $logger);
     }
@@ -23,8 +23,8 @@ final class InMemoryJobExecutionLoggerFactoryTest extends TestCase
     {
         $factory = new InMemoryJobExecutionLoggerFactory();
 
-        $first = $factory->create();
-        $second = $factory->create();
+        $first = $factory->create('job-execution-id');
+        $second = $factory->create('job-execution-id');
 
         self::assertNotSame($first, $second);
     }
@@ -33,7 +33,7 @@ final class InMemoryJobExecutionLoggerFactoryTest extends TestCase
     {
         $factory = new InMemoryJobExecutionLoggerFactory();
 
-        $logger = $factory->create();
+        $logger = $factory->create('job-execution-id');
 
         self::assertSame('', $logger->getReference());
         self::assertSame([], \iterator_to_array($logger->getLogs()));
@@ -43,8 +43,8 @@ final class InMemoryJobExecutionLoggerFactoryTest extends TestCase
     {
         $factory = new InMemoryJobExecutionLoggerFactory();
 
-        $first = $factory->create();
-        $second = $factory->create();
+        $first = $factory->create('job-execution-id');
+        $second = $factory->create('job-execution-id');
 
         $first->info('message for first');
 

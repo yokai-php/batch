@@ -35,7 +35,7 @@ final readonly class JobExecutionFactory
             id: $id,
             jobName: $name,
             parameters: new JobParameters($configuration),
-            logger: $this->loggerFactory->create(),
+            logger: $this->loggerFactory->create($id),
         );
         $jobExecution->setLaunchedAt(new DateTimeImmutable());
 

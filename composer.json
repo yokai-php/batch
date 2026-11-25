@@ -38,6 +38,7 @@
         "yokai/batch-symfony-framework": "Integrate to Symfony framework via a bundle",
         "yokai/batch-symfony-messenger": "Trigger jobs using message dispatch",
         "yokai/batch-symfony-serializer": "Process items using (de)normalization, serialize job execution for certain storages",
-        "yokai/batch-symfony-validator": "Skip invalid items during process"
+        "yokai/batch-symfony-validator": "Skip invalid items during process",
+        "yokai/batch-monolog": "Write job execution logs to a file via Monolog"
     }
 }
