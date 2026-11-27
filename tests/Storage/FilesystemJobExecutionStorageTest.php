@@ -6,6 +6,7 @@ namespace Yokai\Batch\Tests\Storage;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Yokai\Batch\BatchStatus;
 use Yokai\Batch\Exception\CannotRemoveJobExecutionException;
@@ -28,7 +29,7 @@ final class FilesystemJobExecutionStorageTest extends TestCase
     private const STORAGE_DIR = ARTIFACT_DIR . '/filesystem-storage';
     private const READONLY_STORAGE_DIR = ARTIFACT_DIR . '/filesystem-storage-readonly';
 
-    private MockObject&JobExecutionSerializerInterface $serializer;
+    private Stub&JobExecutionSerializerInterface $serializer;
 
     public static function setUpBeforeClass(): void
     {
@@ -41,10 +42,18 @@ final class FilesystemJobExecutionStorageTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->serializer = $this->createMock(JobExecutionSerializerInterface::class);
+        $this->serializer = $this->createStub(JobExecutionSerializerInterface::class);
         $this->serializer->method('extension')
-            ->with()
             ->willReturn('txt');
+    }
+
+    private function createSerializerMock(): MockObject&JobExecutionSerializerInterface
+    {
+        $serializer = $this->createMock(JobExecutionSerializerInterface::class);
+        $serializer->method('extension')
+            ->willReturn('txt');
+
+        return $serializer;
     }
 
     private function createStorage(
@@ -61,11 +70,13 @@ final class FilesystemJobExecutionStorageTest extends TestCase
     {
         $jobExecution = JobExecution::createRoot('123456789', 'export');
 
-        $this->serializer->method('serialize')
+        $serializer = $this->createSerializerMock();
+        $serializer->expects(self::once())
+            ->method('serialize')
             ->with($jobExecution)
             ->willReturn('serialized job execution');
 
-        $this->createStorage()->store($jobExecution);
+        $this->createStorage(serializer: $serializer)->store($jobExecution);
 
         $file = self::STORAGE_DIR . '/export/123456789.txt';
         self::assertFileExists($file);
@@ -78,11 +89,13 @@ final class FilesystemJobExecutionStorageTest extends TestCase
         $this->expectException(CannotStoreJobExecutionException::class);
 
         $jobExecution = JobExecution::createRoot('123456789', 'export');
-        $this->serializer->method('serialize')
+        $serializer = $this->createSerializerMock();
+        $serializer->expects(self::once())
+            ->method('serialize')
             ->with($jobExecution)
             ->willReturn('serialized job execution');
 
-        $this->createStorage(self::READONLY_STORAGE_DIR)->store($jobExecution);
+        $this->createStorage(self::READONLY_STORAGE_DIR, $serializer)->store($jobExecution);
     }
 
     public function testStoreFilePathNotFound(): void
@@ -99,11 +112,13 @@ final class FilesystemJobExecutionStorageTest extends TestCase
         $jobExecution = JobExecution::createRoot('123456789', 'export');
         \file_put_contents(self::STORAGE_DIR . '/export/123456789.txt', 'serialized and stored job execution');
 
-        $this->serializer->method('unserialize')
+        $serializer = $this->createSerializerMock();
+        $serializer->expects(self::once())
+            ->method('unserialize')
             ->with('serialized and stored job execution')
             ->willReturn($jobExecution);
 
-        self::assertSame($jobExecution, $this->createStorage()->retrieve('export', '123456789'));
+        self::assertSame($jobExecution, $this->createStorage(serializer: $serializer)->retrieve('export', '123456789'));
     }
 
     #[DataProvider('list')]
@@ -324,12 +339,14 @@ final class FilesystemJobExecutionStorageTest extends TestCase
     {
         $jobExecution = JobExecution::createRoot('will_be_removed', 'export');
 
-        $this->serializer->method('serialize')
+        $serializer = $this->createSerializerMock();
+        $serializer->expects(self::once())
+            ->method('serialize')
             ->with($jobExecution)
             ->willReturn('serialized job execution');
 
         $path = self::STORAGE_DIR . '/export/will_be_removed.txt';
-        $storage = $this->createStorage();
+        $storage = $this->createStorage(serializer: $serializer);
         self::assertFileDoesNotExist($path);
         $storage->store($jobExecution);
         self::assertFileExists($path);
