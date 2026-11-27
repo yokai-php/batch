@@ -27,7 +27,7 @@ final class RoutingWriter implements
     use JobExecutionAwareTrait;
 
     /**
-     * @var ItemWriterInterface[]
+     * @var array<int, ItemWriterInterface>
      */
     private array $writers = [];
 
@@ -48,7 +48,7 @@ final class RoutingWriter implements
                 throw UnexpectedValueException::type(ItemWriterInterface::class, $writer);
             }
 
-            $writerId = \spl_object_hash($writer);
+            $writerId = \spl_object_id($writer);
 
             if (!isset($this->writers[$writerId])) {
                 $this->writers[$writerId] = $writer;

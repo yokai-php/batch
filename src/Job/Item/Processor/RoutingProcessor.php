@@ -27,7 +27,7 @@ final class RoutingProcessor implements
     use JobExecutionAwareTrait;
 
     /**
-     * @var ItemProcessorInterface[]
+     * @var array<int, ItemProcessorInterface>
      */
     private array $processors = [];
 
@@ -46,7 +46,7 @@ final class RoutingProcessor implements
             throw UnexpectedValueException::type(ItemProcessorInterface::class, $processor);
         }
 
-        $processorId = \spl_object_hash($processor);
+        $processorId = \spl_object_id($processor);
 
         if (!isset($this->processors[$processorId])) {
             $this->processors[$processorId] = $processor;
