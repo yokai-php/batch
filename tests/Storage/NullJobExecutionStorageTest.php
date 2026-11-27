@@ -19,7 +19,7 @@ final class NullJobExecutionStorageTest extends TestCase
         $storage->remove($execution);
         $storage->remove(JobExecution::createRoot('unknown', 'execution'));
 
-        self::assertTrue(true); //no exception thrown in any case
+        self::assertTrue(true); // no exception thrown in any case
     }
 
     public function testCannotRetrieve(): void

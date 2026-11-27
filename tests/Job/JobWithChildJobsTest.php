@@ -55,8 +55,7 @@ final class JobWithChildJobsTest extends TestCase
 
     public function testNoChildren(): void
     {
-        $execution = $this->execute([
-        ]);
+        $execution = $this->execute([]);
 
         self::assertStatusSame(BatchStatus::Completed, $execution);
         self::assertCount(0, $execution->getChildExecutions());

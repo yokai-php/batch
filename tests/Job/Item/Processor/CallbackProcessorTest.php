@@ -12,8 +12,9 @@ final class CallbackProcessorTest extends TestCase
 {
     public function testProcess(): void
     {
-        $processor = new CallbackProcessor(fn($item, JobExecution $jobExecution)
-            => \mb_strtolower($item . '-' . $jobExecution->getJobName()));
+        $processor = new CallbackProcessor(fn($item, JobExecution $jobExecution) => \mb_strtolower(
+            $item . '-' . $jobExecution->getJobName()
+        ));
         $processor->setJobExecution(JobExecution::createRoot(id: '123', jobName: 'test'));
         self::assertSame('john-test', $processor->process('John'));
         self::assertSame('doe-test', $processor->process('DOE'));

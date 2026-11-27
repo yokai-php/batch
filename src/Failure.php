@@ -88,9 +88,9 @@ final readonly class Failure implements \Stringable
 
     private static function buildTrace(Throwable $exception, bool $deep = false): string
     {
-        $trace = ($deep ? 'Caused by: ' : '') . $exception::class . ': ' . $exception->getMessage() .
-            ' (at ' . $exception->getFile() . '(' . $exception->getLine() . '))' . PHP_EOL .
-            \str_replace("\n", \PHP_EOL, $exception->getTraceAsString());
+        $trace = ($deep ? 'Caused by: ' : '') . $exception::class . ': ' . $exception->getMessage()
+            . ' (at ' . $exception->getFile() . '(' . $exception->getLine() . '))' . PHP_EOL
+            . \str_replace("\n", \PHP_EOL, $exception->getTraceAsString());
 
         if ($exception->getPrevious() !== null) {
             $trace .= \PHP_EOL . self::buildTrace($exception->getPrevious(), true);

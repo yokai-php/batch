@@ -14,7 +14,7 @@ final class SequenceReader extends AbstractElementDecorator implements ItemReade
 {
     public function __construct(
         /**
-         * @var iterable<ItemReaderInterface> $readers
+         * @var iterable<ItemReaderInterface>
          */
         private readonly iterable $readers,
     ) {

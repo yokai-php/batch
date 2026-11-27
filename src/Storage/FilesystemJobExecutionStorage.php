@@ -187,8 +187,8 @@ final readonly class FilesystemJobExecutionStorage implements QueryableJobExecut
 
     private function buildFilePath(string $jobName, string $executionId): string
     {
-        return \implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId]) .
-            '.' . $this->serializer->extension();
+        return \implode(DIRECTORY_SEPARATOR, [$this->directory, $jobName, $executionId])
+            . '.' . $this->serializer->extension();
     }
 
     private function executionToFile(JobExecution $execution): void

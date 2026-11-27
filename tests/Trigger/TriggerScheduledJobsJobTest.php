@@ -61,13 +61,15 @@ final class TriggerScheduledJobsJobTest extends TestCase
         ], $jobExecution->getSummary()->get('jobs'));
         $logs = $jobExecution->getLogger()->getLogsContent();
         self::assertStringContainsString(
-            'INFO: Launched scheduled job. ' .
-            '{"scheduler":"' . \preg_quote(CallbackScheduler::class) . '","job":"triggered_with_defaults","id":"123"}',
+            'INFO: Launched scheduled job. '
+            . '{"scheduler":"' . \preg_quote(
+                CallbackScheduler::class
+            ) . '","job":"triggered_with_defaults","id":"123"}',
             $logs,
         );
         self::assertStringContainsString(
-            'INFO: Launched scheduled job. ' .
-            '{"scheduler":"' . \preg_quote(TimeScheduler::class) . '","job":"triggered","id":"triggered_job_id"}',
+            'INFO: Launched scheduled job. '
+            . '{"scheduler":"' . \preg_quote(TimeScheduler::class) . '","job":"triggered","id":"triggered_job_id"}',
             $logs,
         );
     }

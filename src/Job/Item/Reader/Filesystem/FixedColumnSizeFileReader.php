@@ -34,7 +34,7 @@ final class FixedColumnSizeFileReader implements
 
     public function __construct(
         /**
-         * @var int[] $columns
+         * @var int[]
          */
         private array $columns,
         private JobParameterAccessorInterface $filePath,
